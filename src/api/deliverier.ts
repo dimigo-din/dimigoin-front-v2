@@ -1,13 +1,16 @@
-export default async (action: () => any, handlers = {}) => {
+export default async function deliverier(
+  action: () => any,
+  handlers = {},
+): Promise<any | never> {
   try {
-    const response = await action()
-    const status = response.status
+    const response = await action();
+    const status = response.status;
     // Success handler (Ex: Toast)
 
-    return response.data
+    return response.data;
   } catch (error) {
-    const status = error.response.status
+    const status = error.response.status;
     // Error handler (Ex: Toast)
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-}
+};
