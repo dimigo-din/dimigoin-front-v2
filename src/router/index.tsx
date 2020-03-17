@@ -1,3 +1,4 @@
+import loadable from '@loadable/component';
 import * as React from 'react';
 import {
   BrowserRouter,
@@ -6,10 +7,10 @@ import {
 } from 'react-router-dom';
 
 import Main from '../pages/Main';
-const Draft = React.lazy(() => import('../pages/Draft'));
-const Meal = React.lazy(() => import('../pages/Meal'));
-const ExplorerFound = React.lazy(() => import('../pages/ExplorerFound'));
-const NotFound = React.lazy(() => import('../pages/NotFound'));
+const Draft = loadable(() => import('../pages/Draft'));
+const Meal = loadable(() => import('../pages/Meal'));
+const ExplorerFound = loadable(() => import('../pages/ExplorerFound'));
+const NotFound = loadable(() => import('../pages/NotFound'));
 
 const Router: React.FC = () => {
   return (

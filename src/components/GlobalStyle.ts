@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
     color: #fff;
   }
 
-  .root {
+  #root {
     font-family: 'NanumSquareRound', -apple-system, BlinkMacSystemFont,
       'Segoe UI', Helvetica, Arial, sans-serif;
     overflow-x: hidden;

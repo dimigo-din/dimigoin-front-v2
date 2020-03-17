@@ -2,12 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 import GlobalStyle from './components/GlobalStyle';
+import Router from './router';
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <Container />
+      <Container>
+        <Router />
+      </Container>
     </>
   );
 }
