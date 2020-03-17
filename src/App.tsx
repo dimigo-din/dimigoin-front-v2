@@ -1,9 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import GlobalStyle from './components/GlobalStyle';
+
 function App() {
   return (
-    <Container />
+    <>
+      <GlobalStyle />
+      <Container />
+    </>
   );
 }
 

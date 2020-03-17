@@ -41,7 +41,7 @@ const Footer = styled.div`
   background-color: ${variables.grayLighter};
   border-radius: 3.3em 3.3em 0 0;
   box-shadow: 20px 20px 41px #c4c4c4,
-    -20px -20px 41px $white;
+    -20px -20px 41px ${variables.white};
 
   @media (max-width: ${variables.tablet}) {
     min-height: 12rem;
