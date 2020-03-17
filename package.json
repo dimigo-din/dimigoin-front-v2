@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "dimigoincon": "^2.5.3",
+    "node-sass": "^4.13.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.0",

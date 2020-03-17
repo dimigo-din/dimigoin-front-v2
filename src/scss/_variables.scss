@@ -1,0 +1,42 @@
+/* From bulma */
+// The container horizontal gap, which acts as the offset for breakpoints
+$gap: 32;
+$double-gap: (2 * $gap);
+// 960, 1152, and 1344 have been chosen because they are divisible by both 12 and 16
+$tablet: 769px !default;
+// 960px container + 4rem
+$desktop: 960px + $double-gap !default;
+// 1152px container + 4rem
+$widescreen: 1152px + $double-gap !default;
+// 1344px container + 4rem
+$fullhd: 1344px + $double-gap !default;
+
+:export {
+  /* Colors */
+  red: #e83c3d;
+  redDark: #ad3030;
+  white: #fff;
+  black: #191616;
+  grayDark: #595858;
+  gray: #929292;
+  grayLight: #b1b1b1;
+  grayLighter: #e7e7e7be;
+  grayLighten: #f3f3f3;
+  pink: #ff8081;
+  orange: #f5693d;
+  aloes: #00b4a1;
+  cyan: #119de6;
+  mustard: #fdb812;
+
+  fontWeightLight: 300;
+  fontWeightRegular: 400;
+  fontWeightBold: 600;
+  fontWeightExtraBold: 800;
+
+  doubleGap: $double-gap + px;
+
+  tablet: $tablet;
+  desktop: $desktop;
+  widescreen: $widescreen;
+  fullhd: $fullhd;
+}
