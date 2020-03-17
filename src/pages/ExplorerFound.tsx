@@ -56,6 +56,11 @@ const Page = styled.div`
   justify-content: center;
   font-weight: ${variables.fontWeightBold};
   user-select: none;
+
+  @media screen and (max-width: 769px) {
+    /* until screen size tablet */
+    flex-direction: column;
+  }
 `;
 
 const Column = styled.div`
