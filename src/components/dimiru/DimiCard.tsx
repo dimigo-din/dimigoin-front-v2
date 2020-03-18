@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 import variables from '../../scss/_variables.scss';
+import DimiDivider from './DimiDivider';
 
 type DimiCardProps = {
   children?: React.ReactNode;
@@ -24,9 +25,12 @@ const DimiCard: React.FC<DimiCardProps> = ({ children, button, hover, clickable 
         : children
       }
       {button &&
-        <Button>
-          {button}
-        </Button>
+        <>
+          <Button>
+            {button}
+          </Button>
+          <CardDivider />
+        </>
       }
     </Container>
   );
@@ -91,4 +95,10 @@ const Button = styled.div`
     font-weight: ${variables.fontWeightBold};
     text-align: center;
   }
+`;
+
+const CardDivider = styled(DimiDivider)`
+  position: absolute !important;
+  width: 100%;
+  margin: 0;
 `;
