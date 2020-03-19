@@ -9,6 +9,7 @@ type IconProps = {
 
 type DimiIconProps = IconProps & {
   icon: string;
+  className?: string;
   children?: React.ReactNode;
   title?: string;
   pointer?: boolean;
@@ -18,10 +19,13 @@ type DimiIconProps = IconProps & {
 const DimiIcon: React.FC<DimiIconProps> = ({
   children, icon,
   title = '', pointer = false,
+  className = '',
   onClick,
 }) => {
   return (
-    <Wrapper>
+    <Wrapper
+      className={className}
+    >
       {children}
       <Icon
         className={`icon-${icon}`}
@@ -37,11 +41,11 @@ export default DimiIcon;
 
 const Wrapper = styled.div`
   display: inline-flex;
-  width: 1em;
-  height: 1em;
+  width: 1rem;
+  height: 1rem;
   align-items: center;
   justify-content: center;
-  padding: 0.5em;
+  padding: 1.45rem;
   border: 0;
   border-radius: 100%;
   box-shadow: -5px -5px 20px ${variables.white},
