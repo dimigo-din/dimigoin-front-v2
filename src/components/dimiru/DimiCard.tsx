@@ -5,15 +5,20 @@ import variables from '../../scss/_variables.scss';
 import DimiDivider from './DimiDivider';
 
 type DimiCardProps = {
+  className?: string;
   children?: React.ReactNode;
   button?: React.ReactNode;
   hover?: boolean;
   clickable?: boolean;
 };
 
-const DimiCard: React.FC<DimiCardProps> = ({ children, button, hover, clickable }) => {
+const DimiCard: React.FC<DimiCardProps> = ({
+  children, button, hover, clickable,
+  className = '',
+}) => {
   return (
     <Container
+      className={className}
       hover={hover}
       clickable={clickable}
       button={!!button}
