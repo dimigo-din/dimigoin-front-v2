@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import Dimigoincon from '../components/Dimigoincon';
 import variables from '../scss/_variables.scss';
