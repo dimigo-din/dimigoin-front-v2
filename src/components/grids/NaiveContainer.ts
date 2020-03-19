@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import variables from '../../scss/_variables.scss';
 import Container from './Container';
