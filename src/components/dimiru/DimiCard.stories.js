@@ -1,17 +1,17 @@
-import React from "react";
-import DimiCard from "./DimiCard";
-import { withKnobs, boolean, text } from "@storybook/addon-knobs";
+import React from 'react';
+import { withKnobs, boolean, text } from '@storybook/addon-knobs';
+import DimiCard from './DimiCard';
 
 export default {
-  title: "components|basic/DimiCard",
+  title: 'components|basic/DimiCard',
   component: DimiCard,
-  decorators: [withKnobs]
+  decorators: [withKnobs],
 };
 
 export const dimicard = () => {
-  const hover = boolean("hover", false);
-  const clickable = boolean("clickable", false);
-  const children = text("children", "content");
+  const hover = boolean('hover', false);
+  const clickable = boolean('clickable', false);
+  const children = text('children', 'content');
 
   return (
     <DimiCard clickable={clickable} hover={hover}>
@@ -19,6 +19,7 @@ export const dimicard = () => {
     </DimiCard>
   );
 };
+
 dimicard.story = {
-  name: "Default"
+  name: 'Default',
 };

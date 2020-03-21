@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 const createAPI = (): AxiosInstance => {
@@ -6,16 +7,15 @@ const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: process.env.API_URL,
   });
-  api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   return api;
 };
 
 const api = createAPI();
 
 api.interceptors.response.use(
-  (response: AxiosResponse<any>) => {
-    return response;
-  },
+  (response: AxiosResponse<any>) => response,
+  // eslint-disable-next-line consistent-return
   async (error) => {
     const { response: { status } } = error;
     if (status !== 401) {
@@ -26,6 +26,7 @@ api.interceptors.response.use(
     try {
       // Try token refreshing
       const { accessToken } = localStorage;
+      // eslint-disable-next-line no-param-reassign
       error.config.headers = {
         Authorization: `Bearer ${accessToken}`,
       };

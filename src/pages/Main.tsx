@@ -8,7 +8,7 @@ import DimiCard from '../components/dimiru/DimiCard';
 import DimiIcon from '../components/dimiru/DimiIcon';
 import { ReactComponent as BrandImage } from '../assets/brand.svg';
 
-const photoCDN = process.env.DIMIGO_API_URL + '/user_photo';
+const photoCDN = `${process.env.DIMIGO_API_URL}/user_photo`;
 
 const MainPage = () => {
   const photoUrl = '';
@@ -23,15 +23,17 @@ const MainPage = () => {
           <ProfileSection>
             <ProfileCard>
               <ProfileInfoLeft>
-                {photoUrl ?
-                  <ProfilePhoto
-                    src={`${photoCDN}/${photoUrl}`}
-                  />
-                  :
-                  <ProfileDefaultPhoto
-                    className="icon-profile"
-                  />
-                }
+                {photoUrl
+                  ? (
+                    <ProfilePhoto
+                      src={`${photoCDN}/${photoUrl}`}
+                    />
+                  )
+                  : (
+                    <ProfileDefaultPhoto
+                      className="icon-profile"
+                    />
+                  )}
                 <ProfileInfo>
                   <ProfileInfoSerial>
                     2학년 5반
