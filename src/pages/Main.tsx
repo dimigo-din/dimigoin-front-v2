@@ -6,8 +6,13 @@ import variables from '../scss/_variables.scss';
 import NaiveContainer from '../components/grids/NaiveContainer';
 import DimiCard from '../components/dimiru/DimiCard';
 import DimiIcon from '../components/dimiru/DimiIcon';
+import { ReactComponent as BrandImage } from '../assets/brand.svg';
+
+const photoCDN = process.env.DIMIGO_API_URL + '/user_photo';
 
 const MainPage = () => {
+  const photoUrl = '';
+
   return (
     <Container>
       <Brand>
@@ -18,8 +23,15 @@ const MainPage = () => {
           <ProfileSection>
             <ProfileCard>
               <ProfileInfoLeft>
-                <ProfilePhoto />
-                <ProfileDefaultPhoto />
+                {photoUrl ?
+                  <ProfilePhoto
+                    src={`${photoCDN}/${photoUrl}`}
+                  />
+                  :
+                  <ProfileDefaultPhoto
+                    className="icon-profile"
+                  />
+                }
                 <ProfileInfo>
                   <ProfileInfoSerial>
                     2학년 5반
@@ -54,6 +66,7 @@ const MainPage = () => {
         </Column>
         <Column>
           <MealSection>
+            <MealCard />
           </MealSection>
         </Column>
       </InfoContainer>
@@ -73,11 +86,18 @@ const Brand = styled.h1`
   font-weight: ${variables.fontWeightExtraBold};
 `;
 
-const BrandLogo = styled.img`
+const BrandLogo = styled(BrandImage)`
   width: 150px;
 `;
 
 const InfoContainer = styled.div`
+  display: flex;
+  min-height: 300px;
+
+  @media (max-width: ${variables.tablet}) {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 const Column = styled.div`
@@ -118,6 +138,15 @@ const ProfilePhoto = styled.img`
 `;
 
 const ProfileDefaultPhoto = styled.span`
+  width: 44px;
+  height: 44px;
+  margin-right: 15px;
+
+  &::before {
+    margin-right: 0;
+    margin-left: 0;
+    font-size: 44px;
+  }
 `;
 
 const ProfileInfo = styled.div`
@@ -148,13 +177,35 @@ const Button = styled(DimiIcon)`
 `;
 
 const InfoSection = styled.section`
+  flex: 1;
+
+  @media (max-width: ${variables.tablet}) {
+    display: block;
+  }
 `;
 
 const InfoCard = styled(DimiCard)`
+  display: block;
+  color: ${variables.grayDark};
+  font-size: 18px;
+  line-height: 2;
 `;
 
 const InfoNotice = styled.p`
+  font-family: inherit;
+  font-weight: ${variables.fontWeightRegular};
+  white-space: pre-wrap;
+  word-wrap: break-word;
 `;
 
 const MealSection = styled.section`
+  flex: 1;
+
+  @media (max-width: ${variables.tablet}) {
+    display: block;
+  }
+`;
+
+const MealCard = styled(DimiCard)`
+  min-height: 15rem;
 `;
