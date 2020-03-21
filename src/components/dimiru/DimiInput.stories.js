@@ -25,6 +25,7 @@ export const dimiinput = () => {
     />
   );
 };
+
 dimiinput.story = {
   name: 'Default',
 };
