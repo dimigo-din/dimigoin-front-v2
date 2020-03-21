@@ -19,6 +19,7 @@ export const dimicard = () => {
     </DimiCard>
   );
 };
+
 dimicard.story = {
   name: 'Default',
 };

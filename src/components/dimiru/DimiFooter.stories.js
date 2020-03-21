@@ -15,6 +15,7 @@ export const dimifooter = () => {
 
   return <DimiFooter copyright={copyright} email={email} facebook={facebook} />;
 };
+
 dimifooter.story = {
   name: 'Default',
 };

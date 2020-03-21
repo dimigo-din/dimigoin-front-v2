@@ -19,6 +19,7 @@ export const dimiicon = () => {
     </DimiIcon>
   );
 };
+
 dimiicon.story = {
   name: 'Default',
 };
