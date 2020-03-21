@@ -16,31 +16,31 @@ type DimiCardProps = {
 const DimiCard: React.FC<DimiCardProps> = ({
   children, button, hover, clickable,
   className = '',
-}) => {
-  return (
-    <Container
-      className={className}
-      hover={hover}
-      clickable={clickable}
-      button={!!button}
-    >
-      {button ?
+}) => (
+  <Container
+    className={className}
+    hover={hover}
+    clickable={clickable}
+    button={!!button}
+  >
+    {button
+      ? (
         <Content>
           {children}
         </Content>
-        : children
-      }
-      {button &&
+      )
+      : children}
+    {button
+        && (
         <>
           <Button>
             {button}
           </Button>
           <CardDivider />
         </>
-      }
-    </Container>
-  );
-};
+        )}
+  </Container>
+);
 
 export default DimiCard;
 

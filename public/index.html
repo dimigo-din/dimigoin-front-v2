@@ -48,10 +48,11 @@
   <meta name="msapplication-wide310x150logo" content="static/icons/mstile-310x150.png">
   <meta name="msapplication-square310x310logo" content="static/icons/mstile-310x310.png">
 
-  <script
-    src="https://www.google.com/recaptcha/api.js?hl=ko&onload=vueRecaptchaApiLoaded&render=explicit"
-    async
-    defer>
+  <script>
+    var agent = navigator.userAgent.toLowerCase();
+    if (agent.indexOf("msie") != -1) {
+      window.location.href = "%PUBLIC_URL%/ienope.html";
+    }
   </script>
 </head>
 

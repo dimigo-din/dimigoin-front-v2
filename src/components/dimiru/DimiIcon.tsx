@@ -22,21 +22,19 @@ const DimiIcon: React.FC<DimiIconProps> = ({
   title = '', pointer = false,
   className = '',
   onClick,
-}) => {
-  return (
-    <Wrapper
-      className={className}
-    >
-      {children}
-      <Icon
-        className={`icon-${icon}`}
-        title={title}
-        pointer={pointer}
-        onClick={onClick}
-      />
-    </Wrapper>
-  );
-};
+}) => (
+  <Wrapper
+    className={className}
+  >
+    {children}
+    <Icon
+      className={`icon-${icon}`}
+      title={title}
+      pointer={pointer}
+      onClick={onClick}
+    />
+  </Wrapper>
+);
 
 export default DimiIcon;
 

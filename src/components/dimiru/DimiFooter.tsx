@@ -10,27 +10,25 @@ type DimiFooterProps = {
   facebook?: React.ReactNode;
 };
 
-const DimiFooter: React.FC<DimiFooterProps> = ({ copyright, mail, facebook }) => {
-  return (
-    <Footer>
-      <NaiveContainer>
-        <Container>
-          <FooterCopyright>
-            {copyright}
-          </FooterCopyright>
-          <FooterContacts>
-            <FooterMail>
-              {mail}
-            </FooterMail>
-            <FooterFacebook>
-              {facebook}
-            </FooterFacebook>
-          </FooterContacts>
-        </Container>
-      </NaiveContainer>
-    </Footer>
-  );
-};
+const DimiFooter: React.FC<DimiFooterProps> = ({ copyright, mail, facebook }) => (
+  <Footer>
+    <NaiveContainer>
+      <Container>
+        <FooterCopyright>
+          {copyright}
+        </FooterCopyright>
+        <FooterContacts>
+          <FooterMail>
+            {mail}
+          </FooterMail>
+          <FooterFacebook>
+            {facebook}
+          </FooterFacebook>
+        </FooterContacts>
+      </Container>
+    </NaiveContainer>
+  </Footer>
+);
 
 export default DimiFooter;
 
