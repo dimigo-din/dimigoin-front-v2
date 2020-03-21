@@ -10,11 +10,20 @@ export default {
 
 export const dimiinput = () => {
   const error = boolean('error', false);
+  const errorMessage = text('errorMessage', '');
   const type = text('type', 'text');
   const placeholder = text('placeholder', '');
   const value = text('value', '');
 
-  return <DimiInput error={error} type={type} placeholder={placeholder} value={value} />;
+  return (
+    <DimiInput
+      error={error}
+      errorMessage={errorMessage}
+      type={type}
+      placeholder={placeholder}
+      value={value}
+    />
+  );
 };
 dimiinput.story = {
   name: 'Default',
