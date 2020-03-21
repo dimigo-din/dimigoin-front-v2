@@ -1,16 +1,6 @@
-import loadable from '@loadable/component';
-import * as React from 'react';
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-} from 'react-router-dom';
-
-import Main from '../pages/Main';
-const Draft = loadable(() => import('../pages/Draft'));
-const Meal = loadable(() => import('../pages/Meal'));
-const ExplorerFound = loadable(() => import('../pages/ExplorerFound'));
-const NotFound = loadable(() => import('../pages/NotFound'));
+import * as React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Main, Draft, Meal, ExplorerFound, NotFound } from "../pages";
 
 const Router: React.FC = () => {
   return (
