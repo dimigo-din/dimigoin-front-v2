@@ -5,19 +5,23 @@ import css from '@emotion/css';
 import variables from '../../scss/_variables.scss';
 
 type DimiInputProps = {
-  value?: string,
-  errorMessage?: string,
-  id?: string,
-  placeholder?: string,
-  type?: string,
-  className?: string,
-  error?: boolean,
-  onKeyUp?: () => void,
-  onChange?: () => void,
+  value?: string;
+  errorMessage?: string;
+  id?: string;
+  placeholder?: string;
+  type?: string;
+  className?: string;
+  error?: boolean;
+  onKeyUp?: () => void;
+  onChange?: () => void;
 }
 
 const DimiInput: React.FC<DimiInputProps> = ({
-  value, onChange, errorMessage = '', id = '', placeholder = '', type = 'text', className = '', error, onKeyUp,
+  value, onChange,
+  errorMessage = '', id = '',
+  placeholder = '', type = 'text',
+  className = '', error,
+  onKeyUp,
 }) => (
   <Wrapper>
     <Input
@@ -29,9 +33,8 @@ const DimiInput: React.FC<DimiInputProps> = ({
       error={error}
       onChange={onChange}
       onKeyUp={onKeyUp}
-    >
-      {error && <ErrorMessage />}
-    </Input>
+    />
+    {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
   </Wrapper>
 );
 
@@ -41,7 +44,7 @@ const Wrapper = styled.div`
 `;
 
 type InputProps = {
-  error?: boolean,
+  error?: boolean;
 };
 
 const Input = styled.input<InputProps>`
