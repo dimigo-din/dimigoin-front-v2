@@ -19,48 +19,38 @@ jobs:
     # Runs a single command using the runners shell
     - name: install package ✔️
       run: yarn
+
+    # We have to set build dir (nginx serve)
     - name: build package 📦
       run: yarn build
-#     We have to set build dir (nginx serve)
 
-#     - name: start package 🚀
-#       run: yarn start
-      
-      
-      
-#       slack is not working now.
-#       i want to distinguish success or failed
+    - name: start package 🚀
+      run: yarn start
 
+    # slack is not working now.
+    # i want to distinguish success or failed
+    - name: Slack Notification failed 🙅
+      if: failure()
+      uses: rtCamp/action-slack-notify@v2.0.0
+      env:
+        SLACK_CHANNEL: github-subscription
+        SLACK_COLOR: '#FF0000'
+        SLACK_ICON: https://s3.us-west-2.amazonaws.com/secure.notion-static.com/078c10cb-2cbe-4947-b9a4-08af08768c1c/Webp.net-resizeimage.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAT73L2G45BARGFCSD%2F20200321%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200321T010232Z&X-Amz-Expires=86400&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAsaCXVzLXdlc3QtMiJHMEUCIQDnLZEsu21swIgtdqsOHzN11R5HDkANIeSppP9vcxUxPAIgDYaJUswHmZ6xwI3KoKn9TrCjwcGb9%2B8xCcPtTgyN6asqvQMI9P%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwyNzQ1NjcxNDkzNzAiDPqA5nLXJELnJvUbRyqRA8aKNQ5jdzJe9pOPvvM0bYIJ%2BbqWU44tFwQZTNERCVBc833dA2uq3s6mttbyIxQUy%2BH4v4s2ss3yy6hEkEPGpL1GAnSkBiWrNqAVhqaGb8Ru32MIYXQevCujoZzJpgHrJGfubQ%2FnuaLJ5BZaSQ9khH6IXVYmQaRfoPDOXpBW%2BLflRcvmRC85yZGyy6IUwxbiN5jdrZEW0WaCUxip%2FvJUOop77fCz%2B98WLIqzSfSCqawtcPGSTN%2FHvC2G3TXga5BA3AiJy9lCrpIyIOVTw7rR3AU%2FGNXLDr6XnAIchFxxMNgEkEdqhI0AESN0DZ6L7GqiW5Y455mUqwIGKf1RGzvv325C4AEn%2BOf84h4yrH7r48F0FsLeXPX%2F%2FW1x4Mkp1%2FFtpM6vCZd2UCvTIhbmp8cc%2FznHKKVUkB2mK%2FLaFM3J48xw3RzBT201wjFC%2BzhNKrij9MlYOpCqf2tFTuah9a5xbx%2FwcpvNYn%2BYXZ13kNZ9Lh9BdfsCuxunstIzSHigJaUuLDOh4lZ8VcvcbeeSKmPgvPpHMNOq1PMFOusBE6TL7N3twIyVBVo5%2FMOAP4e7AAeBxFvAF1H45Bxb5fUaIEab9GCMTGtVDjEHKFEvFWLYuWTlSBk%2FwVSBgcMxvzH2zgLCR2KLEvyBw8Y0RuYyG5LRjftzNQLYQbjJ4uPZuedu5rGwG7shY25LD1TAR0VrsQUedL3z%2FbZXPlLJ6i3ljxgmLAFUERtKojV%2BaTZmq2LKh8mDq%2BmFiRYwQnAyuwWkBgbv9s3fA3ayQ8zjtWkuTb%2B3NDMcsYkcXcVd1WDamw8F%2BxMqQdUZ1Iuw1HswEfFwa0DmQQwIXRO3y12lZ978ojIfynqilyuaQw%3D%3D&X-Amz-Signature=062ad350109ea7997fd36c033f0c9fcd754d2ced9ad66ef89cbc1ca7de255d09&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Webp.net-resizeimage.png%22
+        SLACK_MESSAGE: '프론트엔드에 대한 배포가 실패했어요 ! :cry:'
+        SLACK_TITLE: Deploy failed
+        SLACK_USERNAME: Dimigoin auto deploy bot
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
-#   slackNotification-failed:
-#     if: failure()
-#     name: Slack Notification failed 🙅
-#     runs-on: self-hosted
-#     steps:
-#     - name: Slack Notification
-#       uses: rtCamp/action-slack-notify@v2.0.0
-#       env:
-#         SLACK_CHANNEL: github-subscription
-#         SLACK_COLOR: '#FF0000'
-#         SLACK_ICON: https://s3.us-west-2.amazonaws.com/secure.notion-static.com/078c10cb-2cbe-4947-b9a4-08af08768c1c/Webp.net-resizeimage.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAT73L2G45BARGFCSD%2F20200321%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200321T010232Z&X-Amz-Expires=86400&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAsaCXVzLXdlc3QtMiJHMEUCIQDnLZEsu21swIgtdqsOHzN11R5HDkANIeSppP9vcxUxPAIgDYaJUswHmZ6xwI3KoKn9TrCjwcGb9%2B8xCcPtTgyN6asqvQMI9P%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwyNzQ1NjcxNDkzNzAiDPqA5nLXJELnJvUbRyqRA8aKNQ5jdzJe9pOPvvM0bYIJ%2BbqWU44tFwQZTNERCVBc833dA2uq3s6mttbyIxQUy%2BH4v4s2ss3yy6hEkEPGpL1GAnSkBiWrNqAVhqaGb8Ru32MIYXQevCujoZzJpgHrJGfubQ%2FnuaLJ5BZaSQ9khH6IXVYmQaRfoPDOXpBW%2BLflRcvmRC85yZGyy6IUwxbiN5jdrZEW0WaCUxip%2FvJUOop77fCz%2B98WLIqzSfSCqawtcPGSTN%2FHvC2G3TXga5BA3AiJy9lCrpIyIOVTw7rR3AU%2FGNXLDr6XnAIchFxxMNgEkEdqhI0AESN0DZ6L7GqiW5Y455mUqwIGKf1RGzvv325C4AEn%2BOf84h4yrH7r48F0FsLeXPX%2F%2FW1x4Mkp1%2FFtpM6vCZd2UCvTIhbmp8cc%2FznHKKVUkB2mK%2FLaFM3J48xw3RzBT201wjFC%2BzhNKrij9MlYOpCqf2tFTuah9a5xbx%2FwcpvNYn%2BYXZ13kNZ9Lh9BdfsCuxunstIzSHigJaUuLDOh4lZ8VcvcbeeSKmPgvPpHMNOq1PMFOusBE6TL7N3twIyVBVo5%2FMOAP4e7AAeBxFvAF1H45Bxb5fUaIEab9GCMTGtVDjEHKFEvFWLYuWTlSBk%2FwVSBgcMxvzH2zgLCR2KLEvyBw8Y0RuYyG5LRjftzNQLYQbjJ4uPZuedu5rGwG7shY25LD1TAR0VrsQUedL3z%2FbZXPlLJ6i3ljxgmLAFUERtKojV%2BaTZmq2LKh8mDq%2BmFiRYwQnAyuwWkBgbv9s3fA3ayQ8zjtWkuTb%2B3NDMcsYkcXcVd1WDamw8F%2BxMqQdUZ1Iuw1HswEfFwa0DmQQwIXRO3y12lZ978ojIfynqilyuaQw%3D%3D&X-Amz-Signature=062ad350109ea7997fd36c033f0c9fcd754d2ced9ad66ef89cbc1ca7de255d09&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Webp.net-resizeimage.png%22
-#         SLACK_MESSAGE: '프론트엔드에 대한 배포가 실패했어요 ! :cry:'
-#         SLACK_TITLE: Deploy failed
-#         SLACK_USERNAME: Dimigoin auto deploy bot
-#         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}     
-           
-#   slackNotification-success:
-#     if: ${{ github.ref == 'master' }}
-#     needs: build
-#     name: Slack Notification success 🙆
-#     runs-on: self-hosted
-#     steps:
-#     - name: Slack Notification
-#       uses: rtCamp/action-slack-notify@v2.0.0
-#       env:
-#         SLACK_CHANNEL: github-subscription
-#         SLACK_COLOR: '#04ff00'
-#         SLACK_ICON: https://s3.us-west-2.amazonaws.com/secure.notion-static.com/078c10cb-2cbe-4947-b9a4-08af08768c1c/Webp.net-resizeimage.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAT73L2G45BARGFCSD%2F20200321%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200321T010232Z&X-Amz-Expires=86400&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAsaCXVzLXdlc3QtMiJHMEUCIQDnLZEsu21swIgtdqsOHzN11R5HDkANIeSppP9vcxUxPAIgDYaJUswHmZ6xwI3KoKn9TrCjwcGb9%2B8xCcPtTgyN6asqvQMI9P%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwyNzQ1NjcxNDkzNzAiDPqA5nLXJELnJvUbRyqRA8aKNQ5jdzJe9pOPvvM0bYIJ%2BbqWU44tFwQZTNERCVBc833dA2uq3s6mttbyIxQUy%2BH4v4s2ss3yy6hEkEPGpL1GAnSkBiWrNqAVhqaGb8Ru32MIYXQevCujoZzJpgHrJGfubQ%2FnuaLJ5BZaSQ9khH6IXVYmQaRfoPDOXpBW%2BLflRcvmRC85yZGyy6IUwxbiN5jdrZEW0WaCUxip%2FvJUOop77fCz%2B98WLIqzSfSCqawtcPGSTN%2FHvC2G3TXga5BA3AiJy9lCrpIyIOVTw7rR3AU%2FGNXLDr6XnAIchFxxMNgEkEdqhI0AESN0DZ6L7GqiW5Y455mUqwIGKf1RGzvv325C4AEn%2BOf84h4yrH7r48F0FsLeXPX%2F%2FW1x4Mkp1%2FFtpM6vCZd2UCvTIhbmp8cc%2FznHKKVUkB2mK%2FLaFM3J48xw3RzBT201wjFC%2BzhNKrij9MlYOpCqf2tFTuah9a5xbx%2FwcpvNYn%2BYXZ13kNZ9Lh9BdfsCuxunstIzSHigJaUuLDOh4lZ8VcvcbeeSKmPgvPpHMNOq1PMFOusBE6TL7N3twIyVBVo5%2FMOAP4e7AAeBxFvAF1H45Bxb5fUaIEab9GCMTGtVDjEHKFEvFWLYuWTlSBk%2FwVSBgcMxvzH2zgLCR2KLEvyBw8Y0RuYyG5LRjftzNQLYQbjJ4uPZuedu5rGwG7shY25LD1TAR0VrsQUedL3z%2FbZXPlLJ6i3ljxgmLAFUERtKojV%2BaTZmq2LKh8mDq%2BmFiRYwQnAyuwWkBgbv9s3fA3ayQ8zjtWkuTb%2B3NDMcsYkcXcVd1WDamw8F%2BxMqQdUZ1Iuw1HswEfFwa0DmQQwIXRO3y12lZ978ojIfynqilyuaQw%3D%3D&X-Amz-Signature=062ad350109ea7997fd36c033f0c9fcd754d2ced9ad66ef89cbc1ca7de255d09&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Webp.net-resizeimage.png%22
-#         SLACK_MESSAGE: '프론트엔드에 대한 배포가 완료되었어요 ! :rocket:'
-#         SLACK_TITLE: Deploy Success
-#         SLACK_USERNAME: Dimigoin auto deploy bot
-#         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    - name: Slack Notification success 🙆
+      if: success()
+      needs: build
+      runs-on: self-hosted
+      uses: rtCamp/action-slack-notify@v2.0.0
+      env:
+        SLACK_CHANNEL: github-subscription
+        SLACK_COLOR: '#04ff00'
+        SLACK_ICON: https://s3.us-west-2.amazonaws.com/secure.notion-static.com/078c10cb-2cbe-4947-b9a4-08af08768c1c/Webp.net-resizeimage.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAT73L2G45BARGFCSD%2F20200321%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200321T010232Z&X-Amz-Expires=86400&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAsaCXVzLXdlc3QtMiJHMEUCIQDnLZEsu21swIgtdqsOHzN11R5HDkANIeSppP9vcxUxPAIgDYaJUswHmZ6xwI3KoKn9TrCjwcGb9%2B8xCcPtTgyN6asqvQMI9P%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwyNzQ1NjcxNDkzNzAiDPqA5nLXJELnJvUbRyqRA8aKNQ5jdzJe9pOPvvM0bYIJ%2BbqWU44tFwQZTNERCVBc833dA2uq3s6mttbyIxQUy%2BH4v4s2ss3yy6hEkEPGpL1GAnSkBiWrNqAVhqaGb8Ru32MIYXQevCujoZzJpgHrJGfubQ%2FnuaLJ5BZaSQ9khH6IXVYmQaRfoPDOXpBW%2BLflRcvmRC85yZGyy6IUwxbiN5jdrZEW0WaCUxip%2FvJUOop77fCz%2B98WLIqzSfSCqawtcPGSTN%2FHvC2G3TXga5BA3AiJy9lCrpIyIOVTw7rR3AU%2FGNXLDr6XnAIchFxxMNgEkEdqhI0AESN0DZ6L7GqiW5Y455mUqwIGKf1RGzvv325C4AEn%2BOf84h4yrH7r48F0FsLeXPX%2F%2FW1x4Mkp1%2FFtpM6vCZd2UCvTIhbmp8cc%2FznHKKVUkB2mK%2FLaFM3J48xw3RzBT201wjFC%2BzhNKrij9MlYOpCqf2tFTuah9a5xbx%2FwcpvNYn%2BYXZ13kNZ9Lh9BdfsCuxunstIzSHigJaUuLDOh4lZ8VcvcbeeSKmPgvPpHMNOq1PMFOusBE6TL7N3twIyVBVo5%2FMOAP4e7AAeBxFvAF1H45Bxb5fUaIEab9GCMTGtVDjEHKFEvFWLYuWTlSBk%2FwVSBgcMxvzH2zgLCR2KLEvyBw8Y0RuYyG5LRjftzNQLYQbjJ4uPZuedu5rGwG7shY25LD1TAR0VrsQUedL3z%2FbZXPlLJ6i3ljxgmLAFUERtKojV%2BaTZmq2LKh8mDq%2BmFiRYwQnAyuwWkBgbv9s3fA3ayQ8zjtWkuTb%2B3NDMcsYkcXcVd1WDamw8F%2BxMqQdUZ1Iuw1HswEfFwa0DmQQwIXRO3y12lZ978ojIfynqilyuaQw%3D%3D&X-Amz-Signature=062ad350109ea7997fd36c033f0c9fcd754d2ced9ad66ef89cbc1ca7de255d09&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Webp.net-resizeimage.png%22
+        SLACK_MESSAGE: '프론트엔드에 대한 배포가 완료되었어요 ! :rocket:'
+        SLACK_TITLE: Deploy Success
+        SLACK_USERNAME: Dimigoin auto deploy bot
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
