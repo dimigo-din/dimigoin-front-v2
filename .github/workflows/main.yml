@@ -19,12 +19,12 @@ jobs:
 
     - name: build package 📦
       run: yarn build 
+  
+    - name: remove old file 🗑
+      run: rm -rf ~/build/circle.dimigo.in
       
     - name: generate target folder 🗂
       run: mkdir ~/build/circle.dimigo.in
-      
-    - name: remove old file 🗑
-      run: rm -rf ~/build/circle.dimigo.in
       
     - name: move package for deploy 🚕
       run: mv build/* ~/build/circle.dimigo.in
