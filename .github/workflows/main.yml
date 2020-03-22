@@ -43,8 +43,6 @@ jobs:
 
     - name: Slack Notification success 🙆
       if: success()
-      needs: build
-      runs-on: self-hosted
       uses: rtCamp/action-slack-notify@v2.0.0
       env:
         SLACK_CHANNEL: github-subscription
