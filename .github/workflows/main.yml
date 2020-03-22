@@ -1,3 +1,4 @@
+
 name: Automatic Deploy Production
 
 on:
@@ -17,17 +18,20 @@ jobs:
       run: yarn
 
     - name: build package 📦
-      run: yarn build
-
+      run: yarn build 
+      
+    - name: generate target folder 🗂
+      run: mkdir ~/build/circle.dimigo.in
+      
     - name: remove old file 🗑
       run: rm -rf ~/build/circle.dimigo.in
-
+      
     - name: move package for deploy 🚕
       run: mv build/* ~/build/circle.dimigo.in
-
-    - name: deploy package🚀
+      
+    - name: deploy package🚀 
       run: sudo nginx -s reload
-
+      
     - name: Slack Notification failed 🙅
       if: failure()
       uses: rtCamp/action-slack-notify@v2.0.0
