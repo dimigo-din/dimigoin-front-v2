@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: 8a7/action-slack@v2.6.0
+    - uses: 8398a7/action-slack@v2.6.0
 
     # Runs a single command using the runners shell
     - name: install package ✔️
