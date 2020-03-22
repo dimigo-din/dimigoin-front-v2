@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Automatic Deploy Production
 
 on:
@@ -15,22 +13,21 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
     - name: install package ✔️
       run: yarn
 
-    # We have to set build dir (nginx serve)
     - name: build package 📦
-      run: yarn build 
-    
+      run: yarn build
+
+    - name: remove old file 🗑
+      run: rm -rf ~/build/circle.dimigo.in
+
     - name: move package for deploy 🚕
-      run: mv -R build/* ~/build/circle.dimigo.in
-      
-    - name: deploy package🚀 
+      run: mv build/* ~/build/circle.dimigo.in
+
+    - name: deploy package🚀
       run: sudo nginx -s reload
-      
-    # slack is not working now.
-    # i want to distinguish success or failed
+
     - name: Slack Notification failed 🙅
       if: failure()
       uses: rtCamp/action-slack-notify@v2.0.0
