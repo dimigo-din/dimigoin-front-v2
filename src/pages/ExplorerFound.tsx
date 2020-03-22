@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import Dimigoincon from '../components/Dimigoincon';
 import variables from '../scss/_variables.scss';
@@ -11,41 +11,43 @@ const browsers = [
   { name: '파이어폭스', href: 'https://mozilla.org/firefox' },
 ];
 
-const ExplorerFoundPage = () => {
-  return (
-    <Page>
-      <Column>
-        <IenopeIllust
-          src={ienopeIllust}
-          alt="Internet Explorer - Nope"
-        />
-      </Column>
-      <Column>
-        <IenopeMessage>
-          <Firefox>
-            크롬보다 30% 더 가볍고 2배 빠른 파이어폭스 퀀텀 쓰실?<br />
-          </Firefox>
-          디미고인은 인터넷 익스플로러를 지원하지 않습니다.<br />
+const ExplorerFoundPage = () => (
+  <Page>
+    <Column>
+      <IenopeIllust
+        src={ienopeIllust}
+        alt="Internet Explorer - Nope"
+      />
+    </Column>
+    <Column>
+      <IenopeMessage>
+        <Firefox>
+            크롬보다 30% 더 가볍고 2배 빠른 파이어폭스 퀀텀 쓰실?
+          <br />
+        </Firefox>
+          디미고인은 인터넷 익스플로러를 지원하지 않습니다.
+        <br />
           인터넷 익스플로러를 끄고 다른 브라우저로 접속해 주세요.
-        </IenopeMessage>
-        <Links>
-          {browsers.map((browser) => {
-            const { name, href } = browser;
-            return (
-              <BrowserLink
-                key={href}
-                href={href}
-              >
-                <Dimigoincon icon="long-arrow-right" />
-                {name} 브라우저 다운로드
-              </BrowserLink>
-            );
-          })}
-        </Links>
-      </Column>
-    </Page>
-  );
-};
+      </IenopeMessage>
+      <Links>
+        {browsers.map((browser) => {
+          const { name, href } = browser;
+          return (
+            <BrowserLink
+              key={href}
+              href={href}
+            >
+              <Dimigoincon icon="long-arrow-right" />
+              {name}
+              {' '}
+브라우저 다운로드
+            </BrowserLink>
+          );
+        })}
+      </Links>
+    </Column>
+  </Page>
+);
 
 export default ExplorerFoundPage;
 

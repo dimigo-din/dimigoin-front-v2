@@ -1,8 +1,3 @@
-import React from 'react';
-import styled from 'styled-components';
-
-const MealPage = () => {
-  return (null);
-};
+const MealPage = () => (null);
 
 export default MealPage;

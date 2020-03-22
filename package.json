@@ -3,27 +3,50 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "precommit": "lint-staged",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public",
+    "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
+    "lint:fix": "eslint --fix '**/*.{js,ts,tsx}'"
+  },
+  "lint-staged": {
+    "src/*.{js,ts,tsx}": [
+      "yarn lint:fix",
+      "git add"
+    ]
   },
   "dependencies": {
+    "@emotion/core": "^10.0.28",
+    "@emotion/css": "^10.0.27",
+    "@emotion/styled": "^10.0.27",
     "@loadable/component": "^5.12.0",
+    "@storybook/addon-knobs": "^5.3.17",
+    "@storybook/react": "^5.3.17",
+    "@testing-library/jest-dom": "^5.1.1",
+    "@testing-library/react": "^10.0.1",
     "axios": "^0.19.2",
+    "customize-cra": "^0.9.1",
     "dimigoincon": "^2.5.3",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "require-context.macro": "^1.2.2",
     "styled-components": "^5.0.1",
     "styled-reset": "^4.1.1",
     "typeface-nanum-square-round": "^1.0.2"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.1.1",
-    "@testing-library/react": "^10.0.1",
+    "@emotion/babel-preset-css-prop": "^10.0.27",
+    "@storybook/addon-actions": "^5.3.17",
+    "@storybook/addon-links": "^5.3.17",
+    "@storybook/addons": "^5.3.17",
+    "@storybook/preset-create-react-app": "^2.1.0",
     "@testing-library/user-event": "^10.0.0",
     "@types/jest": "^25.1.4",
     "@types/loadable__component": "^5.10.0",
@@ -32,6 +55,10 @@
     "@types/react-dom": "^16.9.5",
     "@types/react-router-dom": "^5.1.3",
     "@types/styled-components": "^5.0.1",
+    "eslint-config-airbnb": "^18.1.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "react-app-rewired": "^2.1.5",
     "typescript": "~3.8.3"
   },
   "eslintConfig": {

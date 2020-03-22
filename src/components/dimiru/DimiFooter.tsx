@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import variables from '../../scss/_variables.scss';
 import NaiveContainer from '../grids/NaiveContainer';
@@ -10,27 +10,25 @@ type DimiFooterProps = {
   facebook?: React.ReactNode;
 };
 
-const DimiFooter: React.FC<DimiFooterProps> = ({ copyright, mail, facebook }) => {
-  return (
-    <Footer>
-      <NaiveContainer>
-        <Container>
-          <FooterCopyright>
-            {copyright}
-          </FooterCopyright>
-          <FooterContacts>
-            <FooterMail>
-              {mail}
-            </FooterMail>
-            <FooterFacebook>
-              {facebook}
-            </FooterFacebook>
-          </FooterContacts>
-        </Container>
-      </NaiveContainer>
-    </Footer>
-  );
-};
+const DimiFooter: React.FC<DimiFooterProps> = ({ copyright, mail, facebook }) => (
+  <Footer>
+    <NaiveContainer>
+      <Container>
+        <FooterCopyright>
+          {copyright}
+        </FooterCopyright>
+        <FooterContacts>
+          <FooterMail>
+            {mail}
+          </FooterMail>
+          <FooterFacebook>
+            {facebook}
+          </FooterFacebook>
+        </FooterContacts>
+      </Container>
+    </NaiveContainer>
+  </Footer>
+);
 
 export default DimiFooter;
 

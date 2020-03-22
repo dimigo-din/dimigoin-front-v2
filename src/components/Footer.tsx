@@ -25,16 +25,14 @@ const Facebook = () => (
   </a>
 );
 
-const Footer = () => {
-  return (
-    <footer>
-      <DimiFooter
-        copyright={<Copyright />}
-        mail={<Mail />}
-        facebook={<Facebook />}
-      />
-    </footer>
-  );
-};
+const Footer = () => (
+  <footer>
+    <DimiFooter
+      copyright={<Copyright />}
+      mail={<Mail />}
+      facebook={<Facebook />}
+    />
+  </footer>
+);
 
 export default Footer;

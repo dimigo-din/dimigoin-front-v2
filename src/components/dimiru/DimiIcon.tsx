@@ -1,5 +1,6 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
+import css from '@emotion/css';
 
 import variables from '../../scss/_variables.scss';
 
@@ -21,21 +22,19 @@ const DimiIcon: React.FC<DimiIconProps> = ({
   title = '', pointer = false,
   className = '',
   onClick,
-}) => {
-  return (
-    <Wrapper
-      className={className}
-    >
-      {children}
-      <Icon
-        className={`icon-${icon}`}
-        title={title}
-        pointer={pointer}
-        onClick={onClick}
-      />
-    </Wrapper>
-  );
-};
+}) => (
+  <Wrapper
+    className={className}
+  >
+    {children}
+    <Icon
+      className={`icon-${icon}`}
+      title={title}
+      pointer={pointer}
+      onClick={onClick}
+    />
+  </Wrapper>
+);
 
 export default DimiIcon;
 
