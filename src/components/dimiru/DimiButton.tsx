@@ -57,12 +57,12 @@ const style = {
     justify-content: center;
     padding: 0.8em 2.7em;
     appearance: none;
-    background-color: $red;
+    background-color: ${variables.red};
     border-radius: 2rem;
     box-shadow: 0 10px 24px 0 rgba(234, 51, 51, 0.61);
-    color: $white;
+    color: ${variables.white};
     cursor: pointer;
-    font-weight: $font-weight-bold;
+    font-weight: ${variables.fontWeightBold};
     text-decoration: none;
     text-shadow: 2px 2px 3px rgba(248, 105, 105, 0.9);
     transition: all 0.2s ease-in-out, 0.5s background-color ease;
