@@ -12,19 +12,27 @@ type TStyleByDeviceWidth = {
   [key in 'tablet' | 'desktop']: SerializedStyles;
 };
 
-const until = (device: 'tablet' | 'desktop', style: string) =>
-  (({
-    tablet: css`
-      @media only screen and (max-width: 769px) {
-        ${style}
-      }
-    `,
-    desktop: css`
-      @media only screen and (max-width: 769px) {
-        ${style}
-      }
-    `,
-  } as TStyleByDeviceWidth)[device]);
+const until = (device: 'tablet' | 'desktop', style: string) => (({
+  tablet: css`
+    @media only screen and (max-width: 769px) {
+      ${style}
+    }
+  `,
+  desktop: css`
+    @media only screen and (max-width: 769px) {
+    ${style}
+    }
+  `,
+} as TStyleByDeviceWidth)[device]);
+
+const ContentMT = css`
+  margin-top: 7em;
+  ${until('tablet', 'margin-top: 1.5em')}
+`;
+
+const LoginInput = css`
+  margin-bottom: 1rem;
+`;
 
 export default () => (
   <Container
@@ -80,7 +88,7 @@ const Container = styled.div`
     display: block;
     height: unset;
     padding: 12px;
-  `
+  `,
   )}
   @media only screen and (min-width: 769px) {
     width: 737px;
@@ -103,7 +111,7 @@ const CLogin = styled(DimiCard)`
   ${until(
     'tablet',
     `display: block;
-      width: unset;`
+      width: unset;`,
   )}
   .section:first-child {
     order: 2;
@@ -152,13 +160,4 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-top: 3em;
-`;
-
-const ContentMT = css`
-  margin-top: 7em;
-  ${until('tablet', 'margin-top: 1.5em')}
-`;
-
-const LoginInput = css`
-  margin-bottom: 1rem;
 `;
