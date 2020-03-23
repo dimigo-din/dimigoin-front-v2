@@ -1,6 +1,6 @@
-import React from "react";
-import css from "@emotion/css";
-import variables from "../../scss/_variables.scss";
+import React from 'react';
+import css from '@emotion/css';
+import variables from '../../scss/_variables.scss';
 
 type DimiButtonProps = {
   gray?: boolean;
@@ -10,43 +10,9 @@ type DimiButtonProps = {
   small?: boolean;
   large?: boolean;
   text?: boolean;
-  click?: () => void;
-  children: React.ReactNode | string;
+  click?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  children: React.ReactNode;
 };
-
-const DimiButton: React.FC<DimiButtonProps> = ({
-  gray = false,
-  active = true,
-  loading = false,
-  href = undefined,
-  small = false,
-  large = false,
-  text = false,
-  click,
-  children
-}) => {
-  const css = [
-    style.btn,
-    gray && style.gray,
-    text && style.text,
-    (loading || !active) && style.disbleCurser,
-    large && style.large,
-    small && style.small
-  ].filter(Boolean);
-  return (
-    <a
-      href={href}
-      css={css}
-      {...(active && {
-        onClick: click
-      })}
-    >
-      {children}
-    </a>
-  );
-};
-
-export default DimiButton;
 
 const style = {
   btn: css`
@@ -85,7 +51,7 @@ const style = {
   text: css`
     background-color: transparent;
   `,
-  disbleCurser: css`
+  disableCurser: css`
     cursor: not-allowed;
   `,
   large: css`
@@ -93,5 +59,33 @@ const style = {
   `,
   small: css`
     font-size: 12px;
-  `
+  `,
 };
+
+const DimiButton: React.FC<DimiButtonProps> = ({
+  gray = false,
+  active = true,
+  loading = false,
+  href = undefined,
+  small = false,
+  large = false,
+  text = false,
+  click,
+  children,
+}) => {
+  const buttonStyle = [
+    style.btn,
+    gray && style.gray,
+    text && style.text,
+    (loading || !active) && style.disableCurser,
+    large && style.large,
+    small && style.small,
+  ].filter(Boolean);
+  return (
+    <a href={href} css={buttonStyle} onClick={(e) => active && click && click(e)}>
+      {children}
+    </a>
+  );
+};
+
+export default DimiButton;
