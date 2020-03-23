@@ -5,7 +5,6 @@ import DimiCard from './dimiru/DimiCard';
 import Dimigoincon from './Dimigoincon';
 
 import variables from '../scss/_variables.scss';
-import useGetComputedStyle from '../hooks/useGetComputedStyle';
 
 interface Service {
   icon: string;
@@ -33,8 +32,6 @@ const temporaryServices = [
 ];
 
 const ServiceCards = () => {
-  const getComputedStyle = useGetComputedStyle();
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [services, setServices] = useState<Service[]>(temporaryServices);
   const cardsRef = useRef<Array<HTMLDivElement | null>>([]);
@@ -43,12 +40,12 @@ const ServiceCards = () => {
     cardsRef.current = cardsRef.current.slice(0, registeredServices.length);
   };
 
-  const updateServiceCardHeights = (getStyle: (element: HTMLDivElement) => { width: string }) => {
+  const updateServiceCardHeights = () => {
     const cards = cardsRef.current || [];
     cards.forEach((element) => {
       if (element) {
         // eslint-disable-next-line no-param-reassign
-        element.style.height = getStyle(element).width;
+        element.style.height = window.getComputedStyle(element).width;
       }
     });
   };
@@ -56,9 +53,12 @@ const ServiceCards = () => {
   useEffect(
     () => {
       registerServices(services);
-      updateServiceCardHeights(getComputedStyle);
+      updateServiceCardHeights();
+
+      window.addEventListener('resize', updateServiceCardHeights);
+      return () => window.removeEventListener('resize', updateServiceCardHeights);
     },
-    [services, getComputedStyle],
+    [services],
   );
 
   return (
