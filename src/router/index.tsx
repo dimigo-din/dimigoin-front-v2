@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import {
   Main, Draft, Meal, ExplorerFound, NotFound,
 } from '../pages';
+import Management from './Management';
 import Auth from './Auth';
 
 const Router: React.FC = () => (
@@ -13,6 +14,7 @@ const Router: React.FC = () => (
       <Route exact path="/meal" component={Meal} />
       <Route exact path="/ienope" component={ExplorerFound} />
       <Route path="/auth" component={Auth} />
+      <Route path="/management" component={Management} />
       <Route component={NotFound} />
     </Switch>
   </BrowserRouter>
