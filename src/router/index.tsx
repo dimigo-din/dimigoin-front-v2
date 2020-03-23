@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Main, Draft, Meal, ExplorerFound, NotFound } from '../pages';
+import {
+  Main, Draft, Meal, ExplorerFound, NotFound,
+} from '../pages';
 import Auth from './Auth';
 
 const Router: React.FC = () => (
