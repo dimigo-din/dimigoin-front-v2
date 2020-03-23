@@ -33,7 +33,7 @@ jobs:
       if: failure()
       uses: rtCamp/action-slack-notify@v2.0.0
       env:
-        SLACK_CHANNEL: github-subscription
+        SLACK_CHANNEL: build-notification
         SLACK_COLOR: '#FF0000'
         SLACK_ICON: http://github.com/dimigoin.png?size=48
         SLACK_MESSAGE: '프론트엔드에 대한 배포가 실패했어요 ! :cry:'
@@ -45,7 +45,7 @@ jobs:
       if: success()
       uses: rtCamp/action-slack-notify@v2.0.0
       env:
-        SLACK_CHANNEL: github-subscription
+        SLACK_CHANNEL: build-notification
         SLACK_COLOR: '#04ff00'
         SLACK_ICON: http://github.com/dimigoin.png?size=48
         SLACK_MESSAGE: '프론트엔드에 대한 배포가 완료되었어요 ! :rocket:'
