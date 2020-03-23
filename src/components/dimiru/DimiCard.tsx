@@ -11,10 +11,12 @@ type DimiCardProps = {
   button?: React.ReactNode;
   hover?: boolean;
   clickable?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cardRef?: any;
 };
 
 const DimiCard: React.FC<DimiCardProps> = ({
-  children, button, hover, clickable,
+  children, button, hover, clickable, cardRef,
   className = '',
 }) => (
   <Container
@@ -22,6 +24,7 @@ const DimiCard: React.FC<DimiCardProps> = ({
     hover={hover}
     clickable={clickable}
     button={!!button}
+    ref={cardRef}
   >
     {button
       ? (
