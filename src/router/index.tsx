@@ -3,11 +3,11 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import {
   Main, Draft, Meal, ExplorerFound, NotFound,
 } from '../pages';
-        
+
 import Management from './Management';
 import Auth from './Auth';
-import Request from "./Request";
-        
+import Request from './Request';
+
 const Router: React.FC = () => (
   <BrowserRouter>
     <Switch>
