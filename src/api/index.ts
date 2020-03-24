@@ -5,7 +5,7 @@ const createAPI = (): AxiosInstance => {
   const { accessToken } = localStorage;
 
   const api = axios.create({
-    baseURL: process.env.API_URL,
+    baseURL: process.env.REACT_APP_API_SERVER,
   });
   api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   return api;
@@ -17,7 +17,9 @@ api.interceptors.response.use(
   (response: AxiosResponse<any>) => response,
   // eslint-disable-next-line consistent-return
   async (error) => {
-    const { response: { status } } = error;
+    const {
+      response: { status },
+    } = error;
     if (status !== 401) {
       throw error;
     }

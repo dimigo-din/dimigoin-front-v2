@@ -11,10 +11,16 @@ type DimiCardProps = {
   button?: React.ReactNode;
   hover?: boolean;
   clickable?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cardRef?: any;
 };
 
 const DimiCard: React.FC<DimiCardProps> = ({
-  children, button, hover, clickable,
+  children,
+  button,
+  hover,
+  clickable,
+  cardRef,
   className = '',
 }) => (
   <Container
@@ -22,23 +28,15 @@ const DimiCard: React.FC<DimiCardProps> = ({
     hover={hover}
     clickable={clickable}
     button={!!button}
+    ref={cardRef}
   >
-    {button
-      ? (
-        <Content>
-          {children}
-        </Content>
-      )
-      : children}
-    {button
-        && (
-        <>
-          <Button>
-            {button}
-          </Button>
-          <CardDivider />
-        </>
-        )}
+    {button ? <Content>{children}</Content> : children}
+    {button && (
+      <>
+        <Button>{button}</Button>
+        <CardDivider />
+      </>
+    )}
   </Container>
 );
 
@@ -55,33 +53,30 @@ const Container = styled.div<CardContainerProps>`
   padding: 25px;
   background-color: ${variables.white};
   border-radius: 3.3rem;
-  box-shadow:
-    5px 5px 20px #d9d9d9,
-    -10px -10px 14px #fff;
+  box-shadow: 5px 5px 20px #d9d9d9, -10px -10px 14px #fff;
 
-  ${({ button = false }) => button && css`
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 0;
-  `};
+  ${({ button = false }) => button
+    && css`
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 0;
+    `};
 
-  ${({ hover = false }) => hover && css`
+  ${({ hover = false }) => hover
+    && css`
+      &:hover {
+        z-index: 1;
+        box-shadow: 2px 16px 36px rgba(21, 19, 19, 0.15), -5px -5px 10px #fff;
+      }
+    `};
 
-    &:hover {
-      z-index: 1;
-      box-shadow:
-        2px 16px 36px rgba(21, 19, 19, 0.15),
-        -5px -5px 10px #fff;
-    }
-  `};
-
-  ${({ clickable = false }) => clickable && css`
-
-    &:active {
-      box-shadow: inset 1px 1px 2px ${variables.shadow},
-        inset -1px -1px 2px ${variables.white};
-    }
-  `};
+  ${({ clickable = false }) => clickable
+    && css`
+      &:active {
+        box-shadow: inset 1px 1px 2px ${variables.shadow},
+          inset -1px -1px 2px ${variables.white};
+      }
+    `};
 `;
 
 const Content = styled.div`

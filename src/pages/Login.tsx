@@ -2,10 +2,12 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import css, { SerializedStyles } from '@emotion/css';
+
 import DimiCard from '../components/dimiru/DimiCard';
 import DimiInput from '../components/dimiru/DimiInput';
 import DimiButton from '../components/dimiru/DimiButton';
 import DimiDivider from '../components/dimiru/DimiDivider';
+
 import variables from '../scss/_variables.scss';
 
 type TStyleByDeviceWidth = {
@@ -14,15 +16,15 @@ type TStyleByDeviceWidth = {
 
 const until = (device: 'tablet' | 'desktop', style: string) => (({
   tablet: css`
-    @media only screen and (max-width: 769px) {
-      ${style}
-    }
-  `,
+      @media only screen and (max-width: 769px) {
+        ${style}
+      }
+    `,
   desktop: css`
-    @media only screen and (max-width: 769px) {
-    ${style}
-    }
-  `,
+      @media only screen and (max-width: 769px) {
+        ${style}
+      }
+    `,
 } as TStyleByDeviceWidth)[device]);
 
 const ContentMT = css`

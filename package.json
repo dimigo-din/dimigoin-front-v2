@@ -7,17 +7,18 @@
     "build": "react-app-rewired build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "precommit": "lint-staged",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint --fix '**/*.{js,ts,tsx}'"
+    "lint:fix": "eslint --fix '**/*.{js,ts,tsx}'",
+    "fix:prettier": "prettier --write \"**/*.*\""
   },
   "lint-staged": {
     "src/*.{js,ts,tsx}": [
       "yarn lint:fix",
       "git add"
-    ]
+    ],
+    "*.{js,css,md}": "prettier --write"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
@@ -29,9 +30,12 @@
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^10.0.1",
     "axios": "^0.19.2",
+    "babel-loader": "8.0.6",
     "customize-cra": "^0.9.1",
     "dimigoincon": "^2.5.3",
+    "dotenv": "^8.2.0",
     "node-sass": "^4.13.1",
+    "nprogress": "^0.2.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
@@ -39,9 +43,12 @@
     "require-context.macro": "^1.2.2",
     "styled-components": "^5.0.1",
     "styled-reset": "^4.1.1",
+    "sweetalert2": "^9.10.6",
     "typeface-nanum-square-round": "^1.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@storybook/addon-actions": "^5.3.17",
     "@storybook/addon-links": "^5.3.17",
@@ -57,7 +64,8 @@
     "@types/styled-components": "^5.0.1",
     "eslint-config-airbnb": "^18.1.0",
     "husky": "^4.2.3",
-    "lint-staged": "^10.0.8",
+    "lint-staged": "^10.0.9",
+    "prettier": "^2.0.2",
     "react-app-rewired": "^2.1.5",
     "typescript": "~3.8.3"
   },
@@ -75,5 +83,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

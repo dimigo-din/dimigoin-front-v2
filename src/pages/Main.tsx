@@ -7,6 +7,7 @@ import NaiveContainer from '../components/grids/NaiveContainer';
 import DimiCard from '../components/dimiru/DimiCard';
 import DimiIcon from '../components/dimiru/DimiIcon';
 import { ReactComponent as BrandImage } from '../assets/brand.svg';
+import ServiceCards from '../components/ServiceCards';
 
 const photoCDN = `${process.env.DIMIGO_API_URL}/user_photo`;
 
@@ -23,55 +24,43 @@ const MainPage = () => {
           <ProfileSection>
             <ProfileCard>
               <ProfileInfoLeft>
-                {photoUrl
-                  ? (
-                    <ProfilePhoto
-                      src={`${photoCDN}/${photoUrl}`}
-                    />
-                  )
-                  : (
-                    <ProfileDefaultPhoto
-                      className="icon-profile"
-                    />
-                  )}
+                {photoUrl ? (
+                  <ProfilePhoto src={`${photoCDN}/${photoUrl}`} />
+                ) : (
+                  <ProfileDefaultPhoto className="icon-profile" />
+                )}
                 <ProfileInfo>
-                  <ProfileInfoSerial>
-                    2학년 5반
-                  </ProfileInfoSerial>
-                  <ProfileInfoName>
-                    여준호
-                  </ProfileInfoName>
+                  <ProfileInfoSerial>2학년 5반</ProfileInfoSerial>
+                  <ProfileInfoName>여준호</ProfileInfoName>
                 </ProfileInfo>
               </ProfileInfoLeft>
 
               <ButtonList>
-                <Button
-                  icon="setting"
-                  title="설정"
-                  pointer
-                />
-                <Button
-                  icon="logout"
-                  title="로그아웃"
-                  pointer
-                />
+                <Button icon="setting" title="설정" pointer />
+                <Button icon="logout" title="로그아웃" pointer />
               </ButtonList>
             </ProfileCard>
           </ProfileSection>
-          <InfoSection>
+          <Section>
             <InfoCard>
               <InfoNotice>
-                학년별 밴드에 교과별 온라인 학습이 공지되었습니다. 반드시 확인하세요.
+                학년별 밴드에 교과별 온라인 학습이 공지되었습니다. 반드시
+                확인하세요.
               </InfoNotice>
             </InfoCard>
-          </InfoSection>
+          </Section>
         </Column>
         <Column>
-          <MealSection>
+          <Section>
             <MealCard />
-          </MealSection>
+          </Section>
         </Column>
       </InfoContainer>
+      <Column>
+        <Section>
+          <ServiceCards />
+        </Section>
+      </Column>
     </Container>
   );
 };
@@ -89,6 +78,7 @@ const Brand = styled.h1`
 `;
 
 const BrandLogo = styled(BrandImage)`
+  display: block;
   width: 150px;
 `;
 
@@ -166,8 +156,7 @@ const ProfileInfoSerial = styled.span`
   margin-right: 5px;
 `;
 
-const ButtonList = styled.nav`
-`;
+const ButtonList = styled.nav``;
 
 const Button = styled(DimiIcon)`
   cursor: pointer;
@@ -178,8 +167,9 @@ const Button = styled(DimiIcon)`
   }
 `;
 
-const InfoSection = styled.section`
+const Section = styled.section`
   flex: 1;
+  display: flex;
 
   @media (max-width: ${variables.tablet}) {
     display: block;
@@ -200,14 +190,7 @@ const InfoNotice = styled.p`
   word-wrap: break-word;
 `;
 
-const MealSection = styled.section`
-  flex: 1;
-
-  @media (max-width: ${variables.tablet}) {
-    display: block;
-  }
-`;
-
 const MealCard = styled(DimiCard)`
   min-height: 15rem;
+  flex: 1;
 `;
