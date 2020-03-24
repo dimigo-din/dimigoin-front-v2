@@ -16,19 +16,17 @@ const DefaultNavbar: React.FC<RouteComponentProps> = ({ history }) => {
     <header>
       <DimiNavbar
         brand={<Brand />}
-        end={
-          (
-            <span>
-              디테계
-              <LogoutIcon
-                icon="logout"
-                pointer
-                title="로그아웃"
-                onClick={onClickLogout}
-              />
-            </span>
-          )
-        }
+        end={(
+          <span>
+            디테계
+            <LogoutIcon
+              icon="logout"
+              pointer
+              title="로그아웃"
+              onClick={onClickLogout}
+            />
+          </span>
+        )}
       />
     </header>
   );
