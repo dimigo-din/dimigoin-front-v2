@@ -13,7 +13,7 @@ type DimiInputProps = {
   className?: string;
   error?: boolean;
   onKeyUp?: () => void;
-  onChange?: () => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const DimiInput: React.FC<DimiInputProps> = ({
@@ -78,6 +78,8 @@ const Input = styled.input<InputProps>`
     && css`
       background-color: lighten(${variables.red}, 35%);
     `};
+
+  outline: 0;
 `;
 
 const ErrorMessage = styled.p`

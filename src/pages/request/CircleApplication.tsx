@@ -96,6 +96,10 @@ const ButtonWrap = styled.div`
   justify-content: flex-end;
 `;
 
+const Loading = css`
+  margin: auto;
+`;
+
 interface IHistory {
   circleId: string;
 }
@@ -162,25 +166,27 @@ const CircleApplication = () => {
     <>
       <Header>지원서 작성</Header>
       <DimiCard css={CircleInfoCard}>
-        <CircleLogo imageKey={info?.imageKey || ''} />
         {info && questions && loading ? (
-          <CircleInfoWrap>
-            <CircleTitle>{info?.name}</CircleTitle>
-            <CircleFeatureWrap>
-              <CircleFeatureTitle>분류</CircleFeatureTitle>
-              <CircleFeatureInfo>{info?.category}</CircleFeatureInfo>
-              <CircleFeatureTitle>동장</CircleFeatureTitle>
-              <CircleFeatureInfo>
-                {`${info?.chair.serial
-                  .toString()
-                  .substr(0, 1)}학년 ${info?.chair.serial
-                  .toString()
-                  .substr(1, 1)}반 ${info?.chair.name}`}
-              </CircleFeatureInfo>
-            </CircleFeatureWrap>
-          </CircleInfoWrap>
+          <>
+            <CircleLogo imageKey={info?.imageKey || ''} />
+            <CircleInfoWrap>
+              <CircleTitle>{info?.name}</CircleTitle>
+              <CircleFeatureWrap>
+                <CircleFeatureTitle>분류</CircleFeatureTitle>
+                <CircleFeatureInfo>{info?.category}</CircleFeatureInfo>
+                <CircleFeatureTitle>동장</CircleFeatureTitle>
+                <CircleFeatureInfo>
+                  {`${info?.chair.serial
+                    .toString()
+                    .substr(0, 1)}학년 ${info?.chair.serial
+                    .toString()
+                    .substr(1, 1)}반 ${info?.chair.name}`}
+                </CircleFeatureInfo>
+              </CircleFeatureWrap>
+            </CircleInfoWrap>
+          </>
         ) : (
-          <DimiLoading />
+          <DimiLoading css={Loading} />
         )}
       </DimiCard>
       <QuestionCardWrap>
