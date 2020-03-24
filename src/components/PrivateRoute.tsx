@@ -1,7 +1,8 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
+import auth from '../utils/auth';
 
-interface IProps extends RouteProps{
+interface IProps extends RouteProps {
   component: React.ComponentType<any>;
 }
 
@@ -9,7 +10,7 @@ const PrivateRoute = ({ component: Component, ...rest }: IProps) => (
   <Route
     {...rest}
     render={props =>
-      localStorage.getItem('accessToken') ? (
+      auth.getToken() ? (
         <Component {...props} />
       ) : (
         <Redirect
