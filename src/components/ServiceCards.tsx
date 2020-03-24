@@ -22,7 +22,7 @@ const temporaryServices = [
     icon: 'club-lg',
     title: '동아리 관리',
     description: '동아리 정보를 입력하고 수정할 수 있어요.',
-    url: '',
+    url: '/management/circle',
     permission: 1,
   },
   {
@@ -33,59 +33,6 @@ const temporaryServices = [
     permission: 1,
   },
 ];
-
-const ServiceCards = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [services, setServices] = useState<Service[]>(temporaryServices);
-  const cardsRef = useRef<Array<HTMLDivElement | null>>([]);
-
-  const registerServices = (registeredServices: Service[]) => {
-    cardsRef.current = cardsRef.current.slice(0, registeredServices.length);
-  };
-
-  const updateServiceCardHeights = () => {
-    const cards = cardsRef.current || [];
-    cards.forEach((element) => {
-      if (element) {
-        // eslint-disable-next-line no-param-reassign
-        element.style.height = window.getComputedStyle(element).width;
-      }
-    });
-  };
-
-  useEffect(() => {
-    registerServices(services);
-    updateServiceCardHeights();
-
-    window.addEventListener('resize', updateServiceCardHeights);
-    return () => window.removeEventListener('resize', updateServiceCardHeights);
-  }, [services]);
-
-  return (
-    <Services>
-      <ServicesCards>
-        {services.map(({
-          icon, title, description, url,
-        }, index) => (
-          <Link key={`service-${title}`} to={url} css={ServiceLink}>
-            <ServiceCard
-              cardRef={(el: HTMLDivElement | null) => {
-                cardsRef.current[index] = el;
-                return el;
-              }}
-            >
-              <Icon icon={icon} />
-              <Title>{title}</Title>
-              <Description>{description}</Description>
-            </ServiceCard>
-          </Link>
-        ))}
-      </ServicesCards>
-    </Services>
-  );
-};
-
-export default ServiceCards;
 
 const Services = styled.div`
   width: 100%;
@@ -153,3 +100,57 @@ const Description = styled.p`
     display: none;
   }
 `;
+
+
+const ServiceCards = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [services, setServices] = useState<Service[]>(temporaryServices);
+  const cardsRef = useRef<Array<HTMLDivElement | null>>([]);
+
+  const registerServices = (registeredServices: Service[]) => {
+    cardsRef.current = cardsRef.current.slice(0, registeredServices.length);
+  };
+
+  const updateServiceCardHeights = () => {
+    const cards = cardsRef.current || [];
+    cards.forEach((element) => {
+      if (element) {
+        // eslint-disable-next-line no-param-reassign
+        element.style.height = window.getComputedStyle(element).width;
+      }
+    });
+  };
+
+  useEffect(() => {
+    registerServices(services);
+    updateServiceCardHeights();
+
+    window.addEventListener('resize', updateServiceCardHeights);
+    return () => window.removeEventListener('resize', updateServiceCardHeights);
+  }, [services]);
+
+  return (
+    <Services>
+      <ServicesCards>
+        {services.map(({
+          icon, title, description, url,
+        }, index) => (
+          <Link key={`service-${title}`} to={url} css={ServiceLink}>
+            <ServiceCard
+              cardRef={(el: HTMLDivElement | null) => {
+                cardsRef.current[index] = el;
+                return el;
+              }}
+            >
+              <Icon icon={icon} />
+              <Title>{title}</Title>
+              <Description>{description}</Description>
+            </ServiceCard>
+          </Link>
+        ))}
+      </ServicesCards>
+    </Services>
+  );
+};
+
+export default ServiceCards;

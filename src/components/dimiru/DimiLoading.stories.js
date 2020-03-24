@@ -1,5 +1,5 @@
 import React from 'react';
-import { withKnobs, text, number } from '@storybook/addon-knobs';
+import { withKnobs } from '@storybook/addon-knobs';
 import DimiLoading from './DimiLoading';
 
 export default {
@@ -8,11 +8,7 @@ export default {
   decorators: [withKnobs],
 };
 
-export const dimiloading = () => {
-  return (
-    <DimiLoading />
-  );
-};
+export const dimiloading = () => <DimiLoading />;
 
 dimiloading.story = {
   name: 'Default',

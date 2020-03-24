@@ -17,7 +17,9 @@ api.interceptors.response.use(
   (response: AxiosResponse<any>) => response,
   // eslint-disable-next-line consistent-return
   async (error) => {
-    const { response: { status } } = error;
+    const {
+      response: { status },
+    } = error;
     if (status !== 401) {
       throw error;
     }

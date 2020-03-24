@@ -1,0 +1,17 @@
+!*.css
+!*.scss
+!*.js
+!*.json
+!*.jsx
+!*.less
+!*.md
+!*.mdx
+!*.ts
+!*.tsx
+!*.yml
+
+node_modules/
+
+public/
+
+.lock

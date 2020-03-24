@@ -14,13 +14,17 @@ type DimiInputProps = {
   error?: boolean;
   onKeyUp?: () => void;
   onChange?: () => void;
-}
+};
 
 const DimiInput: React.FC<DimiInputProps> = ({
-  value, onChange,
-  errorMessage = '', id = '',
-  placeholder = '', type = 'text',
-  className = '', error,
+  value,
+  onChange,
+  errorMessage = '',
+  id = '',
+  placeholder = '',
+  type = 'text',
+  className = '',
+  error,
   onKeyUp,
 }) => (
   <Wrapper>
@@ -55,22 +59,25 @@ const Input = styled.input<InputProps>`
   appearance: none;
   background-color: ${variables.grayLighten};
   border-radius: 30px;
-  box-shadow: inset 2px 2px 12px ${variables.shadow}, inset -5px -5px 8px ${variables.white};
+  box-shadow: inset 2px 2px 12px ${variables.shadow},
+    inset -5px -5px 8px ${variables.white};
   font-family: 'NanumSquareRound', sans-serif;
   font-size: inherit;
   transition: all 0.2s ease-in-out;
 
   &:focus {
-    box-shadow: inset 1px 1px 16px ${variables.shadow}, inset -2px -2px 3px ${variables.white};
+    box-shadow: inset 1px 1px 16px ${variables.shadow},
+      inset -2px -2px 3px ${variables.white};
   }
 
   &::placeholder {
     color: ${variables.gray};
   }
 
-  ${({ error = false }) => error && css`
-    background-color: lighten(${variables.red}, 35%);
-  `};
+  ${({ error = false }) => error
+    && css`
+      background-color: lighten(${variables.red}, 35%);
+    `};
 `;
 
 const ErrorMessage = styled.p`

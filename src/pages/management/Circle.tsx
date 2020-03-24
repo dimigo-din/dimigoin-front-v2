@@ -27,93 +27,89 @@ const Status = css`
 `;
 
 const Empty = css`
-    padding: 24px;
-    margin-right: 16px;
-    color: ${variables.gray};
-    font-size: 16px;
-    font-weight: ${variables.fontWeightBold};
+  padding: 24px;
+  margin-right: 16px;
+  color: ${variables.gray};
+  font-size: 16px;
+  font-weight: ${variables.fontWeightBold};
 `;
 
 export default () => {
-  const [list] = useState<Application[]>([{
-    serial: '0001',
-    name: '정한',
-    introduce: '잘합시다',
-    status: 0,
-  }, {
-    serial: '0001',
-    name: '정한',
-    introduce: '잘합시다',
-    status: 0,
-  }, {
-    serial: '0001',
-    name: '정한',
-    introduce: '잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다',
-    status: 0,
-  }]);
+  const [list] = useState<Application[]>([
+    {
+      serial: '0001',
+      name: '정한',
+      introduce: '잘합시다',
+      status: 0,
+    },
+    {
+      serial: '0001',
+      name: '정한',
+      introduce: '잘합시다',
+      status: 0,
+    },
+    {
+      serial: '0001',
+      name: '정한',
+      introduce:
+        '잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다잘합시다',
+      status: 0,
+    },
+  ]);
   return (
     <ContentWrapper
       header={(
         <h1>
           <span className="icon-club" />
-동아리 신청자 관리
+          동아리 신청자 관리
         </h1>
-)}
-      main={(
-        <Card>
-          <Table>
-            <tbody>
-              {!list.length && (
+      )}
+    >
+      <Card>
+        <Table>
+          <tbody>
+            {!list.length && (
               <Row>
                 <Cell className="applicant-row__serial" css={Empty}>
-            아직 동아리를 신청한 사람이 없습니다
+                  아직 동아리를 신청한 사람이 없습니다
                 </Cell>
               </Row>
-              )}
-              {
-          list.map((item) => (
-            <Row>
-              <Cell>
-                { item.serial }
-              </Cell>
-              <Cell css={Name}>
-                { item.name }
-                {' '}
-                <br />
-                {' '}
-                { item.introduce }
-              </Cell>
-              <Cell css={Status}>
-                {item.status === 0 ? (
-                  <DimiBadgeGroup
-                    value={item.status}
-                    items={['보류', '합격', '불합격']}
-                    colors={['gray', 'aloes', 'orange']}
-                    // click={updateStatus(item)}
-                  />
-                ) : item.status === 3 ? (
-                  <DimiBadgeGroup
-                    items={['최종']}
-                    colors={['cyan']}
-                  />
-                ) : (
-                  <DimiBadgeGroup
-                    v-else
-                    value={item.status - 1}
-                    items={['합격', '불합격']}
-                    colors={['aloes', 'orange']}
-                  />
-                )}
-
-              </Cell>
-            </Row>
-          ))
-        }
-            </tbody>
-          </Table>
-        </Card>
-)}
-    />
+            )}
+            {list.map((item) => (
+              <Row>
+                <Cell>{item.serial}</Cell>
+                <Cell css={Name}>
+                  {item.name}
+                  {' '}
+                  <br />
+                  {' '}
+                  {item.introduce}
+                </Cell>
+                <Cell css={Status}>
+                  {item.status === 0 ? (
+                    <DimiBadgeGroup
+                      value={item.status}
+                      items={['보류', '합격', '불합격']}
+                      colors={['gray', 'aloes', 'orange']}
+                      // click={updateStatus(item)}
+                    />
+                  ) : item.status === 3 ? (
+                    <DimiBadgeGroup items={['최종']} colors={['cyan']} />
+                  ) : (
+                    <DimiBadgeGroup
+                      v-else
+                      value={item.status - 1}
+                      items={['합격', '불합격']}
+                      colors={['aloes', 'orange']}
+                    />
+                  )}
+                </Cell>
+              </Row>
+            ))}
+          </tbody>
+        </Table>
+      </Card>
+    </ContentWrapper>
   );
 };
 

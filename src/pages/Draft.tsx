@@ -1,3 +1,3 @@
-const DraftPage = () => (null);
+const DraftPage = () => null;
 
 export default DraftPage;

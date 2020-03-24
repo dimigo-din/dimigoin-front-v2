@@ -10,20 +10,18 @@ type DimiFooterProps = {
   facebook?: React.ReactNode;
 };
 
-const DimiFooter: React.FC<DimiFooterProps> = ({ copyright, mail, facebook }) => (
+const DimiFooter: React.FC<DimiFooterProps> = ({
+  copyright,
+  mail,
+  facebook,
+}) => (
   <Footer>
     <NaiveContainer>
       <Container>
-        <FooterCopyright>
-          {copyright}
-        </FooterCopyright>
+        <FooterCopyright>{copyright}</FooterCopyright>
         <FooterContacts>
-          <FooterMail>
-            {mail}
-          </FooterMail>
-          <FooterFacebook>
-            {facebook}
-          </FooterFacebook>
+          <FooterMail>{mail}</FooterMail>
+          <FooterFacebook>{facebook}</FooterFacebook>
         </FooterContacts>
       </Container>
     </NaiveContainer>
@@ -38,8 +36,7 @@ const Footer = styled.div`
   align-items: center;
   background-color: ${variables.grayLighter};
   border-radius: 3.3em 3.3em 0 0;
-  box-shadow: 20px 20px 41px #c4c4c4,
-    -20px -20px 41px ${variables.white};
+  box-shadow: 20px 20px 41px #c4c4c4, -20px -20px 41px ${variables.white};
 
   @media (max-width: ${variables.tablet}) {
     min-height: 12rem;
@@ -57,7 +54,6 @@ const Container = styled.div`
 `;
 
 const FooterText = styled.span`
-
   * {
     color: ${variables.gray};
     text-decoration: none;
@@ -89,5 +85,4 @@ const FooterMail = styled(FooterContact)`
   }
 `;
 
-const FooterFacebook = styled(FooterContact)`
-`;
+const FooterFacebook = styled(FooterContact)``;

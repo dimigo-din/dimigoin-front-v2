@@ -131,7 +131,7 @@ const CircleApplication = () => {
       console.log(data.form);
       setQuestions(data.form);
     });
-  }, []);
+  }, [history.location.state.circleId]);
 
   const LoadingInterval = setInterval(() => {
     if (!(info && questions)) {

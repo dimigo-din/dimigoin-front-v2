@@ -18,14 +18,14 @@ type DimiIconProps = IconProps & {
 };
 
 const DimiIcon: React.FC<DimiIconProps> = ({
-  children, icon,
-  title = '', pointer = false,
+  children,
+  icon,
+  title = '',
+  pointer = false,
   className = '',
   onClick,
 }) => (
-  <Wrapper
-    className={className}
-  >
+  <Wrapper className={className}>
     {children}
     <Icon
       className={`icon-${icon}`}
@@ -44,7 +44,7 @@ const Wrapper = styled.div`
   height: 1em;
   align-items: center;
   justify-content: center;
-  padding: .5em;
+  padding: 0.5em;
   border: 0;
   border-radius: 100%;
   box-shadow: -5px -5px 20px ${variables.white},
@@ -64,7 +64,8 @@ const Wrapper = styled.div`
 `;
 
 const Icon = styled.a<IconProps>`
-  ${({ pointer }) => pointer && css`
-    cursor: ${pointer ? 'pointer' : 'default'};
-  `};
+  ${({ pointer }) => pointer
+    && css`
+      cursor: ${pointer ? 'pointer' : 'default'};
+    `};
 `;

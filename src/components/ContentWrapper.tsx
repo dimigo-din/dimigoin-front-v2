@@ -2,20 +2,25 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import variables from '../scss/_variables.scss';
 
-export default ({ header, main }: {header: React.ReactNode; main: React.ReactNode}) => (
+type ContentWrapperProps = {
+  header: React.ReactNode;
+};
+
+const ContentWrapper: React.FC<ContentWrapperProps> = ({
+  header,
+  children,
+}) => (
   <div className="content">
-    <Header>
-      {header}
-    </Header>
-    <main className="content__main">
-      {main}
-    </main>
+    <Header>{header}</Header>
+    <main className="content__main">{children}</main>
   </div>
 );
 
+export default ContentWrapper;
+
 const Header = styled.div`
   margin-bottom: 1.5rem;
-    color: ${variables.grayDark};
-    font-size: 26px;
-    font-weight: ${variables.fontWeightBold};
+  color: ${variables.grayDark};
+  font-size: 26px;
+  font-weight: ${variables.fontWeightBold};
 `;

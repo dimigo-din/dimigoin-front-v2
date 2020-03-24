@@ -14,29 +14,23 @@ const browsers = [
 const ExplorerFoundPage = () => (
   <Page>
     <Column>
-      <IenopeIllust
-        src={ienopeIllust}
-        alt="Internet Explorer - Nope"
-      />
+      <IenopeIllust src={ienopeIllust} alt="Internet Explorer - Nope" />
     </Column>
     <Column>
       <IenopeMessage>
         <Firefox>
-            크롬보다 30% 더 가볍고 2배 빠른 파이어폭스 퀀텀 쓰실?
+          크롬보다 30% 더 가볍고 2배 빠른 파이어폭스 퀀텀 쓰실?
           <br />
         </Firefox>
-          디미고인은 인터넷 익스플로러를 지원하지 않습니다.
+        디미고인은 인터넷 익스플로러를 지원하지 않습니다.
         <br />
-          인터넷 익스플로러를 끄고 다른 브라우저로 접속해 주세요.
+        인터넷 익스플로러를 끄고 다른 브라우저로 접속해 주세요.
       </IenopeMessage>
       <Links>
         {browsers.map((browser) => {
           const { name, href } = browser;
           return (
-            <BrowserLink
-              key={href}
-              href={href}
-            >
+            <BrowserLink key={href} href={href}>
               <Dimigoincon icon="long-arrow-right" />
               {name}
               {' '}
