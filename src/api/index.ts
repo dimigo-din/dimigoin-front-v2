@@ -7,7 +7,10 @@ const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_SERVER,
   });
-  api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+  if (localStorage.getItem('accessToken')) {
+    api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  }
   return api;
 };
 
@@ -16,7 +19,7 @@ const api = createAPI();
 api.interceptors.response.use(
   (response: AxiosResponse<any>) => response,
   // eslint-disable-next-line consistent-return
-  async (error) => {
+  async error => {
     const {
       response: { status },
     } = error;
