@@ -1,7 +1,12 @@
+export const APPLIED = 'applied';
 export const ACCEPT = 'accept';
 export const FAIL = 'fail';
 export const FINAL = 'final';
 export const WAIT = 'wait';
+export const DOCUMENT_FAIL = 'document-fail';
+export const DOCUMENT_PASS = 'document-pass';
+export const INTERVIEW_FAIL = 'interview-fail';
+export const INTERVIEW_PASS = 'interview-pass';
 
 export function getColorByStatus(status) {
   switch (status) {
