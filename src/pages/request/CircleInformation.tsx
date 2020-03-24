@@ -58,6 +58,7 @@ const CircleInformation = () => {
           <CardContainer>
             {applications.map((application) => (
               <CircleCard
+                key={application.circle._id}
                 onClick={() => {
                   setSelectedCircle(application.circle._id);
                   setOpen(true);
@@ -76,6 +77,7 @@ const CircleInformation = () => {
       <CardContainer>
         {circles.map((circle) => (
           <CircleCard
+            key={circle._id}
             onClick={() => {
               setSelectedCircle(circle._id);
               setOpen(true);
