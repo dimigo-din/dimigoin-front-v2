@@ -13,6 +13,7 @@ type DimiCardProps = {
   clickable?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cardRef?: any;
+  onClick?: () => void;
   onMouseOver?: (e: any) => void;
   onFocus?: (e: any) => void;
   onMouseOut?: (e: any) => void;
@@ -26,6 +27,7 @@ const DimiCard: React.FC<DimiCardProps> = ({
   clickable,
   cardRef,
   className = '',
+  onClick,
   onMouseOver,
   onFocus,
   onMouseOut,
@@ -37,6 +39,7 @@ const DimiCard: React.FC<DimiCardProps> = ({
     clickable={clickable}
     button={!!button}
     ref={cardRef}
+    onClick={onClick}
     onMouseOver={onMouseOver}
     onFocus={onFocus}
     onMouseOut={onMouseOut}

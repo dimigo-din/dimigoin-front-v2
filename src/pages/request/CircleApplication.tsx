@@ -13,6 +13,7 @@ import DimiButton from '../../components/dimiru/DimiButton';
 import DimiLoading from '../../components/dimiru/DimiLoading';
 
 import SweetAlert from '../../utils/swal';
+import { ICircle } from '../../interface/circle';
 
 const Header = styled.div`
   margin-bottom: 1.5rem;
@@ -49,7 +50,8 @@ const CircleLogo = styled.div<ICircleLogo>`
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-image: url(${({ imageKey }) => `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
+  background-image: url(${({ imageKey }) =>
+    `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
   background-size: cover;
   background-position: center center;
   margin-right: 40px;
@@ -77,6 +79,9 @@ const CircleFeatureTitle = styled.span`
   font-size: 20px;
   font-weight: ${variables.fontWeightRegular};
   margin-right: 0.3rem;
+  &: last-child {
+    margin-right: 0;
+  }
 `;
 
 const CircleFeatureInfo = styled.span`
@@ -98,6 +103,10 @@ const ButtonWrap = styled.div`
   justify-content: flex-end;
 `;
 
+const Button = css`
+  font-size: 20px;
+`;
+
 const Loading = css`
   margin: auto;
 `;
@@ -106,20 +115,9 @@ interface IHistory {
   circleId: string;
 }
 
-interface IInfo {
-  imageKey: string;
-  _id: string;
-  name: string;
-  category: string;
-  description: string;
-  chair: { _id: string; name: string; serial: number };
-  viceChair: { _id: string; name: string; serial: number };
-  videoLink: string;
-}
-
 const CircleApplication = () => {
   const history = useHistory<IHistory>();
-  const [info, setInfo] = useState<IInfo>();
+  const [info, setInfo] = useState<ICircle>();
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [active, setActive] = useState<boolean>(true);
@@ -143,7 +141,7 @@ const CircleApplication = () => {
       setLoading(true);
       clearInterval(LoadingInterval);
     }
-  }, 1000);
+  }, 300);
 
   useEffect(() => {
     console.log(answers);
@@ -192,8 +190,8 @@ const CircleApplication = () => {
         )}
       </DimiCard>
       <QuestionCardWrap>
-        {loading
-          && questions.map(({ _id, question, maxLength }: any) => (
+        {loading &&
+          questions.map(({ _id, question, maxLength }: any) => (
             <DimiCard key={_id} css={QuestionCard}>
               <FormTitle>{question}</FormTitle>
               <DimiLongInput
@@ -214,7 +212,7 @@ const CircleApplication = () => {
       </QuestionCardWrap>
       <ButtonWrap>
         {loading && (
-          <DimiButton active={active} click={applyFrom}>
+          <DimiButton active={active} click={applyFrom} css={Button}>
             제출하기
           </DimiButton>
         )}
