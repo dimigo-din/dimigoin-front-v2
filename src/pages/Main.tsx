@@ -17,8 +17,6 @@ const MainPage = () => {
   const history = useHistory();
   const [info, setInfo] = useState<IUser>();
 
-  const photoUrl = '';
-
   useEffect(() => {
     setInfo(auth.getUserInfo());
   }, []);
