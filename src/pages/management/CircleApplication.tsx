@@ -44,7 +44,7 @@ const Empty = css`
     font-weight: ${variables.fontWeightBold};
 `;
 
-export default () => {
+const CircleApplication: React.FC = () => {
   const [list, setList] = useState<Application[]>([]);
   useEffect(() => {
     if (list.length) return;
@@ -91,9 +91,9 @@ export default () => {
       header={(
         <h1>
           <span className="icon-club" />
-동아리 신청자 관리
+          동아리 신청자 관리
         </h1>
-)}
+      )}
     >
       <Card>
         <Table>
@@ -159,6 +159,8 @@ export default () => {
     </ContentWrapper>
   );
 };
+
+export default CircleApplication;
 
 const Card = styled(DimiCard)`
   overflow: auto;
