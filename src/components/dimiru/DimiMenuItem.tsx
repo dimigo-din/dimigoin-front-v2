@@ -9,6 +9,7 @@ import variables from '../../scss/_variables.scss';
 interface DimiMenuItemProps {
   route: string;
   active?: boolean;
+  disabled?: boolean;
 }
 
 export interface MenuItem extends DimiMenuItemProps {
@@ -16,16 +17,17 @@ export interface MenuItem extends DimiMenuItemProps {
 }
 
 const DimiMenuItem: React.FC<DimiMenuItemProps & RouteComponentProps> = ({
-  route, children, history,
+  route, children, history, disabled,
 }) => {
   const { pathname: currentPath } = useLocation();
-  const onClickMenu = () => history.push(route);
+  const onClickMenu = disabled ? undefined : () => history.push(route);
 
   return (
     <Menu
       route={route}
       active={currentPath === route}
       onClick={onClickMenu}
+      disabled={disabled}
     >
       {children}
     </Menu>
@@ -50,6 +52,14 @@ const Menu = styled.a<DimiMenuItemProps>`
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
   }
+
+  ${({ disabled }) => disabled && css`
+    cursor: default;
+
+    &:hover {
+      box-shadow: none;
+    }
+  `};
 
   ${({ active }) => active && css`
     background-color: ${variables.red} !important;

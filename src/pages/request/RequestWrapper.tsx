@@ -13,6 +13,7 @@ const menuItemList: MenuItem[] = [
   {
     route: '/request/circle/application',
     name: '동아리 가입 신청',
+    disabled: true,
   },
 ];
 
@@ -22,10 +23,11 @@ const RequestWrapper: React.FC = ({ children }) => {
       navbar={<DefaultNavbar />}
       menu={(
         <DimiMenu>
-          {menuItemList.map(({ route, name }) => (
+          {menuItemList.map(({ route, name, disabled = false }) => (
             <DimiMenuItem
               key={route}
               route={route}
+              disabled={disabled}
             >
               {name}
             </DimiMenuItem>

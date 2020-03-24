@@ -22,10 +22,11 @@ const ManagementWrapper: React.FC = ({ children }) => {
       navbar={<DefaultNavbar />}
       menu={(
         <DimiMenu>
-          {menuItemList.map(({ route, name }) => (
+          {menuItemList.map(({ route, name, disabled = false }) => (
             <DimiMenuItem
               key={route}
               route={route}
+              disabled={disabled}
             >
               {name}
             </DimiMenuItem>
