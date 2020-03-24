@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import Modal from 'react-responsive-modal';
+import { filter } from 'lodash';
 
 import variables from '../../scss/_variables.scss';
 
@@ -27,7 +28,10 @@ const CircleInformation = () => {
   ] = useState<ICircle | null>();
 
   useEffect(() => {
-    api.get('/circle').then(({ data: { circles } }) => setCircles(circles));
+    api.get('/circle').then(({ data: { circles } }) => {
+      const NotAppliedCircles = filter(circles, { applied: false });
+      setCircles(NotAppliedCircles);
+    });
     api
       .get('/circle/application')
       .then(({ data: { applications } }) => setApplications(applications));
