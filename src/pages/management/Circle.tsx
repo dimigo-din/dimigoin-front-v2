@@ -35,7 +35,7 @@ const Empty = css`
 `;
 
 export default () => {
-  const [list]: [Application[]] = useState<Application[]>([{
+  const [list] = useState<Application[]>([{
     serial: '0001',
     name: '정한',
     introduce: '잘합시다',
