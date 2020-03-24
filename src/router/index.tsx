@@ -17,7 +17,7 @@ const Router: React.FC = () => (
       <Route exact path="/ienope" component={ExplorerFound} />
       <Route path="/auth" component={Auth} />
       <Route path="/management" component={Management} />
-      <Route exact path="/request" component={Request} />
+      <Route path="/request" component={Request} />
       <Route component={NotFound} />
     </Switch>
   </BrowserRouter>

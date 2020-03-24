@@ -8,16 +8,12 @@ import DimiMenuItem, { MenuItem } from '../../components/dimiru/DimiMenuItem';
 
 const menuItemList: MenuItem[] = [
   {
-    route: '/request/circle',
-    name: '동아리 정보 확인',
-  },
-  {
-    route: '/request/circle/application',
-    name: '동아리 가입 신청',
+    route: '/manage/circle/application',
+    name: '동아리 개설 신청',
   },
 ];
 
-const RequestWrapper: React.FC = ({ children }) => {
+const ManagementWrapper: React.FC = ({ children }) => {
   const { pathname: currentPath } = useLocation();
 
   return (
@@ -42,4 +38,4 @@ const RequestWrapper: React.FC = ({ children }) => {
   );
 };
 
-export default RequestWrapper;
+export default ManagementWrapper;

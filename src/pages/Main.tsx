@@ -95,6 +95,7 @@ const Brand = styled.h1`
 `;
 
 const BrandLogo = styled(BrandImage)`
+  display: block;
   width: 150px;
 `;
 

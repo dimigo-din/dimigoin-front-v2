@@ -1,10 +1,16 @@
 import styled from '@emotion/styled';
+import css from '@emotion/css';
 
 import variables from '../../scss/_variables.scss';
 
-type DimiMenuItemProps = {
+interface DimiMenuItemProps {
   route: string;
-};
+  active?: boolean;
+}
+
+export interface MenuItem extends DimiMenuItemProps {
+  name: string;
+}
 
 const DimiMenuItem = styled.a<DimiMenuItemProps>`
   display: block;
@@ -22,16 +28,16 @@ const DimiMenuItem = styled.a<DimiMenuItemProps>`
     transition: all 0.3s ease 0s;
   }
 
-  &:active {
+  ${({ active = false }) => active && css`
     background-color: ${variables.red} !important;
     box-shadow: 0 5px 15px rgba(234, 51, 51, 0.41);
     color: ${variables.white};
     text-shadow: 2px 2px 3px rgba(248, 105, 105, 0.9);
-  }
 
-  &:active:hover {
-    box-shadow: 0 3px 15px rgba(234, 51, 51, 0.41);
-  }
+    &:hover {
+      box-shadow: 0 3px 15px rgba(234, 51, 51, 0.41);
+    }
+  `};
 `;
 
 export default DimiMenuItem;

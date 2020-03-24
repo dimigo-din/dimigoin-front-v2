@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
+import Container from '../grids/Container';
+
 import variables from '../../scss/_variables.scss';
 
 type DimiNavbarProps = {
@@ -37,9 +39,6 @@ const Navbar = styled.nav`
   min-height: 5rem;
   align-items: center;
   background-color: transparent;
-`;
-
-const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
