@@ -12,7 +12,7 @@ import { ICircle } from '../../interface/circle';
 import DimiLoading from '../../components/dimiru/DimiLoading';
 import DimiButton from '../../components/dimiru/DimiButton';
 
-const Circle = () => {
+const CircleInformation = () => {
   const history = useHistory();
   const [open, setOpen] = useState<boolean>(false);
   const [circles, setCircles] = useState<Array<ICircle>>([]);
@@ -156,6 +156,8 @@ const Circle = () => {
   );
 };
 
+export default CircleInformation;
+
 const Header = styled.h1`
   margin-bottom: 1.5rem;
   color: ${variables.grayDark};
@@ -256,5 +258,3 @@ const LoadingWrap = styled.div`
   display: flex;
   justify-content: center;
 `;
-
-export default Circle;

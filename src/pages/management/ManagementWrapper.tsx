@@ -11,10 +11,6 @@ const menuItemList: MenuItem[] = [
     name: '동아리 개설 신청',
   },
   {
-    route: '/management/circle/manage',
-    name: '동아리 개설 관리',
-  },
-  {
     route: '/management/circle/application',
     name: '동아리 가입 관리',
   },
