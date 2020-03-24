@@ -1,3 +1,3 @@
-const MealPage = () => (null);
+const MealPage = () => null;
 
 export default MealPage;

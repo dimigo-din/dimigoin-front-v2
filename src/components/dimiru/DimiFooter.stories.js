@@ -9,7 +9,10 @@ export default {
 };
 
 export const dimifooter = () => {
-  const copyright = text('copyright', '<Copyright 2020. Author. All Rights Reserved.');
+  const copyright = text(
+    'copyright',
+    '<Copyright 2020. Author. All Rights Reserved.',
+  );
   const email = text('email', 'john@doe.net');
   const facebook = text('facebook', '@john (facebook)');
 

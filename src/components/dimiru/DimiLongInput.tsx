@@ -18,7 +18,7 @@ const TextArea = styled.textarea<TextAreaProps>`
   border-radius: 30px;
   box-shadow: inset 2px 2px 12px ${variables.shadow},
     inset -5px -5px 8px ${variables.white};
-  font-family: "NanumSquareRound", sans-serif;
+  font-family: 'NanumSquareRound', sans-serif;
   font-size: inherit;
   transition: all 0.2s ease-in-out;
 

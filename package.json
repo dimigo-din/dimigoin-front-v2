@@ -10,7 +10,8 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint --fix '**/*.{js,ts,tsx}'"
+    "lint:fix": "eslint --fix '**/*.{js,ts,tsx}'",
+    "fix:prettier": "prettier --write \"**/*.*\""
   },
   "lint-staged": {
     "src/*.{js,ts,tsx}": [

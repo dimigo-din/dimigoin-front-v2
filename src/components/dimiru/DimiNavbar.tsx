@@ -13,7 +13,10 @@ type DimiNavbarProps = {
 };
 
 const DimiNavbar: React.FC<DimiNavbarProps & RouteComponentProps> = ({
-  brand, start, end, history,
+  brand,
+  start,
+  end,
+  history,
 }) => {
   const onClickBrand = () => history.push('/');
 
@@ -21,16 +24,10 @@ const DimiNavbar: React.FC<DimiNavbarProps & RouteComponentProps> = ({
     <Navbar>
       <Container>
         <Wrapper>
-          <Brand onClick={onClickBrand}>
-            {brand}
-          </Brand>
+          <Brand onClick={onClickBrand}>{brand}</Brand>
           <Menu>
-            <NavbarStart>
-              {start}
-            </NavbarStart>
-            <NavbarEnd>
-              {end}
-            </NavbarEnd>
+            <NavbarStart>{start}</NavbarStart>
+            <NavbarEnd>{end}</NavbarEnd>
           </Menu>
         </Wrapper>
       </Container>
@@ -70,8 +67,7 @@ const Menu = styled.div`
   }
 `;
 
-const NavbarStart = styled.div`
-`;
+const NavbarStart = styled.div``;
 
 const NavbarEnd = styled.div`
   font-weight: ${variables.fontWeightBold};

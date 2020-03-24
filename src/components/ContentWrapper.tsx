@@ -6,14 +6,13 @@ type ContentWrapperProps = {
   header: React.ReactNode;
 };
 
-const ContentWrapper: React.FC<ContentWrapperProps> = ({ header, children }) => (
+const ContentWrapper: React.FC<ContentWrapperProps> = ({
+  header,
+  children,
+}) => (
   <div className="content">
-    <Header>
-      {header}
-    </Header>
-    <main className="content__main">
-      {children}
-    </main>
+    <Header>{header}</Header>
+    <main className="content__main">{children}</main>
   </div>
 );
 

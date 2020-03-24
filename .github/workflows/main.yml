@@ -1,57 +1,56 @@
-
 name: Automatic Deploy Production
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: self-hosted
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: install package ✔️
-      run: yarn
+      - name: install package ✔️
+        run: yarn
 
-    - name: build package 📦
-      run: yarn build 
-  
-    - name: remove old file 🗑
-      run: rm -rf ~/build/circle.dimigo.in
-      
-    - name: generate target folder 🗂
-      run: mkdir ~/build/circle.dimigo.in
-      
-    - name: move package for deploy 🚕
-      run: mv build/* ~/build/circle.dimigo.in
-      
-    - name: deploy package🚀 
-      run: sudo nginx -s reload
-      
-    - name: Slack Notification failed 🙅
-      if: failure()
-      uses: rtCamp/action-slack-notify@v2.0.0
-      env:
-        SLACK_CHANNEL: build-notification
-        SLACK_COLOR: '#FF0000'
-        SLACK_ICON: http://github.com/dimigoin.png?size=48
-        SLACK_MESSAGE: '프론트엔드에 대한 배포가 실패했어요 ! :cry:'
-        SLACK_TITLE: Deploy failed
-        SLACK_USERNAME: Dimigoin auto deploy bot
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - name: build package 📦
+        run: yarn build
 
-    - name: Slack Notification success 🙆
-      if: success()
-      uses: rtCamp/action-slack-notify@v2.0.0
-      env:
-        SLACK_CHANNEL: build-notification
-        SLACK_COLOR: '#04ff00'
-        SLACK_ICON: http://github.com/dimigoin.png?size=48
-        SLACK_MESSAGE: '프론트엔드에 대한 배포가 완료되었어요 ! :rocket:'
-        SLACK_TITLE: Deploy Success
-        SLACK_USERNAME: Dimigoin auto deploy bot
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - name: remove old file 🗑
+        run: rm -rf ~/build/circle.dimigo.in
+
+      - name: generate target folder 🗂
+        run: mkdir ~/build/circle.dimigo.in
+
+      - name: move package for deploy 🚕
+        run: mv build/* ~/build/circle.dimigo.in
+
+      - name: deploy package🚀
+        run: sudo nginx -s reload
+
+      - name: Slack Notification failed 🙅
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2.0.0
+        env:
+          SLACK_CHANNEL: build-notification
+          SLACK_COLOR: '#FF0000'
+          SLACK_ICON: http://github.com/dimigoin.png?size=48
+          SLACK_MESSAGE: '프론트엔드에 대한 배포가 실패했어요 ! :cry:'
+          SLACK_TITLE: Deploy failed
+          SLACK_USERNAME: Dimigoin auto deploy bot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Slack Notification success 🙆
+        if: success()
+        uses: rtCamp/action-slack-notify@v2.0.0
+        env:
+          SLACK_CHANNEL: build-notification
+          SLACK_COLOR: '#04ff00'
+          SLACK_ICON: http://github.com/dimigoin.png?size=48
+          SLACK_MESSAGE: '프론트엔드에 대한 배포가 완료되었어요 ! :rocket:'
+          SLACK_TITLE: Deploy Success
+          SLACK_USERNAME: Dimigoin auto deploy bot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

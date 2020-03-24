@@ -6,15 +6,21 @@ import css from '@emotion/css';
 import variables from '../../scss/_variables.scss';
 
 export default ({
-  value = 0, colors = ['gray'], items, input, click,
+  value = 0,
+  colors = ['gray'],
+  items,
+  input,
+  click,
 }: {
   value?: number;
   colors: string[];
   items: string[];
-  click?: (event: {value: number;
+  click?: (event: {
+    value: number;
     items: string[];
     setPrevent(willSetValue: boolean): void;
-    done(): void;}) => void;
+    done(): void;
+  }) => void;
   input?: (index: number) => void;
 }) => {
   const onclick = (index: number) => {
@@ -44,7 +50,7 @@ export default ({
             color: ${colors[value]};
           `}
         >
-          { item }
+          {item}
         </Button>
       ))}
     </Group>

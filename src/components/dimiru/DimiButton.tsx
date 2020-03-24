@@ -82,7 +82,11 @@ const DimiButton: React.FC<DimiButtonProps> = ({
     small && style.small,
   ].filter(Boolean);
   return (
-    <a href={href} css={buttonStyle} onClick={(e) => active && click && click(e)}>
+    <a
+      href={href}
+      css={buttonStyle}
+      onClick={(e) => active && click && click(e)}
+    >
       {children}
     </a>
   );
