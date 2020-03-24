@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-import axios from 'axios';
 import NProgress from 'nprogress';
 import api from '.';
 // import store from '@/store';
