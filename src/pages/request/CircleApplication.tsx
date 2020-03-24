@@ -50,6 +50,7 @@ const CircleLogo = styled.div<ICircleLogo>`
   border-radius: 50%;
   background-image: url(${({ imageKey }) => `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
   background-size: cover;
+  background-position: center center;
   margin-right: 40px;
 `;
 
@@ -205,6 +206,7 @@ const CircleApplication = () => {
                 }}
                 height={300}
                 maxLength={maxLength}
+                placeholder={`최대 글자수는 ${maxLength}자예요.`}
               />
             </DimiCard>
           ))}
