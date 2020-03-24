@@ -1,5 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
+
+import variables from '../../scss/_variables.scss';
 
 type DimiNavbarProps = {
   brand?: React.ReactNode;
@@ -32,22 +34,40 @@ const DimiNavbar: React.FC<DimiNavbarProps> = ({ brand, start, end }) => {
 export default DimiNavbar;
 
 const Navbar = styled.nav`
+  display: flex;
+  width: 100%;
+  min-height: 5rem;
+  align-items: center;
+  background-color: transparent;
 `;
 
 const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
+  display: flex;
 `;
 
 const Brand = styled.div`
+  font-size: 24px;
+  font-weight: ${variables.fontWeightBold};
+  justify-self: flex-start;
 `;
 
 const Menu = styled.div`
+  display: flex;
+  flex: 1 0;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: ${variables.tablet}) {
+    display: none;
+  }
 `;
 
 const NavbarStart = styled.div`
 `;
 
 const NavbarEnd = styled.div`
+  font-weight: ${variables.fontWeightBold};
 `;
