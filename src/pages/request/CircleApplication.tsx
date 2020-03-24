@@ -48,7 +48,8 @@ const CircleLogo = styled.div<ICircleLogo>`
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-image: url(${({ imageKey }) => `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
+  background-image: url(${({ imageKey }) =>
+    `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
   background-size: cover;
   margin-right: 40px;
 `;
@@ -94,6 +95,10 @@ const FormTitle = styled.h1`
 const ButtonWrap = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+const Loading = css`
+  margin: auto;
 `;
 
 interface IHistory {
@@ -162,30 +167,32 @@ const CircleApplication = () => {
     <>
       <Header>지원서 작성</Header>
       <DimiCard css={CircleInfoCard}>
-        <CircleLogo imageKey={info?.imageKey || ''} />
         {info && questions && loading ? (
-          <CircleInfoWrap>
-            <CircleTitle>{info?.name}</CircleTitle>
-            <CircleFeatureWrap>
-              <CircleFeatureTitle>분류</CircleFeatureTitle>
-              <CircleFeatureInfo>{info?.category}</CircleFeatureInfo>
-              <CircleFeatureTitle>동장</CircleFeatureTitle>
-              <CircleFeatureInfo>
-                {`${info?.chair.serial
-                  .toString()
-                  .substr(0, 1)}학년 ${info?.chair.serial
-                  .toString()
-                  .substr(1, 1)}반 ${info?.chair.name}`}
-              </CircleFeatureInfo>
-            </CircleFeatureWrap>
-          </CircleInfoWrap>
+          <>
+            <CircleLogo imageKey={info?.imageKey || ''} />
+            <CircleInfoWrap>
+              <CircleTitle>{info?.name}</CircleTitle>
+              <CircleFeatureWrap>
+                <CircleFeatureTitle>분류</CircleFeatureTitle>
+                <CircleFeatureInfo>{info?.category}</CircleFeatureInfo>
+                <CircleFeatureTitle>동장</CircleFeatureTitle>
+                <CircleFeatureInfo>
+                  {`${info?.chair.serial
+                    .toString()
+                    .substr(0, 1)}학년 ${info?.chair.serial
+                    .toString()
+                    .substr(1, 1)}반 ${info?.chair.name}`}
+                </CircleFeatureInfo>
+              </CircleFeatureWrap>
+            </CircleInfoWrap>
+          </>
         ) : (
-          <DimiLoading />
+          <DimiLoading css={Loading} />
         )}
       </DimiCard>
       <QuestionCardWrap>
-        {loading
-          && questions.map(({ _id, question, maxLength }: any) => (
+        {loading &&
+          questions.map(({ _id, question, maxLength }: any) => (
             <DimiCard key={_id} css={QuestionCard}>
               <FormTitle>{question}</FormTitle>
               <DimiLongInput
