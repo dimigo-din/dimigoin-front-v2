@@ -13,6 +13,7 @@ type DimiCardProps = {
   clickable?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cardRef?: any;
+  onClick?: () => void;
 };
 
 const DimiCard: React.FC<DimiCardProps> = ({
@@ -22,6 +23,7 @@ const DimiCard: React.FC<DimiCardProps> = ({
   clickable,
   cardRef,
   className = '',
+  onClick
 }) => (
   <Container
     className={className}
@@ -29,6 +31,7 @@ const DimiCard: React.FC<DimiCardProps> = ({
     clickable={clickable}
     button={!!button}
     ref={cardRef}
+    onClick={onClick}
   >
     {button ? <Content>{children}</Content> : children}
     {button && (

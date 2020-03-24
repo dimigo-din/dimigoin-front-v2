@@ -6,15 +6,22 @@ import DimiCard from './dimiru/DimiCard';
 
 import variables from '../scss/_variables.scss';
 
-const CircleCard = () => {
+interface ICircleCard {
+  imageKey: string;
+  name: string;
+  category: string;
+  onClick?: () => void;
+}
+
+const CircleCard = (props: ICircleCard) => {
   return (
-    <DimiCard css={CardStyle}>
-      <CircleLogo imageKey={'CIRCLE_PROFILE/JnJ Communications.png'} />
+    <DimiCard css={CardStyle} onClick={props.onClick}>
+      <CircleLogo imageKey={props.imageKey} />
       <CircleInfoWrap>
-        <CircleTitle>JnJ Communications</CircleTitle>
+        <CircleTitle>{props.name}</CircleTitle>
         <CircleFeatureWrap>
           <CircleFeatureTitle>분류</CircleFeatureTitle>
-          <CircleFeatureInfo>IT(프로젝트)</CircleFeatureInfo>
+          <CircleFeatureInfo>{props.category}</CircleFeatureInfo>
         </CircleFeatureWrap>
       </CircleInfoWrap>
     </DimiCard>
@@ -66,7 +73,7 @@ const CircleFeatureTitle = styled.span`
   color: ${variables.grayDark};
   font-size: 16px;
   font-weight: ${variables.fontWeightRegular};
-  margin-right: 0.3rem;
+  margin-right: 0.5rem;
 `;
 
 const CircleFeatureInfo = styled.span`
