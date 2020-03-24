@@ -6,7 +6,7 @@ import {
 
 import Management from './Management';
 import Auth from './Auth';
-import Request from "./Request";
+import Request from './Request';
 
 const Router: React.FC = () => (
   <BrowserRouter>

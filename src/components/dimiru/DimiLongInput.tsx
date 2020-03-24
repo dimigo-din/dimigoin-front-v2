@@ -1,32 +1,8 @@
-import React from "react";
-import styled from "@emotion/styled";
-import css from "@emotion/css";
+import React from 'react';
+import styled from '@emotion/styled';
+import css from '@emotion/css';
 
-import variables from "../../scss/_variables.scss";
-
-interface DimiLongInputProps {
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  placeholder?: string;
-  maxLength?: number;
-  height?: number;
-}
-
-const DimiLongInput: React.FC<DimiLongInputProps> = ({
-  value,
-  onChange,
-  placeholder = "",
-  maxLength,
-  height
-}) => (
-  <TextArea
-    value={value}
-    onChange={onChange}
-    placeholder={placeholder}
-    maxLength={maxLength}
-    height={height}
-  />
-);
+import variables from '../../scss/_variables.scss';
 
 type TextAreaProps = {
   height?: number;
@@ -56,9 +32,33 @@ const TextArea = styled.textarea<TextAreaProps>`
     color: ${variables.gray};
   }
 
-  height: ${props => `
+  height: ${(props) => `
     ${props.height}px;
   `};
 `;
+
+interface DimiLongInputProps {
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  placeholder?: string;
+  maxLength?: number;
+  height?: number;
+}
+
+const DimiLongInput: React.FC<DimiLongInputProps> = ({
+  value,
+  onChange,
+  placeholder = '',
+  maxLength,
+  height,
+}) => (
+  <TextArea
+    value={value}
+    onChange={onChange}
+    placeholder={placeholder}
+    maxLength={maxLength}
+    height={height}
+  />
+);
 
 export default DimiLongInput;

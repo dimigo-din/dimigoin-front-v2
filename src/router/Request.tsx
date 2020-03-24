@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Route } from "react-router-dom";
-import { Circle, CircleApplication } from "../pages/request";
+import * as React from 'react';
+import { Route } from 'react-router-dom';
+import { Circle, CircleApplication } from '../pages/request';
 
 export default ({ match }: { match: { path: string } }) => (
   <>
