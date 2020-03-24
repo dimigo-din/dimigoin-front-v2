@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 module.exports = ({ config }) => {
   // eslint-disable-next-line no-param-reassign
   config.module.rules[0].use[0].loader = require.resolve('babel-loader');
