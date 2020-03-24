@@ -15,6 +15,7 @@ const photoCDN = `${process.env.REACT_APP_DIMIGO_API_URL}/user_photo`;
 
 const MainPage = () => {
   const history = useHistory();
+
   const [info, setInfo] = useState<IUser>();
 
   useEffect(() => {
