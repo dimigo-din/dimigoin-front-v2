@@ -70,7 +70,9 @@ const CircleInformation = () => {
           </CardContainer>
         </>
       )}
-      <SectionHeader>전체 동아리</SectionHeader>
+      <SectionHeader>
+        {applications.length > 0 ? '신청하지 않은 동아리' : '전체 동아리'}
+      </SectionHeader>
       <CardContainer>
         {circles.map((circle) => (
           <CircleCard
