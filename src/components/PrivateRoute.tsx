@@ -9,7 +9,7 @@ const PrivateRoute = ({ component: Component, ...rest }: IProps) => (
   <Route
     {...rest}
     render={props =>
-      localStorage.getItem('token') !== null ? (
+      localStorage.getItem('token') ? (
         <Component {...props} />
       ) : (
         <Redirect
