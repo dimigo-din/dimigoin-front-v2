@@ -22,7 +22,7 @@ const temporaryServices = [
     icon: 'club-lg',
     title: '동아리 관리',
     description: '동아리 정보를 입력하고 수정할 수 있어요.',
-    url: '',
+    url: '/management/circle',
     permission: 1,
   },
   {

@@ -128,7 +128,7 @@ const CircleApplication = () => {
       console.log(data.form);
       setQuestions(data.form);
     });
-  }, []);
+  }, [history.location.state.circleId]);
 
   useEffect(() => {
     console.log(answers);

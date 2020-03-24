@@ -35,6 +35,7 @@ const DefaultNavbar: React.FC<RouteComponentProps> = ({ history }) => {
 export default withRouter(DefaultNavbar);
 
 const Brand = styled(BrandImage)`
+  display: block;
   height: 32px;
 `;
 

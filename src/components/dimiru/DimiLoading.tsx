@@ -1,7 +1,7 @@
-import React from "react";
-import { keyframes } from "@emotion/core";
-import styled from "@emotion/styled";
-import variables from "../../scss/_variables.scss";
+import { keyframes } from '@emotion/core';
+import styled from '@emotion/styled';
+
+import variables from '../../scss/_variables.scss';
 
 const spinning = keyframes`
     0% { transform: rotate(20deg); }
