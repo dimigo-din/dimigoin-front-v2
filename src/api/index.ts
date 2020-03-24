@@ -5,7 +5,7 @@ const createAPI = (): AxiosInstance => {
   const { accessToken } = localStorage;
 
   const api = axios.create({
-    baseURL: process.env.API_URL,
+    baseURL: process.env.REACT_APP_API_SERVER,
   });
   api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   return api;
