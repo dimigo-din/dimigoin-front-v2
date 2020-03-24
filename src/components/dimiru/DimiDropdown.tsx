@@ -41,9 +41,7 @@ const DimiDropdown: React.FC<DimiDropdownProps> = ({
       clearTimeout(timer);
     }
     setTimer(setTimeout(
-      () => {
-        setActive(hovered);
-      },
+      () => setActive(hovered),
       500,
     ));
   };
@@ -90,7 +88,6 @@ const DimiDropdown: React.FC<DimiDropdownProps> = ({
       hovered={hovered}
       className={className}
       onMouseLeave={onMouseOut}
-      // onBlur={onMouseOut}
       onMouseOver={onMouseOver}
       onFocus={onMouseOver}
       onClick={open}
