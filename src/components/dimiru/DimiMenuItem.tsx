@@ -1,3 +1,6 @@
+import React from 'react';
+import { useLocation, RouteComponentProps, withRouter } from 'react-router-dom';
+
 import styled from '@emotion/styled';
 import css from '@emotion/css';
 
@@ -12,7 +15,26 @@ export interface MenuItem extends DimiMenuItemProps {
   name: string;
 }
 
-const DimiMenuItem = styled.a<DimiMenuItemProps>`
+const DimiMenuItem: React.FC<DimiMenuItemProps & RouteComponentProps> = ({
+  route, children, history,
+}) => {
+  const { pathname: currentPath } = useLocation();
+  const onClickMenu = () => history.push(route);
+
+  return (
+    <Menu
+      route={route}
+      active={currentPath === route}
+      onClick={onClickMenu}
+    >
+      {children}
+    </Menu>
+  );
+};
+
+export default withRouter(DimiMenuItem);
+
+const Menu = styled.a<DimiMenuItemProps>`
   display: block;
   width: fit-content;
   padding: 0.6em;
@@ -22,13 +44,14 @@ const DimiMenuItem = styled.a<DimiMenuItemProps>`
   font-size: 16px;
   font-weight: ${variables.fontWeightBold};
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
   }
 
-  ${({ active = false }) => active && css`
+  ${({ active }) => active && css`
     background-color: ${variables.red} !important;
     box-shadow: 0 5px 15px rgba(234, 51, 51, 0.41);
     color: ${variables.white};
@@ -39,5 +62,3 @@ const DimiMenuItem = styled.a<DimiMenuItemProps>`
     }
   `};
 `;
-
-export default DimiMenuItem;

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
 
 import ServiceWrapper from '../../components/ServiceWrapper';
 import DefaultNavbar from '../../components/DefaultNavbar';
@@ -14,8 +13,6 @@ const menuItemList: MenuItem[] = [
 ];
 
 const ManagementWrapper: React.FC = ({ children }) => {
-  const { pathname: currentPath } = useLocation();
-
   return (
     <ServiceWrapper
       navbar={<DefaultNavbar />}
@@ -25,7 +22,6 @@ const ManagementWrapper: React.FC = ({ children }) => {
             <DimiMenuItem
               key={route}
               route={route}
-              active={currentPath === route}
             >
               {name}
             </DimiMenuItem>
