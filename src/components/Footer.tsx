@@ -4,16 +4,14 @@ import Dimigoincon from './Dimigoincon';
 import DimiFooter from './dimiru/DimiFooter';
 
 const Copyright = () => (
-  <a href="https://jnjcomu.github.io/landing">
-    © 2020 JnJ Communications
-  </a>
+  <a href="https://jnjcomu.github.io/landing">© 2020 JnJ Communications</a>
 );
 
 const Mail = () => (
   <a href="mailto:contact@dimigo.in">
     <Dimigoincon icon="email" />
     {' '}
-    contact@dimigo.in
+contact@dimigo.in
   </a>
 );
 
@@ -21,7 +19,7 @@ const Facebook = () => (
   <a href="https://fb.com/isdimigoin">
     <Dimigoincon icon="facebook-sm" />
     {' '}
-    fb.com/isdimigoin
+fb.com/isdimigoin
   </a>
 );
 

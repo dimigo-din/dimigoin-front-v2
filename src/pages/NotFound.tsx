@@ -1,3 +1,3 @@
-const NotFoundPage = () => (null);
+const NotFoundPage = () => null;
 
 export default NotFoundPage;

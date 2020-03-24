@@ -8,9 +8,7 @@ export default {
   decorators: [withKnobs],
 };
 
-export const dimiloading = () => (
-  <DimiLoading />
-);
+export const dimiloading = () => <DimiLoading />;
 
 dimiloading.story = {
   name: 'Default',

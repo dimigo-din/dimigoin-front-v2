@@ -17,7 +17,10 @@ export interface MenuItem extends DimiMenuItemProps {
 }
 
 const DimiMenuItem: React.FC<DimiMenuItemProps & RouteComponentProps> = ({
-  route, children, history, disabled,
+  route,
+  children,
+  history,
+  disabled,
 }) => {
   const { pathname: currentPath } = useLocation();
   const onClickMenu = disabled ? undefined : () => history.push(route);
@@ -53,22 +56,24 @@ const Menu = styled.a<DimiMenuItemProps>`
     transition: all 0.3s ease 0s;
   }
 
-  ${({ disabled }) => disabled && css`
-    cursor: default;
+  ${({ disabled }) => disabled
+    && css`
+      cursor: default;
 
-    &:hover {
-      box-shadow: none;
-    }
-  `};
+      &:hover {
+        box-shadow: none;
+      }
+    `};
 
-  ${({ active }) => active && css`
-    background-color: ${variables.red} !important;
-    box-shadow: 0 5px 15px rgba(234, 51, 51, 0.41);
-    color: ${variables.white};
-    text-shadow: 2px 2px 3px rgba(248, 105, 105, 0.9);
+  ${({ active }) => active
+    && css`
+      background-color: ${variables.red} !important;
+      box-shadow: 0 5px 15px rgba(234, 51, 51, 0.41);
+      color: ${variables.white};
+      text-shadow: 2px 2px 3px rgba(248, 105, 105, 0.9);
 
-    &:hover {
-      box-shadow: 0 3px 15px rgba(234, 51, 51, 0.41);
-    }
-  `};
+      &:hover {
+        box-shadow: 0 3px 15px rgba(234, 51, 51, 0.41);
+      }
+    `};
 `;

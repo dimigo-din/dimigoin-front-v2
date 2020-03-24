@@ -30,7 +30,7 @@ const DimiLoading = styled.div`
     width: 80%;
     height: 80%;
     border-radius: 50%;
-    content: "";
+    content: '';
   }
 
   ::before {

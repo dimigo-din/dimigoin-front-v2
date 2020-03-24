@@ -11,17 +11,17 @@ type ServiceWrapperProps = {
   children?: React.ReactNode;
 };
 
-const ServiceWrapper: React.FC<ServiceWrapperProps> = ({ navbar, menu, children }) => (
+const ServiceWrapper: React.FC<ServiceWrapperProps> = ({
+  navbar,
+  menu,
+  children,
+}) => (
   <div>
     {navbar}
     <Container>
       <Wrapper>
-        <Menu>
-          {menu}
-        </Menu>
-        <Main>
-          {children}
-        </Main>
+        <Menu>{menu}</Menu>
+        <Main>{children}</Main>
       </Wrapper>
     </Container>
   </div>

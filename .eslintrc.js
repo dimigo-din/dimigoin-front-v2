@@ -5,49 +5,49 @@ module.exports = {
     jest: true,
   },
   extends: [
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "airbnb",
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'airbnb',
   ],
   globals: {
-    Atomics: "readonly",
-    SharedArrayBuffer: "readonly",
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
   },
   overrides: [
     {
-      files: ["*.ts", "*.tsx"],
+      files: ['*.ts', '*.tsx'],
       rules: {
-        "@typescript-eslint/no-unused-vars": [2, { args: "none" }],
+        '@typescript-eslint/no-unused-vars': [2, { args: 'none' }],
       },
     },
   ],
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 2018,
-    sourceType: "module",
+    sourceType: 'module',
   },
-  plugins: ["react", "@typescript-eslint"],
+  plugins: ['react', '@typescript-eslint'],
   rules: {
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "import/extensions": "off",
-    "no-unused-vars": "off", // duplicated with rule '@typescript-eslint/no-unused-vars'
-    quotes: ["error", "single", { avoidEscape: true }],
-    "react/jsx-filename-extension": [
-      "error",
-      { extensions: [".js", ".jsx", ".ts", ".tsx"] },
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    'import/extensions': 'off',
+    'no-unused-vars': 'off', // duplicated with rule '@typescript-eslint/no-unused-vars'
+    quotes: ['error', 'single', { avoidEscape: true }],
+    'react/jsx-filename-extension': [
+      'error',
+      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     ],
-    "react/prop-types": "off",
-    "no-underscore-dangle": "off",
-    "@typescript-eslint/interface-name-prefix": "off",
+    'react/prop-types': 'off',
+    'no-underscore-dangle': 'off',
+    '@typescript-eslint/interface-name-prefix': 'off',
   },
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
   },

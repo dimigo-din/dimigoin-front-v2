@@ -7,17 +7,18 @@
     "build": "react-app-rewired build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "precommit": "lint-staged",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint --fix '**/*.{js,ts,tsx}'"
+    "lint:fix": "eslint --fix '**/*.{js,ts,tsx}'",
+    "fix:prettier": "prettier --write \"**/*.*\""
   },
   "lint-staged": {
     "src/*.{js,ts,tsx}": [
       "yarn lint:fix",
       "git add"
-    ]
+    ],
+    "*.{js,css,md}": "prettier --write"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
@@ -63,7 +64,7 @@
     "@types/styled-components": "^5.0.1",
     "eslint-config-airbnb": "^18.1.0",
     "husky": "^4.2.3",
-    "lint-staged": "^10.0.8",
+    "lint-staged": "^10.0.9",
     "prettier": "^2.0.2",
     "react-app-rewired": "^2.1.5",
     "typescript": "~3.8.3"
@@ -82,5 +83,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
