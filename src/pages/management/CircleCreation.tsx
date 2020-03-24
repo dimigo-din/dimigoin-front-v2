@@ -12,6 +12,8 @@ import DimiDropdown from '../../components/dimiru/DimiDropdown';
 
 import circleCategory from '../../utils/circleCategory';
 
+import variables from '../../scss/_variables.scss';
+
 const CircleCreation: React.FC = () => {
   const [category, setCategory] = useState<number>(0);
 
@@ -26,17 +28,21 @@ const CircleCreation: React.FC = () => {
     >
       <DimiCard>
         <FormRow>
-          <CategoryDropdown
-            items={circleCategory}
-            value={category}
-            onChange={setCategory}
-          />
-          <FormName>
-            동아리명
-          </FormName>
-          <DimiInput
-            placeholder="동아리 이름을 입력하세요."
-          />
+          <FormField>
+            <CategoryDropdown
+              items={circleCategory}
+              value={category}
+              onChange={setCategory}
+            />
+          </FormField>
+          <FormField>
+            <FormName>
+              동아리명
+            </FormName>
+            <DimiInput
+              placeholder="동아리 이름을 입력하세요."
+            />
+          </FormField>
         </FormRow>
         <FormRow>
           <FormField>
@@ -85,6 +91,11 @@ const FormRow = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
+
+  @media (max-width: ${variables.tablet}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const FormField = styled.div`
@@ -93,6 +104,13 @@ const FormField = styled.div`
 
   &:first-child {
     margin-right: 2rem;
+  }
+
+  @media (max-width: ${variables.tablet}) {
+    &:first-child {
+      margin-bottom: 1rem;
+      margin-right: none;
+    }
   }
 `;
 
@@ -113,5 +131,4 @@ const ButtonWrap = styled.div`
 `;
 
 const CategoryDropdown = styled(DimiDropdown)`
-  margin-right: 1rem;
 `;
