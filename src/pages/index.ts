@@ -5,3 +5,4 @@ export const Draft = loadable(() => import('./Draft'));
 export const Meal = loadable(() => import('./Meal'));
 export const ExplorerFound = loadable(() => import('./ExplorerFound'));
 export const NotFound = loadable(() => import('./NotFound'));
+export const Login = loadable(() => import('./Login'));
