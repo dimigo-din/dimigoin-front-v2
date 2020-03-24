@@ -10,10 +10,12 @@ interface ICircleCard {
   imageKey: string;
   name: string;
   category: string;
+  status?: string;
   onClick?: () => void;
 }
 
 const CircleCard = (props: ICircleCard) => {
+  const { status } = props;
   return (
     <DimiCard css={CardStyle} onClick={props.onClick}>
       <CircleLogo imageKey={props.imageKey} />
@@ -23,6 +25,11 @@ const CircleCard = (props: ICircleCard) => {
           <CircleFeatureInfo>{props.category}</CircleFeatureInfo>
         </CircleFeatureWrap>
       </CircleInfoWrap>
+      {status &&
+        <StatusBadge
+          src={`/static/badges/${status.toUpperCase()}.svg`}
+        />
+      }
     </DimiCard>
   );
 };
@@ -73,6 +80,15 @@ const CircleFeatureInfo = styled.span`
   font-size: 16px;
   font-weight: ${variables.fontWeightRegular};
   margin-right: 1rem;
+`;
+
+const StatusBadge = styled.img`
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  bottom: -12px;
+  right: -12px;
+  transform: rotate(-11deg);
 `;
 
 export default CircleCard;

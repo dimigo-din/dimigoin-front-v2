@@ -16,7 +16,7 @@ const CircleInformation = () => {
   const history = useHistory();
   const [open, setOpen] = useState<boolean>(false);
   const [circles, setCircles] = useState<Array<ICircle>>([]);
-  const [applications, setApplications] = useState<Array<{ circle: ICircle }>>(
+  const [applications, setApplications] = useState<Array<{ circle: ICircle, status: string }>>(
     [],
   );
 
@@ -61,6 +61,7 @@ const CircleInformation = () => {
                 imageKey={application.circle.imageKey}
                 name={application.circle.name}
                 category={application.circle.category}
+                status={application.status}
               />
             ))}
           </CardContainer>
