@@ -62,9 +62,13 @@ export default () => {
       const { data: userInfo } = await api.get('/user/me');
       await auth.setUserInfo(userInfo.identity);
       await history.push('/');
-    } catch ({ response }) {
+    } catch ({
+      response: {
+        data: { message },
+      },
+    }) {
       await setActive(true);
-      await SweetAlert.error(response.data.message);
+      await SweetAlert.error(message);
     }
   };
 
