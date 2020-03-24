@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import css from '@emotion/css';
 
@@ -23,6 +23,9 @@ const DimiDropdown: React.FC<DimiDropdownProps> = ({
   const [hovered, setHovered] = useState<boolean>(false);
   const [timer, setTimer] = useState<NodeJS.Timer | null>(null);
 
+  const rootRef = useRef<HTMLDivElement>(null);
+  const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
+
   const open = () => setActive(true);
 
   const onMouseOver = (event: any) => {
@@ -39,12 +42,31 @@ const DimiDropdown: React.FC<DimiDropdownProps> = ({
     }
     setTimer(setTimeout(
       () => {
-        if (hovered) {
-          setActive(false);
-        }
+        setActive(hovered);
       },
       500,
     ));
+  };
+
+  const registerItems = useCallback(
+    () => {
+      itemsRef.current = itemsRef.current.slice(0, length);
+    },
+    [length],
+  );
+
+  const updateWidth = () => {
+    if (rootRef && rootRef.current) {
+      const { current } = rootRef;
+      const { width } = window.getComputedStyle(current);
+      const itemElementList = itemsRef.current || [];
+      itemElementList.forEach((element) => {
+        if (element) {
+          // eslint-disable-next-line no-param-reassign
+          element.style.width = width;
+        }
+      });
+    }
   };
 
   const onClickSelect = (index: number) => {
@@ -52,24 +74,27 @@ const DimiDropdown: React.FC<DimiDropdownProps> = ({
     onChange(index);
   };
 
-  const updateWidth = () => {};
-
   useEffect(
     () => {
+      registerItems();
       updateWidth();
       window.addEventListener('resize', updateWidth);
       return () => window.removeEventListener('resize', updateWidth);
     },
-    [],
+    [registerItems, value],
   );
 
   return (
     <DropdownRoot
       active={active}
+      hovered={hovered}
       className={className}
-      onMouseOut={onMouseOut}
-      onBlur={onMouseOut}
+      onMouseLeave={onMouseOut}
+      // onBlur={onMouseOut}
+      onMouseOver={onMouseOver}
+      onFocus={onMouseOver}
       onClick={open}
+      ref={rootRef}
     >
       <View
         className="view"
@@ -83,17 +108,22 @@ const DimiDropdown: React.FC<DimiDropdownProps> = ({
         onFocus={onMouseOver}
       >
         {items.map((item: string, index: number) => (
-          <>
+          <React.Fragment
+            key={item}
+          >
             <DropdownItem
-              key={`item-${item}`}
               onClick={() => onClickSelect(index)}
+              ref={(element: HTMLDivElement | null) => {
+                itemsRef.current[index] = element;
+                return element;
+              }}
             >
               <ItemName>
                 {item}
               </ItemName>
             </DropdownItem>
             {(index !== (length - 1)) && <ItemDivider />}
-          </>
+          </React.Fragment>
         ))}
       </DropdownList>
     </DropdownRoot>
@@ -104,6 +134,7 @@ export default DimiDropdown;
 
 type DropdownRootProps = {
   active: boolean;
+  hovered: boolean;
 };
 
 const DropdownRoot = styled.div<DropdownRootProps>`
@@ -117,7 +148,7 @@ const DropdownRoot = styled.div<DropdownRootProps>`
   padding: 0.75em 1.5em;
   border-radius: 30px;
 
-  ${({ active }) => active && css`
+  ${({ active, hovered }) => (hovered) && css`
 
     div.view {
       color: ${variables.pink};
@@ -157,7 +188,9 @@ const DropdownList = styled(DimiCard)`
 const DropdownItem = styled.p`
   padding: 15px 24px;
   background-color: ${variables.white};
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: ${variables.grayLighten};
