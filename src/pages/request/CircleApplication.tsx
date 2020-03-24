@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import css from '@emotion/css';
 import styled from '@emotion/styled';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 import variables from '../../scss/_variables.scss';
 
@@ -150,12 +151,25 @@ const CircleApplication = () => {
   const applyFrom = async () => {
     try {
       await setActive(false);
-      await api.post('/circle/application', {
-        circle: history.location.state.circleId,
-        form: answers,
+      const sure = await Swal.fire({
+        title: '정말 제출하시겠습니까?',
+        text: '제출 후에는 수정이 불가하니 다시 한 번 확인해주세요.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '제출',
+        cancelButtonText: '취소',
       });
-      await SweetAlert.success('지원서 제출이 완료되었습니다.');
-      await history.goBack();
+      if (sure.value) {
+        console.log(sure);
+        await api.post('/circle/application', {
+          circle: history.location.state.circleId,
+          form: answers,
+        });
+        await SweetAlert.success('지원서 제출이 완료되었습니다.');
+        await history.goBack();
+      } else {
+        await setActive(true);
+      }
     } catch ({ response }) {
       await setActive(true);
       await SweetAlert.error(response.data.message);
