@@ -1,10 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styled from '@emotion/styled';
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
-import DimiCard from './dimiru/DimiCard';
-import Dimigoincon from './Dimigoincon';
+import css from "@emotion/css";
+import styled from "@emotion/styled";
 
-import variables from '../scss/_variables.scss';
+import DimiCard from "./dimiru/DimiCard";
+import Dimigoincon from "./Dimigoincon";
+
+import variables from "../scss/_variables.scss";
 
 interface Service {
   icon: string;
@@ -16,19 +19,19 @@ interface Service {
 
 const temporaryServices = [
   {
-    icon: 'club-lg',
-    title: '동아리 관리',
-    description: '동아리 정보를 입력하고 수정할 수 있어요.',
-    url: '',
-    permission: 1,
+    icon: "club-lg",
+    title: "동아리 관리",
+    description: "동아리 정보를 입력하고 수정할 수 있어요.",
+    url: "",
+    permission: 1
   },
   {
-    icon: 'request',
-    title: '동아리 신청',
-    description: '동아리 정보를 확인하고 신청하세요.',
-    url: '',
-    permission: 1,
-  },
+    icon: "request",
+    title: "동아리 신청",
+    description: "동아리 정보를 확인하고 신청하세요.",
+    url: "/request/circle",
+    permission: 1
+  }
 ];
 
 const ServiceCards = () => {
@@ -42,7 +45,7 @@ const ServiceCards = () => {
 
   const updateServiceCardHeights = () => {
     const cards = cardsRef.current || [];
-    cards.forEach((element) => {
+    cards.forEach(element => {
       if (element) {
         // eslint-disable-next-line no-param-reassign
         element.style.height = window.getComputedStyle(element).width;
@@ -50,38 +53,30 @@ const ServiceCards = () => {
     });
   };
 
-  useEffect(
-    () => {
-      registerServices(services);
-      updateServiceCardHeights();
+  useEffect(() => {
+    registerServices(services);
+    updateServiceCardHeights();
 
-      window.addEventListener('resize', updateServiceCardHeights);
-      return () => window.removeEventListener('resize', updateServiceCardHeights);
-    },
-    [services],
-  );
+    window.addEventListener("resize", updateServiceCardHeights);
+    return () => window.removeEventListener("resize", updateServiceCardHeights);
+  }, [services]);
 
   return (
     <Services>
       <ServicesCards>
-        {services.map(({ icon, title, description }, index) => (
-          <ServiceCard
-            key={`service-${title}`}
-            cardRef={(el: HTMLDivElement | null) => {
-              cardsRef.current[index] = el;
-              return el;
-            }}
-          >
-            <Icon
-              icon={icon}
-            />
-            <Title>
-              {title}
-            </Title>
-            <Description>
-              {description}
-            </Description>
-          </ServiceCard>
+        {services.map(({ icon, title, description, url }, index) => (
+          <Link key={`service-${title}`} to={url} css={ServiceLink}>
+            <ServiceCard
+              cardRef={(el: HTMLDivElement | null) => {
+                cardsRef.current[index] = el;
+                return el;
+              }}
+            >
+              <Icon icon={icon} />
+              <Title>{title}</Title>
+              <Description>{description}</Description>
+            </ServiceCard>
+          </Link>
         ))}
       </ServicesCards>
     </Services>
@@ -106,6 +101,11 @@ const ServicesCards = styled.div`
   }
 `;
 
+const ServiceLink = css`
+  color: inherit;
+  text-decoration: none;
+`;
+
 const ServiceCard = styled(DimiCard)`
   display: flex;
   flex-direction: column;
@@ -113,6 +113,10 @@ const ServiceCard = styled(DimiCard)`
   justify-content: center;
   cursor: pointer;
   transition: 0.2s;
+  & :hover {
+    z-index: 1;
+    box-shadow: 2px 16px 36px rgba(21, 19, 19, 0.15), -5px -5px 10px #fff;
+  }
 `;
 
 const Icon = styled(Dimigoincon)`
