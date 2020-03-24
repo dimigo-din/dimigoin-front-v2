@@ -12,7 +12,7 @@ const SweetAlert = {
     },
     error: (message: string) => {
         return Swal.fire({
-            title: "에러!",
+            title: "이런!",
             text: message,
             icon: "error",
             confirmButtonText: "확인",
