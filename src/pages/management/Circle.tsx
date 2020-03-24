@@ -6,6 +6,7 @@ import variables from '../../scss/_variables.scss';
 import ContentWrapper from '../../components/ContentWrapper';
 import DimiCard from '../../components/dimiru/DimiCard';
 import DimiBadgeGroup from '../../components/dimiru/DimiBadgeGroup';
+import Dimigoincon from '../../components/Dimigoincon';
 
 const { useState } = React;
 
@@ -60,7 +61,7 @@ export default () => {
     <ContentWrapper
       header={(
         <h1>
-          <span className="icon-club" />
+          <Dimigoincon icon="club-sm" />
           동아리 신청자 관리
         </h1>
       )}
