@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 module.exports = ({ config }) => {
   config.module.rules[0].use[0].loader = require.resolve('babel-loader');
 
