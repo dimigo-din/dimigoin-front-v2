@@ -145,7 +145,7 @@ const DropdownRoot = styled.div<DropdownRootProps>`
   padding: 0.75em 1.5em;
   border-radius: 30px;
 
-  ${({ active, hovered }) => (hovered) && css`
+  ${({ hovered }) => hovered && css`
 
     div.view {
       color: ${variables.pink};
