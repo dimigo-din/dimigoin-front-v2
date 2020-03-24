@@ -14,7 +14,7 @@ const Container = styled.div`
   }
 
   @media screen and (min-width: 1216px) {
-    width: 960px;
+    width: 1184px;
   }
 `;
 
