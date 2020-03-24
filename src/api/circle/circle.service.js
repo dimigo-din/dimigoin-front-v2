@@ -3,6 +3,10 @@ import { Circle, CircleApplicant } from './circle.struct';
 import ServiceBase from '../service-base';
 
 export class CircleManagerService extends ServiceBase {
+  async createCircle(circle) {
+    await this.magician(() => this.r.post('/', circle));
+  }
+
   async getCircleApplicant() {
     const {
       data: { applications },
