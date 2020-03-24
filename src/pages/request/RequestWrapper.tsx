@@ -17,27 +17,25 @@ const menuItemList: MenuItem[] = [
   },
 ];
 
-const RequestWrapper: React.FC = ({ children }) => {
-  return (
-    <ServiceWrapper
-      navbar={<DefaultNavbar />}
-      menu={(
-        <DimiMenu>
-          {menuItemList.map(({ route, name, disabled = false }) => (
-            <DimiMenuItem
-              key={route}
-              route={route}
-              disabled={disabled}
-            >
-              {name}
-            </DimiMenuItem>
-          ))}
-        </DimiMenu>
+const RequestWrapper: React.FC = ({ children }) => (
+  <ServiceWrapper
+    navbar={<DefaultNavbar />}
+    menu={(
+      <DimiMenu>
+        {menuItemList.map(({ route, name, disabled = false }) => (
+          <DimiMenuItem
+            key={route}
+            route={route}
+            disabled={disabled}
+          >
+            {name}
+          </DimiMenuItem>
+        ))}
+      </DimiMenu>
       )}
-    >
-      {children}
-    </ServiceWrapper>
-  );
-};
+  >
+    {children}
+  </ServiceWrapper>
+);
 
 export default RequestWrapper;
