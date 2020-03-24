@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import css from '@emotion/css';
-import styled from '@emotion/styled';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import css from "@emotion/css";
+import styled from "@emotion/styled";
+import { useHistory } from "react-router-dom";
 
-import variables from '../../scss/_variables.scss';
+import variables from "../../scss/_variables.scss";
 
-import api from '../../api';
+import api from "../../api";
 
-import DimiCard from '../../components/dimiru/DimiCard';
-import DimiLongInput from '../../components/dimiru/DimiLongInput';
-import DimiButton from '../../components/dimiru/DimiButton';
+import DimiCard from "../../components/dimiru/DimiCard";
+import DimiLongInput from "../../components/dimiru/DimiLongInput";
+import DimiButton from "../../components/dimiru/DimiButton";
+import DimiLoading from "../../components/dimiru/DimiLoading";
 
-import SweetAlert from '../../utils/swal';
+import SweetAlert from "../../utils/swal";
 
 const Header = styled.div`
   margin-bottom: 1.5rem;
@@ -47,7 +48,8 @@ const CircleLogo = styled.div<ICircleLogo>`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-image: url(${({ imageKey }) => `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
+  background-image: url(${({ imageKey }) =>
+    `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
   background-size: cover;
   margin-right: 40px;
 `;
@@ -116,6 +118,7 @@ const CircleApplication = () => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [active, setActive] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     api
@@ -124,11 +127,18 @@ const CircleApplication = () => {
         console.log(data.circle);
         setInfo(data.circle);
       });
-    api.get('/circle/application/form').then(({ data }) => {
+    api.get("/circle/application/form").then(({ data }) => {
       console.log(data.form);
       setQuestions(data.form);
     });
   }, []);
+
+  const LoadingInterval = setInterval(() => {
+    if (!(info && questions)) {
+      setLoading(true);
+      clearInterval(LoadingInterval);
+    }
+  }, 1000);
 
   useEffect(() => {
     console.log(answers);
@@ -137,11 +147,11 @@ const CircleApplication = () => {
   const applyFrom = async () => {
     try {
       await setActive(false);
-      await api.post('/circle/application', {
+      await api.post("/circle/application", {
         circle: history.location.state.circleId,
         form: answers,
       });
-      await SweetAlert.success('지원서 제출이 완료되었습니다.');
+      await SweetAlert.success("지원서 제출이 완료되었습니다.");
       await history.goBack();
     } catch ({ response }) {
       await setActive(true);
@@ -153,46 +163,53 @@ const CircleApplication = () => {
     <>
       <Header>지원서 작성</Header>
       <DimiCard css={CircleInfoCard}>
-        <CircleLogo imageKey={info?.imageKey || ''} />
-        <CircleInfoWrap>
-          <CircleTitle>{info?.name}</CircleTitle>
-          <CircleFeatureWrap>
-            <CircleFeatureTitle>분류</CircleFeatureTitle>
-            <CircleFeatureInfo>{info?.category}</CircleFeatureInfo>
-            <CircleFeatureTitle>동장</CircleFeatureTitle>
-            <CircleFeatureInfo>
-              {`${info?.chair.serial
-                .toString()
-                .substr(0, 1)}학년 ${info?.chair.serial
-                .toString()
-                .substr(1, 1)}반 ${info?.chair.name}`}
-            </CircleFeatureInfo>
-          </CircleFeatureWrap>
-        </CircleInfoWrap>
+        <CircleLogo imageKey={info?.imageKey || ""} />
+        {info && questions && loading ? (
+          <CircleInfoWrap>
+            <CircleTitle>{info?.name}</CircleTitle>
+            <CircleFeatureWrap>
+              <CircleFeatureTitle>분류</CircleFeatureTitle>
+              <CircleFeatureInfo>{info?.category}</CircleFeatureInfo>
+              <CircleFeatureTitle>동장</CircleFeatureTitle>
+              <CircleFeatureInfo>
+                {`${info?.chair.serial
+                  .toString()
+                  .substr(0, 1)}학년 ${info?.chair.serial
+                  .toString()
+                  .substr(1, 1)}반 ${info?.chair.name}`}
+              </CircleFeatureInfo>
+            </CircleFeatureWrap>
+          </CircleInfoWrap>
+        ) : (
+          <DimiLoading />
+        )}
       </DimiCard>
       <QuestionCardWrap>
-        {questions.map(({ _id, question, maxLength }: any) => (
-          <DimiCard key={_id} css={QuestionCard}>
-            <FormTitle>{question}</FormTitle>
-            <DimiLongInput
-              value={answers._id}
-              onChange={(event) => {
-                event.persist();
-                setAnswers((prevState) => ({
-                  ...prevState,
-                  [_id]: event.target.value,
-                }));
-              }}
-              height={300}
-              maxLength={maxLength}
-            />
-          </DimiCard>
-        ))}
+        {loading &&
+          questions.map(({ _id, question, maxLength }: any) => (
+            <DimiCard key={_id} css={QuestionCard}>
+              <FormTitle>{question}</FormTitle>
+              <DimiLongInput
+                value={answers._id}
+                onChange={(event) => {
+                  event.persist();
+                  setAnswers((prevState) => ({
+                    ...prevState,
+                    [_id]: event.target.value,
+                  }));
+                }}
+                height={300}
+                maxLength={maxLength}
+              />
+            </DimiCard>
+          ))}
       </QuestionCardWrap>
       <ButtonWrap>
-        <DimiButton active={active} click={applyFrom}>
-          제출하기
-        </DimiButton>
+        {loading && (
+          <DimiButton active={active} click={applyFrom}>
+            제출하기
+          </DimiButton>
+        )}
       </ButtonWrap>
     </>
   );
