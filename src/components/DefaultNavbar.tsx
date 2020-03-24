@@ -6,8 +6,10 @@ import DimiIcon from './dimiru/DimiIcon';
 import DimiNavbar from './dimiru/DimiNavbar';
 
 import { ReactComponent as BrandImage } from '../assets/brand.svg';
+import auth from '../utils/auth';
 
 const DefaultNavbar: React.FC<RouteComponentProps> = ({ history }) => {
+
   const onClickLogout = () => {
     history.push('/auth/login');
   };
@@ -18,7 +20,7 @@ const DefaultNavbar: React.FC<RouteComponentProps> = ({ history }) => {
         brand={<Brand />}
         end={(
           <span>
-            디테계
+            {auth.getUserInfo().name}
             <LogoutIcon
               icon="logout"
               pointer

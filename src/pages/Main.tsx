@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 
 import variables from '../scss/_variables.scss';
@@ -8,11 +8,20 @@ import DimiCard from '../components/dimiru/DimiCard';
 import DimiIcon from '../components/dimiru/DimiIcon';
 import { ReactComponent as BrandImage } from '../assets/brand.svg';
 import ServiceCards from '../components/ServiceCards';
+import { useHistory } from 'react-router-dom';
+import auth, { IUser } from '../utils/auth';
 
-const photoCDN = `${process.env.DIMIGO_API_URL}/user_photo`;
+const photoCDN = `${process.env.REACT_APP_DIMIGO_API_URL}/user_photo`;
 
 const MainPage = () => {
+  const history = useHistory();
+  const [info, setInfo] = useState<IUser>();
+
   const photoUrl = '';
+
+  useEffect(() => {
+    setInfo(auth.getUserInfo());
+  }, []);
 
   return (
     <Container>
@@ -24,20 +33,34 @@ const MainPage = () => {
           <ProfileSection>
             <ProfileCard>
               <ProfileInfoLeft>
-                {photoUrl ? (
-                  <ProfilePhoto src={`${photoCDN}/${photoUrl}`} />
+                {info?.photo[0] ? (
+                  <ProfilePhoto src={`${photoCDN}/${info?.photo[0]}`} />
                 ) : (
                   <ProfileDefaultPhoto className="icon-profile" />
                 )}
                 <ProfileInfo>
-                  <ProfileInfoSerial>2학년 5반</ProfileInfoSerial>
-                  <ProfileInfoName>여준호</ProfileInfoName>
+                  <ProfileInfoSerial>
+                    {info && `${info.grade}학년 ${info.class}반`}
+                  </ProfileInfoSerial>
+                  <ProfileInfoName>{info?.name}</ProfileInfoName>
                 </ProfileInfo>
               </ProfileInfoLeft>
 
               <ButtonList>
-                <Button icon="setting" title="설정" pointer />
-                <Button icon="logout" title="로그아웃" pointer />
+                <Button
+                  icon="setting"
+                  title="설정"
+                  pointer
+                  onClick={() =>
+                    (window.location.href = `https://student.dimigo.hs.kr/user/profile`)
+                  }
+                />
+                <Button
+                  icon="logout"
+                  title="로그아웃"
+                  pointer
+                  onClick={() => history.push('/auth/login')}
+                />
               </ButtonList>
             </ProfileCard>
           </ProfileSection>
