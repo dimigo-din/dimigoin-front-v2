@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import { useHistory } from 'react-router-dom';
 
 import ContentWrapper from '../../components/ContentWrapper';
 import Dimigoincon from '../../components/Dimigoincon';
@@ -13,9 +14,68 @@ import DimiDropdown from '../../components/dimiru/DimiDropdown';
 import circleCategory from '../../utils/circleCategory';
 
 import variables from '../../scss/_variables.scss';
+import { circleManager } from '../../api/circle';
+import api from '../../api';
+import SweetAlert from '../../utils/swal';
 
 const CircleCreation: React.FC = () => {
+  const history = useHistory();
   const [category, setCategory] = useState<number>(0);
+  const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [chairSerial, setChairSerial] = useState<string>('');
+  const [viceChairSerial, setViceChairSerial] = useState<string>('');
+  const [videoLink, setVideoLink] = useState<string>('');
+  const [students, setStudents] = useState<any>([]);
+
+  const loadStudents = async () => {
+    const { data: { students: users } } = await api.get('/user/student');
+    setStudents(users);
+  };
+
+  useEffect(() => {
+    loadStudents();
+  }, []);
+
+  const getStudentIdFromSerial = (serial: string) => {
+    try {
+      return students.find((v: any) => v.serial === Number(serial))._id;
+    } catch {
+      return false;
+    }
+  };
+
+  const onClickSubmit = async () => {
+    const chair = getStudentIdFromSerial(chairSerial);
+    const viceChair = getStudentIdFromSerial(viceChairSerial);
+
+    if (!chair || !viceChair) {
+      await SweetAlert.error('학번을 확인해주세요.');
+      return;
+    }
+
+    if (['youtu', '?v=', '://'].some((v: string) => videoLink.includes(v))) {
+      await SweetAlert.error('유튜브 영상의 ID만을 입력해 주세요.');
+      return;
+    }
+
+    const payload = {
+      name,
+      description,
+      chair,
+      viceChair,
+      videoLink,
+      category: circleCategory[category],
+    };
+
+    try {
+      await circleManager.createCircle(payload);
+      await SweetAlert.success('동아리 개설이 완료되었습니다.');
+      await history.goBack();
+    } catch ({ response }) {
+      await SweetAlert.error(response.data.message);
+    }
+  };
 
   return (
     <ContentWrapper
@@ -41,6 +101,8 @@ const CircleCreation: React.FC = () => {
             </FormName>
             <DimiInput
               placeholder="동아리 이름을 입력하세요."
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </FormField>
         </FormRow>
@@ -52,6 +114,8 @@ const CircleCreation: React.FC = () => {
             <DimiNumberInput
               placeholder="학번"
               maxLength={4}
+              value={chairSerial}
+              onChange={(e) => setChairSerial(e.target.value)}
             />
           </FormField>
           <FormField>
@@ -61,6 +125,8 @@ const CircleCreation: React.FC = () => {
             <DimiNumberInput
               placeholder="학번"
               maxLength={4}
+              value={viceChairSerial}
+              onChange={(e) => setViceChairSerial(e.target.value)}
             />
           </FormField>
         </FormRow>
@@ -68,15 +134,21 @@ const CircleCreation: React.FC = () => {
           <DimiLongInput
             height={150}
             placeholder="동아리 설명을 입력해 주세요."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </FormRow>
         <FormRow>
           <DimiInput
-            placeholder="유튜브 홍보영상 링크를 입력해 주세요."
+            placeholder="유튜브 홍보영상 링크의 ID를 입력해 주세요. (예시: Nzo1UYXw7WA)"
+            value={videoLink}
+            onChange={(e) => setVideoLink(e.target.value)}
           />
         </FormRow>
         <ButtonWrap>
-          <DimiButton>
+          <DimiButton
+            click={onClickSubmit}
+          >
             제출하기
           </DimiButton>
         </ButtonWrap>
