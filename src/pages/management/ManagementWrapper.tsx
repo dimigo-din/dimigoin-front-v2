@@ -7,17 +7,16 @@ import DimiMenuItem, { MenuItem } from '../../components/dimiru/DimiMenuItem';
 
 const menuItemList: MenuItem[] = [
   {
-    route: '/request/circle',
-    name: '동아리 정보 확인',
+    route: '/management/circle',
+    name: '동아리 개설 관리',
   },
   {
-    route: '/request/circle/application',
-    name: '동아리 가입 신청',
-    disabled: true,
+    route: '/management/circle/application',
+    name: '동아리 가입 관리',
   },
 ];
 
-const RequestWrapper: React.FC = ({ children }) => (
+const ManagementWrapper: React.FC = ({ children }) => (
   <ServiceWrapper
     navbar={<DefaultNavbar />}
     menu={(
@@ -38,4 +37,4 @@ const RequestWrapper: React.FC = ({ children }) => (
   </ServiceWrapper>
 );
 
-export default RequestWrapper;
+export default ManagementWrapper;

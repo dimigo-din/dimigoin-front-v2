@@ -1,5 +1,8 @@
 import React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
+
+import Container from '../grids/Container';
 
 import variables from '../../scss/_variables.scss';
 
@@ -9,27 +12,33 @@ type DimiNavbarProps = {
   end?: React.ReactNode;
 };
 
-const DimiNavbar: React.FC<DimiNavbarProps> = ({ brand, start, end }) => (
-  <Navbar>
-    <Container>
-      <Wrapper>
-        <Brand>
-          {brand}
-        </Brand>
-        <Menu>
-          <NavbarStart>
-            {start}
-          </NavbarStart>
-          <NavbarEnd>
-            {end}
-          </NavbarEnd>
-        </Menu>
-      </Wrapper>
-    </Container>
-  </Navbar>
-);
+const DimiNavbar: React.FC<DimiNavbarProps & RouteComponentProps> = ({
+  brand, start, end, history,
+}) => {
+  const onClickBrand = () => history.push('/');
 
-export default DimiNavbar;
+  return (
+    <Navbar>
+      <Container>
+        <Wrapper>
+          <Brand onClick={onClickBrand}>
+            {brand}
+          </Brand>
+          <Menu>
+            <NavbarStart>
+              {start}
+            </NavbarStart>
+            <NavbarEnd>
+              {end}
+            </NavbarEnd>
+          </Menu>
+        </Wrapper>
+      </Container>
+    </Navbar>
+  );
+};
+
+export default withRouter(DimiNavbar);
 
 const Navbar = styled.nav`
   display: flex;
@@ -37,9 +46,6 @@ const Navbar = styled.nav`
   min-height: 5rem;
   align-items: center;
   background-color: transparent;
-`;
-
-const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
@@ -50,6 +56,7 @@ const Brand = styled.div`
   font-size: 24px;
   font-weight: ${variables.fontWeightBold};
   justify-self: flex-start;
+  cursor: pointer;
 `;
 
 const Menu = styled.div`
