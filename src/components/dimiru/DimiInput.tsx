@@ -12,6 +12,8 @@ type DimiInputProps = {
   type?: string;
   className?: string;
   error?: boolean;
+  minLength?: number;
+  maxLength?: number;
   onKeyUp?: () => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -25,6 +27,8 @@ const DimiInput: React.FC<DimiInputProps> = ({
   type = 'text',
   className = '',
   error,
+  minLength,
+  maxLength,
   onKeyUp,
 }) => (
   <Wrapper>
@@ -37,6 +41,8 @@ const DimiInput: React.FC<DimiInputProps> = ({
       error={error}
       onChange={onChange}
       onKeyUp={onKeyUp}
+      minLength={minLength}
+      maxLength={maxLength}
     />
     {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
   </Wrapper>

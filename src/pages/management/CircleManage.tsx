@@ -5,19 +5,17 @@ import ContentWrapper from '../../components/ContentWrapper';
 import Dimigoincon from '../../components/Dimigoincon';
 import DimiCard from '../../components/dimiru/DimiCard';
 
-const CircleManage: React.FC = () => {
-  return (
-    <ContentWrapper
-      header={(
-        <h1>
-          <Dimigoincon icon="ok-circle" />
+const CircleManage: React.FC = () => (
+  <ContentWrapper
+    header={(
+      <h1>
+        <Dimigoincon icon="ok-circle" />
           동아리 개설 관리
-        </h1>
+      </h1>
       )}
-    >
-      <DimiCard />
-    </ContentWrapper>
-  );
-};
+  >
+    <DimiCard />
+  </ContentWrapper>
+);
 
 export default CircleManage;

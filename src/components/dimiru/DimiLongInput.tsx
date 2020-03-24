@@ -21,6 +21,7 @@ const TextArea = styled.textarea<TextAreaProps>`
   font-family: 'NanumSquareRound', sans-serif;
   font-size: inherit;
   transition: all 0.2s ease-in-out;
+  resize: vertical;
 
   &:focus {
     box-shadow: inset 1px 1px 16px ${variables.shadow},

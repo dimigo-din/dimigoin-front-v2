@@ -35,7 +35,8 @@ const QuestionCardWrap = styled.div`
 
 const QuestionCard = css`
   margin-bottom: 1rem;
-  &: last-child {
+
+  &:last-child {
     margin-bottom: 0;
   }
 `;
