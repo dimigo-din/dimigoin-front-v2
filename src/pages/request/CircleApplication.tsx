@@ -45,8 +45,8 @@ interface ICircleLogo {
 }
 
 const CircleLogo = styled.div<ICircleLogo>`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   background-image: url(${({ imageKey }) => `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
   background-size: cover;
@@ -65,21 +65,21 @@ const CircleFeatureWrap = styled.div`
 
 const CircleTitle = styled.span`
   color: ${variables.black};
-  font-size: 26px;
+  font-size: 24px;
   font-weight: ${variables.fontWeightBold};
   margin-bottom: 1rem;
 `;
 
 const CircleFeatureTitle = styled.span`
   color: ${variables.grayDark};
-  font-size: 22px;
+  font-size: 20px;
   font-weight: ${variables.fontWeightRegular};
   margin-right: 0.3rem;
 `;
 
 const CircleFeatureInfo = styled.span`
   color: ${variables.gray};
-  font-size: 22px;
+  font-size: 20px;
   font-weight: ${variables.fontWeightRegular};
   margin-right: 1rem;
 `;
