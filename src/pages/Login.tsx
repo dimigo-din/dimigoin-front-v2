@@ -55,8 +55,10 @@ export default () => {
   const handleLogin = async () => {
     await setActive(false);
     try {
-      const request = await api.post('/auth', { ...info });
-      await auth.setToken(request.data.accessToken);
+      const {
+        data: { accessToken },
+      } = await api.post('/auth', { ...info });
+      await auth.setToken(accessToken);
       const { data: userInfo } = await api.get('/user/me');
       await auth.setUserInfo(userInfo.identity);
       await history.push('/');
