@@ -14,10 +14,9 @@ export default ({
   click?: (event: {value: number;
     items: string[];
     setPrevent: () => void;
-    done(): void;}) => Promise<void>;
+    done(): void;}) => void;
   input?: (index: number) => void;
 }) => {
-  console.log(click);
   const onclick = (index: number) => {
     let prevent = false;
     const event = {
