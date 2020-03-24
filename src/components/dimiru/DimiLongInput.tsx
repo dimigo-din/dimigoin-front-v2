@@ -6,7 +6,7 @@ import variables from "../../scss/_variables.scss";
 
 interface DimiLongInputProps {
   value?: string;
-  onChange?: () => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
   maxLength?: number;
   height?: number;
