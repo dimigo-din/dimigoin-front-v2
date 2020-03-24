@@ -136,9 +136,9 @@ const ServiceCards = () => {
         }, index) => (
           <Link key={`service-${title}`} to={url} css={ServiceLink}>
             <ServiceCard
-              cardRef={(el: HTMLDivElement | null) => {
-                cardsRef.current[index] = el;
-                return el;
+              cardRef={(element: HTMLDivElement | null) => {
+                cardsRef.current[index] = element;
+                return element;
               }}
             >
               <Icon icon={icon} />
