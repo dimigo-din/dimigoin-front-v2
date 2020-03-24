@@ -7,6 +7,7 @@ import NaiveContainer from '../components/grids/NaiveContainer';
 import DimiCard from '../components/dimiru/DimiCard';
 import DimiIcon from '../components/dimiru/DimiIcon';
 import { ReactComponent as BrandImage } from '../assets/brand.svg';
+import ServiceCards from '../components/ServiceCards';
 
 const photoCDN = `${process.env.DIMIGO_API_URL}/user_photo`;
 
@@ -58,20 +59,25 @@ const MainPage = () => {
               </ButtonList>
             </ProfileCard>
           </ProfileSection>
-          <InfoSection>
+          <Section>
             <InfoCard>
               <InfoNotice>
                 학년별 밴드에 교과별 온라인 학습이 공지되었습니다. 반드시 확인하세요.
               </InfoNotice>
             </InfoCard>
-          </InfoSection>
+          </Section>
         </Column>
         <Column>
-          <MealSection>
+          <Section>
             <MealCard />
-          </MealSection>
+          </Section>
         </Column>
       </InfoContainer>
+      <Column>
+        <Section>
+          <ServiceCards />
+        </Section>
+      </Column>
     </Container>
   );
 };
@@ -178,8 +184,9 @@ const Button = styled(DimiIcon)`
   }
 `;
 
-const InfoSection = styled.section`
+const Section = styled.section`
   flex: 1;
+  display: flex;
 
   @media (max-width: ${variables.tablet}) {
     display: block;
@@ -200,14 +207,7 @@ const InfoNotice = styled.p`
   word-wrap: break-word;
 `;
 
-const MealSection = styled.section`
-  flex: 1;
-
-  @media (max-width: ${variables.tablet}) {
-    display: block;
-  }
-`;
-
 const MealCard = styled(DimiCard)`
   min-height: 15rem;
+  flex: 1;
 `;

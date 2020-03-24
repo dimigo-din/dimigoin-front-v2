@@ -40,11 +40,11 @@ export default DimiIcon;
 
 const Wrapper = styled.div`
   display: inline-flex;
-  width: 1rem;
-  height: 1rem;
+  width: 1em;
+  height: 1em;
   align-items: center;
   justify-content: center;
-  padding: 1.45rem;
+  padding: .5em;
   border: 0;
   border-radius: 100%;
   box-shadow: -5px -5px 20px ${variables.white},
