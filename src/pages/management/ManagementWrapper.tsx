@@ -7,8 +7,12 @@ import DimiMenuItem, { MenuItem } from '../../components/dimiru/DimiMenuItem';
 
 const menuItemList: MenuItem[] = [
   {
-    route: '/manage/circle/application',
-    name: '동아리 개설 신청',
+    route: '/management/circle',
+    name: '동아리 개설 관리',
+  },
+  {
+    route: '/management/circle/application',
+    name: '동아리 가입 관리',
   },
 ];
 
