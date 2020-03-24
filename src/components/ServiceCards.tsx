@@ -101,7 +101,6 @@ const Description = styled.p`
   }
 `;
 
-
 const ServiceCards = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [services, setServices] = useState<Service[]>(temporaryServices);
