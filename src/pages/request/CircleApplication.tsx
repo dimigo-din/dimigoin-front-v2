@@ -206,7 +206,7 @@ const CircleApplication = () => {
                 }}
                 height={300}
                 maxLength={maxLength}
-                placeholder="최대 글자수는 200자예요."
+                placeholder={`최대 글자수는 ${maxLength}자예요.`}
               />
             </DimiCard>
           ))}
