@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import Modal from 'react-responsive-modal';
+import { filter } from 'lodash';
 
 import variables from '../../scss/_variables.scss';
 
@@ -27,7 +28,10 @@ const CircleInformation = () => {
   ] = useState<ICircle | null>();
 
   useEffect(() => {
-    api.get('/circle').then(({ data: { circles } }) => setCircles(circles));
+    api.get('/circle').then(({ data: { circles } }) => {
+      const NotAppliedCircles = filter(circles, { applied: false });
+      setCircles(NotAppliedCircles);
+    });
     api
       .get('/circle/application')
       .then(({ data: { applications } }) => setApplications(applications));
@@ -54,6 +58,7 @@ const CircleInformation = () => {
           <CardContainer>
             {applications.map((application) => (
               <CircleCard
+                key={application.circle._id}
                 onClick={() => {
                   setSelectedCircle(application.circle._id);
                   setOpen(true);
@@ -67,10 +72,13 @@ const CircleInformation = () => {
           </CardContainer>
         </>
       )}
-      <SectionHeader>전체 동아리</SectionHeader>
+      <SectionHeader>
+        {applications.length > 0 ? '신청하지 않은 동아리' : '전체 동아리'}
+      </SectionHeader>
       <CardContainer>
         {circles.map((circle) => (
           <CircleCard
+            key={circle._id}
             onClick={() => {
               setSelectedCircle(circle._id);
               setOpen(true);
