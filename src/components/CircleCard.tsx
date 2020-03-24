@@ -20,7 +20,6 @@ const CircleCard = (props: ICircleCard) => {
       <CircleInfoWrap>
         <CircleTitle>{props.name}</CircleTitle>
         <CircleFeatureWrap>
-          <CircleFeatureTitle>분류</CircleFeatureTitle>
           <CircleFeatureInfo>{props.category}</CircleFeatureInfo>
         </CircleFeatureWrap>
       </CircleInfoWrap>
@@ -67,13 +66,6 @@ const CircleTitle = styled.span`
   font-size: 16px;
   font-weight: ${variables.fontWeightBold};
   margin-bottom: 1rem;
-`;
-
-const CircleFeatureTitle = styled.span`
-  color: ${variables.grayDark};
-  font-size: 16px;
-  font-weight: ${variables.fontWeightRegular};
-  margin-right: 0.5rem;
 `;
 
 const CircleFeatureInfo = styled.span`
