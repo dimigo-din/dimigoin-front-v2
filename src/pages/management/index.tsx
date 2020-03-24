@@ -1,4 +1,5 @@
 import loadable from '@loadable/component';
 
 export const Circle = loadable(() => import('./Circle'));
-export const dummyForEslint = 10;
+export const CircleCreation = loadable(() => import('./CircleCreation'));
+export const CircleManage = loadable(() => import('./CircleManage'));
