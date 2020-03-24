@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 
+import { useHistory } from 'react-router-dom';
 import variables from '../scss/_variables.scss';
 
 import NaiveContainer from '../components/grids/NaiveContainer';
@@ -8,7 +9,6 @@ import DimiCard from '../components/dimiru/DimiCard';
 import DimiIcon from '../components/dimiru/DimiIcon';
 import { ReactComponent as BrandImage } from '../assets/brand.svg';
 import ServiceCards from '../components/ServiceCards';
-import { useHistory } from 'react-router-dom';
 import auth, { IUser } from '../utils/auth';
 
 const photoCDN = `${process.env.REACT_APP_DIMIGO_API_URL}/user_photo`;
@@ -50,9 +50,9 @@ const MainPage = () => {
                   icon="setting"
                   title="설정"
                   pointer
-                  onClick={() =>
-                    (window.location.href = `https://student.dimigo.hs.kr/user/profile`)
-                  }
+                  onClick={() => {
+                    window.location.href = 'https://student.dimigo.hs.kr/user/profile';
+                  }}
                 />
                 <Button
                   icon="logout"

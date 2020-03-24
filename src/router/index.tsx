@@ -1,6 +1,6 @@
 import * as React from 'react';
-import PrivateRoute from '../components/PrivateRoute'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import PrivateRoute from '../components/PrivateRoute';
 import {
   Main, Draft, Meal, ExplorerFound, NotFound,
 } from '../pages';

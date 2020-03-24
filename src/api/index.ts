@@ -19,7 +19,7 @@ const api = createAPI();
 api.interceptors.response.use(
   (response: AxiosResponse<any>) => response,
   // eslint-disable-next-line consistent-return
-  async error => {
+  async (error) => {
     const {
       response: { status },
     } = error;

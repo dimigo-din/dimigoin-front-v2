@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PrivateRoute from '../components/PrivateRoute'
+import PrivateRoute from '../components/PrivateRoute';
 
 import { Circle, CircleApplication } from '../pages/request';
 import RequestWrapper from '../pages/request/RequestWrapper';

@@ -86,7 +86,7 @@ const DimiButton: React.FC<DimiButtonProps> = ({
     <a
       href={href}
       css={buttonStyle}
-      onClick={e => active && click && click(e)}
+      onClick={(e) => active && click && click(e)}
       {...props}
     >
       {children}

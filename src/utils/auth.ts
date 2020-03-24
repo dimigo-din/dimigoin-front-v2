@@ -29,7 +29,6 @@ export interface IUser {
 }
 
 
-
 const auth: IAuth = {
   clear(key) {
     if (localStorage && localStorage.getItem(key)) {

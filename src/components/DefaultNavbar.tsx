@@ -9,7 +9,6 @@ import { ReactComponent as BrandImage } from '../assets/brand.svg';
 import auth from '../utils/auth';
 
 const DefaultNavbar: React.FC<RouteComponentProps> = ({ history }) => {
-
   const onClickLogout = () => {
     history.push('/auth/login');
   };

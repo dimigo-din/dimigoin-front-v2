@@ -19,19 +19,18 @@ type TStyleByDeviceWidth = {
   [key in 'tablet' | 'desktop']: SerializedStyles;
 };
 
-const until = (device: 'tablet' | 'desktop', style: string) =>
-  (({
-    tablet: css`
+const until = (device: 'tablet' | 'desktop', style: string) => (({
+  tablet: css`
       @media only screen and (max-width: 769px) {
         ${style}
       }
     `,
-    desktop: css`
+  desktop: css`
       @media only screen and (max-width: 769px) {
         ${style}
       }
     `,
-  } as TStyleByDeviceWidth)[device]);
+} as TStyleByDeviceWidth)[device]);
 
 const ContentMT = css`
   margin-top: 7em;
@@ -41,107 +40,6 @@ const ContentMT = css`
 const LoginInput = css`
   margin-bottom: 1rem;
 `;
-
-export default () => {
-  const history = useHistory();
-
-  const [info, setInfo] = useState({ username: '', password: '' });
-  const [active, setActive] = useState<boolean>(true);
-
-  useEffect(() => {
-    localStorage.clear();
-  }, []);
-
-  const handleLogin = async () => {
-    await setActive(false);
-    try {
-      const {
-        data: { accessToken },
-      } = await api.post('/auth', { ...info });
-      await auth.setToken(accessToken);
-      const { data: userInfo } = await api.get('/user/me');
-      await auth.setUserInfo(userInfo.identity);
-      await history.push('/');
-    } catch ({
-      response: {
-        data: { message },
-      },
-    }) {
-      await setActive(true);
-      await SweetAlert.error(message);
-    }
-  };
-
-  return (
-    <Container
-      css={css`
-        padding: 0 0.5rem;
-        margin-right: auto;
-        margin-left: auto;
-      `}
-    >
-      <CLogin>
-        <Section className="section">
-          <SectionTitle className="section__title">로그인</SectionTitle>
-          <Content css={ContentMT}>
-            <Form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleLogin();
-              }}
-            >
-              <DimiInput
-                css={LoginInput}
-                placeholder="아이디"
-                type="text"
-                value={info.username}
-                onChange={(e) => {
-                  e.persist();
-                  setInfo((prevState) => ({
-                    ...prevState,
-                    username: e.target.value,
-                  }));
-                }}
-              />
-              <DimiInput
-                css={LoginInput}
-                placeholder="비밀번호"
-                type="password"
-                value={info.password}
-                onChange={(e) => {
-                  e.persist();
-                  setInfo((prevState) => ({
-                    ...prevState,
-                    password: e.target.value,
-                  }));
-                }}
-              />
-              <DimiButton
-                css={SubmitButton}
-                active={active}
-                click={handleLogin}
-              >
-                LOGIN
-              </DimiButton>
-            </Form>
-            <RegisterDescription>
-              또는{'  '}
-              <RegisterLink to="/">회원가입</RegisterLink>
-            </RegisterDescription>
-          </Content>
-        </Section>
-        <DimiDivider vertical />
-        <Section className="section">
-          <SectionTitle>
-            {false ? '내일의 급식' : '오늘의 급식'}
-            {/* 여기는 추후에 mealgroup api로 대체해주세요 */}
-          </SectionTitle>
-          <Content>{/* <MealGroup /> */}</Content>
-        </Section>
-      </CLogin>
-    </Container>
-  );
-};
 
 const Container = styled.div`
   display: flex;
@@ -234,3 +132,105 @@ const Content = styled.div`
   justify-content: center;
   margin-top: 3em;
 `;
+
+export default () => {
+  const history = useHistory();
+
+  const [info, setInfo] = useState({ username: '', password: '' });
+  const [active, setActive] = useState<boolean>(true);
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
+  const handleLogin = async () => {
+    await setActive(false);
+    try {
+      const {
+        data: { accessToken },
+      } = await api.post('/auth', { ...info });
+      await auth.setToken(accessToken);
+      const { data: userInfo } = await api.get('/user/me');
+      await auth.setUserInfo(userInfo.identity);
+      await history.push('/');
+    } catch ({
+      response: {
+        data: { message },
+      },
+    }) {
+      await setActive(true);
+      await SweetAlert.error(message);
+    }
+  };
+
+  return (
+    <Container
+      css={css`
+        padding: 0 0.5rem;
+        margin-right: auto;
+        margin-left: auto;
+      `}
+    >
+      <CLogin>
+        <Section className="section">
+          <SectionTitle className="section__title">로그인</SectionTitle>
+          <Content css={ContentMT}>
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleLogin();
+              }}
+            >
+              <DimiInput
+                css={LoginInput}
+                placeholder="아이디"
+                type="text"
+                value={info.username}
+                onChange={(e) => {
+                  e.persist();
+                  setInfo((prevState) => ({
+                    ...prevState,
+                    username: e.target.value,
+                  }));
+                }}
+              />
+              <DimiInput
+                css={LoginInput}
+                placeholder="비밀번호"
+                type="password"
+                value={info.password}
+                onChange={(e) => {
+                  e.persist();
+                  setInfo((prevState) => ({
+                    ...prevState,
+                    password: e.target.value,
+                  }));
+                }}
+              />
+              <DimiButton
+                css={SubmitButton}
+                active={active}
+                click={handleLogin}
+              >
+                LOGIN
+              </DimiButton>
+            </Form>
+            <RegisterDescription>
+              또는
+              {'  '}
+              <RegisterLink to="/">회원가입</RegisterLink>
+            </RegisterDescription>
+          </Content>
+        </Section>
+        <DimiDivider vertical />
+        <Section className="section">
+          <SectionTitle>
+            {false ? '내일의 급식' : '오늘의 급식'}
+            {/* 여기는 추후에 mealgroup api로 대체해주세요 */}
+          </SectionTitle>
+          <Content>{/* <MealGroup /> */}</Content>
+        </Section>
+      </CLogin>
+    </Container>
+  );
+};
