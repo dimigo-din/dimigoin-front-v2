@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import PrivateRoute from '../components/PrivateRoute';
 import {
   Main, Draft, Meal, ExplorerFound, NotFound,
 } from '../pages';
@@ -11,12 +12,12 @@ import Request from './Request';
 const Router: React.FC = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path="/" component={Main} />
-      <Route exact path="/draft" component={Draft} />
-      <Route exact path="/meal" component={Meal} />
+      <PrivateRoute exact path="/" component={Main} />
+      <PrivateRoute exact path="/draft" component={Draft} />
+      <PrivateRoute exact path="/meal" component={Meal} />
       <Route exact path="/ienope" component={ExplorerFound} />
       <Route path="/auth" component={Auth} />
-      <Route path="/management" component={Management} />
+      <PrivateRoute path="/management" component={Management} />
       <Route path="/request" component={Request} />
       <Route component={NotFound} />
     </Switch>

@@ -41,6 +41,7 @@ module.exports = {
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     ],
     'react/prop-types': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'no-underscore-dangle': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
   },
