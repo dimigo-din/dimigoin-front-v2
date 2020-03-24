@@ -16,6 +16,9 @@ const Circle = () => {
   const history = useHistory();
   const [open, setOpen] = useState<boolean>(false);
   const [circles, setCircles] = useState<Array<ICircle>>([]);
+  const [applications, setApplications] = useState<Array<{ circle: ICircle }>>(
+    [],
+  );
 
   const [selectedCircle, setSelectedCircle] = useState<string>('');
   const [
@@ -25,6 +28,9 @@ const Circle = () => {
 
   useEffect(() => {
     api.get('/circle').then(({ data: { circles } }) => setCircles(circles));
+    api
+      .get('/circle/application')
+      .then(({ data: { applications } }) => setApplications(applications));
   }, []);
 
   useEffect(() => {
@@ -41,21 +47,25 @@ const Circle = () => {
 
   return (
     <>
-      {/*<Link*/}
-      {/*  to={{*/}
-      {/*    pathname: '/request/circle/application',*/}
-      {/*    state: { circleId: '5e79c1e62f54140f4fa37bcb' },*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  dd*/}
-      {/*</Link>*/}
       <Header>동아리 가입 신청</Header>
-      {/*<SectionHeader>신청한 동아리</SectionHeader>*/}
-      {/*<CardContainer>*/}
-      {/*  <CircleCard />*/}
-      {/*  <CircleCard />*/}
-      {/*  <CircleCard />*/}
-      {/*</CardContainer>*/}
+      {applications.length > 0 && (
+        <>
+          <SectionHeader>신청한 동아리</SectionHeader>
+          <CardContainer>
+            {applications.map((application) => (
+              <CircleCard
+                onClick={() => {
+                  setSelectedCircle(application.circle._id);
+                  setOpen(true);
+                }}
+                imageKey={application.circle.imageKey}
+                name={application.circle.name}
+                category={application.circle.category}
+              />
+            ))}
+          </CardContainer>
+        </>
+      )}
       <SectionHeader>전체 동아리</SectionHeader>
       <CardContainer>
         {circles.map((circle) => (
