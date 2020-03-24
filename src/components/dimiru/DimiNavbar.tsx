@@ -9,27 +9,25 @@ type DimiNavbarProps = {
   end?: React.ReactNode;
 };
 
-const DimiNavbar: React.FC<DimiNavbarProps> = ({ brand, start, end }) => {
-  return (
-    <Navbar>
-      <Container>
-        <Wrapper>
-          <Brand>
-            {brand}
-          </Brand>
-          <Menu>
-            <NavbarStart>
-              {start}
-            </NavbarStart>
-            <NavbarEnd>
-              {end}
-            </NavbarEnd>
-          </Menu>
-        </Wrapper>
-      </Container>
-    </Navbar>
-  );
-};
+const DimiNavbar: React.FC<DimiNavbarProps> = ({ brand, start, end }) => (
+  <Navbar>
+    <Container>
+      <Wrapper>
+        <Brand>
+          {brand}
+        </Brand>
+        <Menu>
+          <NavbarStart>
+            {start}
+          </NavbarStart>
+          <NavbarEnd>
+            {end}
+          </NavbarEnd>
+        </Menu>
+      </Wrapper>
+    </Container>
+  </Navbar>
+);
 
 export default DimiNavbar;
 
