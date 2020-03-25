@@ -68,6 +68,15 @@ const MainPage = () => {
               <InfoNotice>
                 학년별 밴드에 교과별 온라인 학습이 공지되었습니다. 반드시
                 확인하세요.
+                <br />
+                신입생 학생들은 아래 게시글을 확인해 주세요.
+                <br />
+                <a
+                  href="https://cafe.naver.com/dimigofreshman/4694"
+                  target="_blank"
+                >
+                  https://cafe.naver.com/dimigofreshman/4694
+                </a>
               </InfoNotice>
             </InfoCard>
           </Section>

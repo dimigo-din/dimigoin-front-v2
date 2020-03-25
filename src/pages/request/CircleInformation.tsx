@@ -4,10 +4,10 @@ import { Link, useHistory } from 'react-router-dom';
 import Modal from 'react-responsive-modal';
 import { filter } from 'lodash';
 
+import styled from '@emotion/styled';
 import variables from '../../scss/_variables.scss';
 
 import CircleCard from '../../components/CircleCard';
-import styled from '@emotion/styled';
 import api from '../../api';
 import { ICircle } from '../../interface/circle';
 import DimiLoading from '../../components/dimiru/DimiLoading';
@@ -104,7 +104,7 @@ const CircleInformation = () => {
         }}
         showCloseIcon={false}
         focusTrapped={false}
-        center={true}
+        center
         styles={{
           modal: {
             fontFamily:
@@ -154,11 +154,9 @@ const CircleInformation = () => {
             <ButtonWrap>
               <DimiButton
                 large
-                click={() =>
-                  history.push('/request/circle/application', {
-                    circleId: selectedCircle,
-                  })
-                }
+                click={() => history.push('/request/circle/application', {
+                  circleId: selectedCircle,
+                })}
               >
                 지원하기
               </DimiButton>
@@ -212,8 +210,7 @@ const CircleLogo = styled.div<ICircleLogo>`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-image: url(${({ imageKey }) =>
-    `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
+  background-image: url(${({ imageKey }) => `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
   background-size: cover;
   background-position: center center;
   margin-bottom: 1em;
