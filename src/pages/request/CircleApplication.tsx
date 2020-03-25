@@ -144,10 +144,6 @@ const CircleApplication = () => {
     }
   }, 300);
 
-  useEffect(() => {
-    console.log(answers);
-  }, [answers]);
-
   const applyFrom = async () => {
     try {
       await setActive(false);
