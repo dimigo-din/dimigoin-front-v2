@@ -247,6 +247,7 @@ const CircleFeatureInfo = styled.span`
 
 const CircleDescription = styled.span`
   display: block;
+  white-space: pre-wrap;
   color: ${variables.black};
   line-height: 1.5;
   margin-bottom: 2em;
