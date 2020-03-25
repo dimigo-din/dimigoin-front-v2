@@ -10,7 +10,7 @@ export class CircleManagerService extends ServiceBase {
   async getCircleApplicant() {
     const {
       data: { applications },
-    } = await this.magician(() => this.r.get('/application/'), {
+    } = await this.magician(() => this.r.get('/selection/applier/'), {
       403: '권한이 없습니다.',
       404: () => [],
     });
@@ -18,11 +18,17 @@ export class CircleManagerService extends ServiceBase {
   }
 
   async setApplierStatus(applyIdx, status) {
-    await this.magician(() => this.r.post(`/status/${applyIdx}`, { status }), {
-      403: '권한이 없습니다.',
-      404: '존재하지 않습니다.',
-      409: '이미 다른 동아리에 최종 결정을 한 지원자입니다.',
-    });
+    const {
+      data: { application },
+    } = await this.magician(
+      () => this.r.patch(`/selection/applier/${applyIdx}`, { status }),
+      {
+        403: '권한이 없습니다.',
+        404: '존재하지 않습니다.',
+        409: '이미 다른 동아리에 최종 결정을 한 지원자입니다.',
+      },
+    );
+    return application;
   }
 }
 

@@ -20,9 +20,6 @@ client.interceptors.response.use(
   },
 );
 
-// const requestInterceptor = null;
-// const responseInterceptor = null;
-
 export function createClient(
   endpoint = '',
   config = {
@@ -40,6 +37,11 @@ export function createClient(
         }),
       put: (url, data, options = {}) =>
         client.put(endpoint + url, data, {
+          ...config.defaultOptions,
+          ...options,
+        }),
+      patch: (url, data, options = {}) =>
+        client.patch(endpoint + url, data, {
           ...config.defaultOptions,
           ...options,
         }),
