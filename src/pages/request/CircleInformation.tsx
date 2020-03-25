@@ -13,13 +13,15 @@ import { ICircle } from '../../interface/circle';
 import DimiLoading from '../../components/dimiru/DimiLoading';
 import DimiButton from '../../components/dimiru/DimiButton';
 
+import AutoLinker from '../../utils/autolinker';
+
 const CircleInformation = () => {
   const history = useHistory();
   const [open, setOpen] = useState<boolean>(false);
   const [circles, setCircles] = useState<Array<ICircle>>([]);
-  const [applications, setApplications] = useState<Array<{ circle: ICircle, status: string }>>(
-    [],
-  );
+  const [applications, setApplications] = useState<
+    Array<{ circle: ICircle; status: string }>
+  >([]);
 
   const [selectedCircle, setSelectedCircle] = useState<string>('');
   const [
@@ -135,9 +137,11 @@ const CircleInformation = () => {
                 </CircleFeatureWrap>
               </CircleInfoWrap>
             </InfoContainer>
-            <CircleDescription>
-              {selectedCircleInfo.description}
-            </CircleDescription>
+            <CircleDescription
+              dangerouslySetInnerHTML={{
+                __html: AutoLinker.url(selectedCircleInfo.description),
+              }}
+            />
             <YoutubeIframe
               src={`https://www.youtube.com/embed/${selectedCircleInfo.videoLink}`}
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
