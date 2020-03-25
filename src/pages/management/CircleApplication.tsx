@@ -46,9 +46,11 @@ const Empty = css`
 
 const CircleApplication: React.FC = () => {
   const [list, setList] = useState<Application[]>([]);
+  const [first, setFirst] = useState<boolean>(true);
   useEffect(() => {
-    if (list.length) return;
+    if (!first) return;
     circleManager.getCircleApplicant().then((applications) => setList(applications)).catch((err) => swal.fire('이런!', err.message, 'error'));
+    setFirst(false);
   });
 
   const updateStatus = async ({ setPrevent, ...event }: {value: number;
