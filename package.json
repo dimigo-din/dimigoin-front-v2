@@ -29,6 +29,7 @@
     "@storybook/react": "^5.3.17",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^10.0.1",
+    "autolinker": "^3.13.0",
     "axios": "^0.19.2",
     "babel-loader": "8.0.6",
     "customize-cra": "^0.9.1",
