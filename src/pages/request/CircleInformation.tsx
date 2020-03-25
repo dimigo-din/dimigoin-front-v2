@@ -23,7 +23,7 @@ const CircleInformation = () => {
     Array<{ circle: ICircle; status: string }>
   >([]);
 
-  const [selectedCircle, setSelectedCircle] = useState<string>('');
+  const [selectedCircle, setSelectedCircle] = useState<string | null>('');
   const [
     selectedCircleInfo,
     setSelectedCircleInfo,
@@ -40,14 +40,19 @@ const CircleInformation = () => {
   }, []);
 
   useEffect(() => {
-    api
-      .get(`/circle/id/${selectedCircle}`)
-      .then(({ data: { circle } }) => setSelectedCircleInfo(circle));
+    if (selectedCircle) {
+      api
+        .get(`/circle/id/${selectedCircle}`)
+        .then(({ data: { circle } }) => setSelectedCircleInfo(circle));
+    }
   }, [selectedCircle]);
 
   useEffect(() => {
     if (!open) {
-      setTimeout(() => setSelectedCircleInfo(null), 300);
+      setTimeout(() => {
+        setSelectedCircle(null);
+        setSelectedCircleInfo(null);
+      }, 300);
     }
   }, [open]);
 
