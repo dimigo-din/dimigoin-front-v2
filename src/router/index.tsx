@@ -12,7 +12,7 @@ import Request from './Request';
 const Router: React.FC = () => (
   <BrowserRouter>
     <Switch>
-      <PrivateRoute exact path="/" component={Main} />
+      <PrivateRoute exact path="/" component={Main}/>
       <PrivateRoute exact path="/draft" component={Draft} />
       <PrivateRoute exact path="/meal" component={Meal} />
       <Route exact path="/ienope" component={ExplorerFound} />

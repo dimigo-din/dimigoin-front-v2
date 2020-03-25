@@ -9,16 +9,18 @@ interface IProps extends RouteProps {
 const PrivateRoute = ({ component: Component, ...rest }: IProps) => (
   <Route
     {...rest}
-    render={(props) => (auth.getToken() ? (
-      <Component {...props} />
-    ) : (
-      <Redirect
-        to={{
-          pathname: '/auth/login',
-          state: { from: props.location },
-        }}
-      />
-    ))}
+    render={(props) =>
+      auth.getToken() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/auth/login',
+            state: { from: props.location },
+          }}
+        />
+      )
+    }
   />
 );
 
