@@ -15,11 +15,9 @@ export const Circle = (applicant) => ({
 });
 
 export const CircleApplicant = (applicant) => ({
-  idx: applicant.idx,
-  name: applicant.name,
-  serial: applicant.serial,
-  circleIdx: applicant.circle_idx,
-  userIdx: applicant.user_idx,
-  introduce: applicant.introduce,
   status: applicant.status,
+  _id: applicant._id,
+  circle: applicant.circle,
+  form: applicant.form,
+  applier: applicant.applier,
 });
