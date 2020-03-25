@@ -9,7 +9,8 @@ import variables from '../../scss/_variables.scss';
 import ContentWrapper from '../../components/ContentWrapper';
 import DimiCard from '../../components/dimiru/DimiCard';
 import DimiBadgeGroup from '../../components/dimiru/DimiButtonGroup';
-// import axios from '../../api';
+import auth from '../../utils/auth';
+
 type status = |'applied'| 'document-fail'| 'document-pass'| 'interview-fail'| 'interview-pass'| 'final';
 interface Application {
   status: status;
@@ -47,9 +48,10 @@ const Empty = css`
 const CircleApplication: React.FC = () => {
   const [list, setList] = useState<Application[]>([]);
   const [first, setFirst] = useState<boolean>(true);
+  const isTeacher = auth.getUserInfo().userType === 'T';
   useEffect(() => {
     if (!first) return;
-    circleManager.getCircleApplicant().then((applications) => setList(applications)).catch((err) => swal.fire('이런!', err.message, 'error'));
+    circleManager.getCircleApplicant(isTeacher).then((applications) => setList(applications)).catch((err) => swal.fire('이런!', err.message, 'error'));
     setFirst(false);
   });
 
@@ -60,6 +62,7 @@ const CircleApplication: React.FC = () => {
     application: Application,
     selectedStatus: status|string,
     selectedMessage: string) => {
+    if (!selectedStatus) return;
     const ask = (type: string) => swal.fire({
       title: '경고',
       text: `정말 ${application.applier.name} 지원자를 ${type}처리 하실건가요? 이 작업은 되돌릴 수 없습니다.`,
@@ -109,17 +112,43 @@ const CircleApplication: React.FC = () => {
             )}
             {
           list.map((item) => {
-            const [items, statuses] = item.status === handleCircle.APPLIED
-              ? [['서류합격', '불합격'], [handleCircle.DOCUMENT_PASS, handleCircle.DOCUMENT_FAIL]]
-              : item.status === handleCircle.DOCUMENT_PASS
-                ? [['면접합격', '불합격'], [handleCircle.INTERVIEW_PASS, handleCircle.INTERVIEW_FAIL]]
-                : item.status === handleCircle.DOCUMENT_FAIL
-                  ? [['서류탈락']]
-                  : item.status === handleCircle.INTERVIEW_FAIL
-                    ? [['면접탈락']]
-                    : item.status === handleCircle.INTERVIEW_PASS
-                      ? [['면접합격']]
-                      : item.status === handleCircle.FINAL ? [['최종선택']] : [['알수없음']];
+            const [items, statuses] = (() => {
+              if (isTeacher) {
+                switch (item.status) {
+                  case handleCircle.APPLIED:
+                    return [['제출']];
+                  case handleCircle.DOCUMENT_FAIL:
+                    return [['서류탈락']];
+                  case handleCircle.DOCUMENT_PASS:
+                    return [['서류합격']];
+                  case handleCircle.INTERVIEW_FAIL:
+                    return [['면접탈락']];
+                  case handleCircle.INTERVIEW_PASS:
+                    return [['면접합격']];
+                  case handleCircle.FINAL:
+                    return [['최종선택']];
+                  default:
+                    return [['알수없음']];
+                }
+              }
+              switch (item.status) {
+                case handleCircle.APPLIED:
+                  return [['서류합격', '불합격'], [handleCircle.DOCUMENT_PASS, handleCircle.DOCUMENT_FAIL]];
+                case handleCircle.DOCUMENT_PASS:
+                  return [['면접합격', '불합격'], [handleCircle.INTERVIEW_PASS, handleCircle.INTERVIEW_FAIL]];
+                case handleCircle.DOCUMENT_FAIL:
+                  return [['서류탈락']];
+                case handleCircle.INTERVIEW_FAIL:
+                  return [['면접탈락']];
+                case handleCircle.INTERVIEW_PASS:
+                  return [['면접합격']];
+                case handleCircle.FINAL:
+                  return [['최종선택']];
+                default:
+                  return [['알수없음']];
+              }
+            })();
+
             return (
               <Row key={item._id}>
                 <Cell>
