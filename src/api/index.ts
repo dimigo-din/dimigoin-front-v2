@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import auth from '../utils/auth';
 
 const createAPI = (): AxiosInstance => {
-  const accessToken = auth.getToken()
+  const accessToken = auth.getToken();
 
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_SERVER,
