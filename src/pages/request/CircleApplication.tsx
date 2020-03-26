@@ -51,7 +51,8 @@ const CircleLogo = styled.div<ICircleLogo>`
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-image: url(${({ imageKey }) => `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
+  background-image: url(${({ imageKey }) =>
+    `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
   background-size: cover;
   background-position: center center;
   margin-right: 40px;
@@ -199,8 +200,8 @@ const CircleApplication = () => {
         )}
       </DimiCard>
       <QuestionCardWrap>
-        {loading
-          && questions.map(({ _id, question, maxLength }: any) => (
+        {loading &&
+          questions.map(({ _id, question, maxLength }: any) => (
             <DimiCard key={_id} css={QuestionCard}>
               <FormTitle>{question}</FormTitle>
               <DimiLongInput

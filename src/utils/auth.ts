@@ -50,7 +50,7 @@ const auth: IAuth = {
   },
 
   setToken(token) {
-    return localStorage.setItem('accessToken2', token);
+    return localStorage.setItem('accessToken', token);
   },
 
   setUserInfo(userInfo) {
@@ -58,7 +58,7 @@ const auth: IAuth = {
   },
 
   getToken() {
-    return localStorage.getItem('accessToken2');
+    return localStorage.getItem('accessToken');
   },
 
   getUserInfo() {

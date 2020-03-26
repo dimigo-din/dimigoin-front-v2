@@ -1,26 +1,27 @@
 import Autolinker from 'autolinker';
 
 export default {
-  url: (text: string) => new Autolinker({
-    urls: {
-      schemeMatches: true,
-      wwwMatches: true,
-      tldMatches: true,
-    },
-    email: true,
-    phone: false,
-    mention: false,
-    hashtag: false,
+  url: (text: string) =>
+    new Autolinker({
+      urls: {
+        schemeMatches: true,
+        wwwMatches: true,
+        tldMatches: true,
+      },
+      email: true,
+      phone: false,
+      mention: false,
+      hashtag: false,
 
-    stripPrefix: true,
-    stripTrailingSlash: true,
-    newWindow: true,
+      stripPrefix: true,
+      stripTrailingSlash: true,
+      newWindow: true,
 
-    truncate: {
-      length: 0,
-      location: 'end',
-    },
+      truncate: {
+        length: 0,
+        location: 'end',
+      },
 
-    className: '',
-  }).link(text),
+      className: '',
+    }).link(text),
 };

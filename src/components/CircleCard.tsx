@@ -25,12 +25,11 @@ const CircleCard = (props: ICircleCard) => {
           <CircleFeatureInfo>{props.category}</CircleFeatureInfo>
         </CircleFeatureWrap>
       </CircleInfoWrap>
-      {status
-        && (
+      {status &&
         <StatusBadge
           src={`/static/badges/${status.toUpperCase()}.svg`}
         />
-        )}
+      }
     </DimiCard>
   );
 };
@@ -52,7 +51,8 @@ const CircleLogo = styled.div<ICircleLogo>`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-image: url(${({ imageKey }) => `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
+  background-image: url(${({ imageKey }) =>
+    `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
   background-size: cover;
   background-position: center center;
   margin-right: 20px;
