@@ -51,7 +51,9 @@ const CircleApplication: React.FC = () => {
   const isTeacher = auth.getUserInfo().userType === 'T';
   useEffect(() => {
     if (!first) return;
-    circleManager.getCircleApplicant(isTeacher).then((applications) => setList(applications)).catch((err) => swal.fire('이런!', err.message, 'error'));
+    circleManager.getCircleApplicant(isTeacher)
+      .then((applications) => setList(applications))
+      .catch((err) => swal.fire('이런!', err.message, 'error'));
     setFirst(false);
   });
 
@@ -62,7 +64,6 @@ const CircleApplication: React.FC = () => {
     application: Application,
     selectedStatus: status|string,
     selectedMessage: string) => {
-    if (!selectedStatus) return;
     const ask = (type: string) => swal.fire({
       title: '경고',
       text: `정말 ${application.applier.name} 지원자를 ${type}처리 하실건가요? 이 작업은 되돌릴 수 없습니다.`,
