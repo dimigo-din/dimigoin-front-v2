@@ -15,7 +15,10 @@ type status = |'applied'| 'document-fail'| 'document-pass'| 'interview-fail'| 'i
 interface Application {
   status: status;
   _id: string;
-  circle: string;
+  circle: {
+    _id: string;
+    name: string;
+  };
   form: {
     [key: string]: string;
   };
@@ -45,6 +48,12 @@ const Empty = css`
     font-weight: ${variables.fontWeightBold};
 `;
 
+const Header = css`
+ & > td {
+   padding-bottom: 0px;
+ }
+`;
+
 const CircleApplication: React.FC = () => {
   const [list, setList] = useState<Application[]>([]);
   const [first, setFirst] = useState<boolean>(true);
@@ -56,7 +65,13 @@ const CircleApplication: React.FC = () => {
       .catch((err) => swal.fire('이런!', err.message, 'error'));
     setFirst(false);
   });
-
+  const getQuestionByObjectId = (id: string) => {
+    if (id === '5e79c2b0cf414516739e5fcc') return '지원동기';
+    if (id === '5e79c2b0cf414516739e5fcd') return '하고 싶은 일과 앞으로의 목표';
+    if (id === '5e79c2b0cf414516739e5fce') return '자기계발을 위해 내가 한 노력';
+    if (id === '5e79c2b0cf414516739e5fcf') return '성격과 생활태도를 중심으로 자신의 장단점 서술';
+    return '알수없는질문';
+  };
   const updateStatus = async ({ setPrevent, ...event }: {value: number;
     items: string[];
     setPrevent: () => void;
@@ -103,6 +118,24 @@ const CircleApplication: React.FC = () => {
     >
       <Card>
         <Table>
+          <thead>
+            <Row css={Header}>
+              {isTeacher && (
+              <Cell>
+              동아리
+              </Cell>
+              )}
+              <Cell>
+              학번
+              </Cell>
+              <Cell>
+              이름
+              </Cell>
+              <Cell>
+              상태
+              </Cell>
+            </Row>
+          </thead>
           <tbody>
             {!list.length && (
               <Row>
@@ -152,6 +185,11 @@ const CircleApplication: React.FC = () => {
 
             return (
               <Row key={item._id}>
+                {isTeacher && (
+                <Cell>
+                  {item.circle.name}
+                </Cell>
+                )}
                 <Cell>
                   { item.applier.serial }
                 </Cell>
@@ -161,13 +199,14 @@ const CircleApplication: React.FC = () => {
                   <br />
                   <br />
                   {' '}
-                  {Object.keys(item.form).map((q, i) => `${(() => {
-                    if (q === '5e79c2b0cf414516739e5fcc') return '지원동기';
-                    if (q === '5e79c2b0cf414516739e5fcd') return '하고 싶은 일과 앞으로의 목표';
-                    if (q === '5e79c2b0cf414516739e5fce') return '자기계발을 위해 내가 한 노력';
-                    if (q === '5e79c2b0cf414516739e5fcf') return '성격과 생활태도를 중심으로 자신의 장단점 서술';
-                    return '알수없는질문';
-                  })()}: ${item.form[q]}`).map((e) => <p>{e}</p>) }
+                  {Object.keys(item.form).map((q) => (
+                    <Qna>
+                      <Question>
+                        {getQuestionByObjectId(q)}
+                      </Question>
+                      {item.form[q]}
+                    </Qna>
+                  ))}
                 </Cell>
                 <Cell>
                   <DimiBadgeGroup
@@ -214,3 +253,11 @@ const Row = styled.tr`
     border-bottom: 1px solid ${variables.grayLighter};
   }
 `;
+
+const Question = styled.p`
+  font-weight: bold;
+`;
+
+const Qna = styled.p`
+  margin-bottom: 10px;s
+`
