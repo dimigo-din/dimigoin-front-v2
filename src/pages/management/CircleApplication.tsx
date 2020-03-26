@@ -9,12 +9,16 @@ import variables from '../../scss/_variables.scss';
 import ContentWrapper from '../../components/ContentWrapper';
 import DimiCard from '../../components/dimiru/DimiCard';
 import DimiBadgeGroup from '../../components/dimiru/DimiButtonGroup';
-// import axios from '../../api';
+import auth from '../../utils/auth';
+
 type status = |'applied'| 'document-fail'| 'document-pass'| 'interview-fail'| 'interview-pass'| 'final';
 interface Application {
   status: status;
   _id: string;
-  circle: string;
+  circle: {
+    _id: string;
+    name: string;
+  };
   form: {
     [key: string]: string;
   };
@@ -44,15 +48,30 @@ const Empty = css`
     font-weight: ${variables.fontWeightBold};
 `;
 
+const Header = css`
+ & > td {
+   padding-bottom: 0px;
+ }
+`;
+
 const CircleApplication: React.FC = () => {
   const [list, setList] = useState<Application[]>([]);
   const [first, setFirst] = useState<boolean>(true);
+  const isTeacher = auth.getUserInfo().userType === 'T';
   useEffect(() => {
     if (!first) return;
-    circleManager.getCircleApplicant().then((applications) => setList(applications)).catch((err) => swal.fire('이런!', err.message, 'error'));
+    circleManager.getCircleApplicant(isTeacher)
+      .then((applications) => setList(applications))
+      .catch((err) => swal.fire('이런!', err.message, 'error'));
     setFirst(false);
   });
-
+  const getQuestionByObjectId = (id: string) => {
+    if (id === '5e79c2b0cf414516739e5fcc') return '지원동기';
+    if (id === '5e79c2b0cf414516739e5fcd') return '하고 싶은 일과 앞으로의 목표';
+    if (id === '5e79c2b0cf414516739e5fce') return '자기계발을 위해 내가 한 노력';
+    if (id === '5e79c2b0cf414516739e5fcf') return '성격과 생활태도를 중심으로 자신의 장단점 서술';
+    return '알수없는질문';
+  };
   const updateStatus = async ({ setPrevent, ...event }: {value: number;
     items: string[];
     setPrevent: () => void;
@@ -99,6 +118,24 @@ const CircleApplication: React.FC = () => {
     >
       <Card>
         <Table>
+          <thead>
+            <Row css={Header}>
+              {isTeacher && (
+              <Cell>
+              동아리
+              </Cell>
+              )}
+              <Cell>
+              학번
+              </Cell>
+              <Cell>
+              이름
+              </Cell>
+              <Cell>
+              상태
+              </Cell>
+            </Row>
+          </thead>
           <tbody>
             {!list.length && (
               <Row>
@@ -109,19 +146,50 @@ const CircleApplication: React.FC = () => {
             )}
             {
           list.map((item) => {
-            const [items, statuses] = item.status === handleCircle.APPLIED
-              ? [['서류합격', '불합격'], [handleCircle.DOCUMENT_PASS, handleCircle.DOCUMENT_FAIL]]
-              : item.status === handleCircle.DOCUMENT_PASS
-                ? [['면접합격', '불합격'], [handleCircle.INTERVIEW_PASS, handleCircle.INTERVIEW_FAIL]]
-                : item.status === handleCircle.DOCUMENT_FAIL
-                  ? [['서류탈락']]
-                  : item.status === handleCircle.INTERVIEW_FAIL
-                    ? [['면접탈락']]
-                    : item.status === handleCircle.INTERVIEW_PASS
-                      ? [['면접합격']]
-                      : item.status === handleCircle.FINAL ? [['최종선택']] : [['알수없음']];
+            const [items, statuses] = (() => {
+              if (isTeacher) {
+                switch (item.status) {
+                  case handleCircle.APPLIED:
+                    return [['제출']];
+                  case handleCircle.DOCUMENT_FAIL:
+                    return [['서류탈락']];
+                  case handleCircle.DOCUMENT_PASS:
+                    return [['서류합격']];
+                  case handleCircle.INTERVIEW_FAIL:
+                    return [['면접탈락']];
+                  case handleCircle.INTERVIEW_PASS:
+                    return [['면접합격']];
+                  case handleCircle.FINAL:
+                    return [['최종선택']];
+                  default:
+                    return [['알수없음']];
+                }
+              }
+              switch (item.status) {
+                case handleCircle.APPLIED:
+                  return [['서류합격', '불합격'], [handleCircle.DOCUMENT_PASS, handleCircle.DOCUMENT_FAIL]];
+                case handleCircle.DOCUMENT_PASS:
+                  return [['면접합격', '불합격'], [handleCircle.INTERVIEW_PASS, handleCircle.INTERVIEW_FAIL]];
+                case handleCircle.DOCUMENT_FAIL:
+                  return [['서류탈락']];
+                case handleCircle.INTERVIEW_FAIL:
+                  return [['면접탈락']];
+                case handleCircle.INTERVIEW_PASS:
+                  return [['면접합격']];
+                case handleCircle.FINAL:
+                  return [['최종선택']];
+                default:
+                  return [['알수없음']];
+              }
+            })();
+
             return (
               <Row key={item._id}>
+                {isTeacher && (
+                <Cell>
+                  {item.circle.name}
+                </Cell>
+                )}
                 <Cell>
                   { item.applier.serial }
                 </Cell>
@@ -131,13 +199,14 @@ const CircleApplication: React.FC = () => {
                   <br />
                   <br />
                   {' '}
-                  {Object.keys(item.form).map((q, i) => `${(() => {
-                    if (q === '5e79c2b0cf414516739e5fcc') return '지원동기';
-                    if (q === '5e79c2b0cf414516739e5fcd') return '하고 싶은 일과 앞으로의 목표';
-                    if (q === '5e79c2b0cf414516739e5fce') return '자기계발을 위해 내가 한 노력';
-                    if (q === '5e79c2b0cf414516739e5fcf') return '성격과 생활태도를 중심으로 자신의 장단점 서술';
-                    return '알수없는질문';
-                  })()}: ${item.form[q]}`).map((e) => <p>{e}</p>) }
+                  {Object.keys(item.form).map((q) => (
+                    <Qna>
+                      <Question>
+                        {getQuestionByObjectId(q)}
+                      </Question>
+                      {item.form[q]}
+                    </Qna>
+                  ))}
                 </Cell>
                 <Cell>
                   <DimiBadgeGroup
@@ -184,3 +253,11 @@ const Row = styled.tr`
     border-bottom: 1px solid ${variables.grayLighter};
   }
 `;
+
+const Question = styled.p`
+  font-weight: bold;
+`;
+
+const Qna = styled.p`
+  margin-bottom: 10px;s
+`
