@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import auth from '../utils/auth';
 
 const createAPI = (): AxiosInstance => {
   const { accessToken } = localStorage;
@@ -8,7 +9,7 @@ const createAPI = (): AxiosInstance => {
     baseURL: process.env.REACT_APP_API_SERVER,
   });
 
-  if (localStorage.getItem('accessToken')) {
+  if (auth.getToken()) {
     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   }
   return api;
@@ -30,10 +31,9 @@ api.interceptors.response.use(
     // If access token needs refresh
     try {
       // Try token refreshing
-      const { accessToken } = localStorage;
       // eslint-disable-next-line no-param-reassign
       error.config.headers = {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${auth.getToken()}`,
       };
       return axios.request(error.config);
     } catch (_error) {

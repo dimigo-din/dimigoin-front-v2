@@ -7,13 +7,16 @@ export class CircleManagerService extends ServiceBase {
     await this.magician(() => this.r.post('/', circle));
   }
 
-  async getCircleApplicant() {
+  async getCircleApplicant(isTeacher) {
     const {
       data: { applications },
-    } = await this.magician(() => this.r.get('/selection/applier/'), {
-      403: '권한이 없습니다.',
-      404: () => [],
-    });
+    } = await this.magician(
+      () => this.r.get(isTeacher ? '/applier' : '/selection/applier/'),
+      {
+        403: '권한이 없습니다.',
+        404: () => [],
+      },
+    );
     return applications.map(CircleApplicant);
   }
 
