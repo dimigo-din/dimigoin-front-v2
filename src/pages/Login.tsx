@@ -19,18 +19,19 @@ type TStyleByDeviceWidth = {
   [key in 'tablet' | 'desktop']: SerializedStyles;
 };
 
-const until = (device: 'tablet' | 'desktop', style: string) => (({
-  tablet: css`
+const until = (device: 'tablet' | 'desktop', style: string) =>
+  (({
+    tablet: css`
       @media only screen and (max-width: 769px) {
         ${style}
       }
     `,
-  desktop: css`
+    desktop: css`
       @media only screen and (max-width: 769px) {
         ${style}
       }
     `,
-} as TStyleByDeviceWidth)[device]);
+  } as TStyleByDeviceWidth)[device]);
 
 const ContentMT = css`
   margin-top: 7em;
@@ -205,6 +206,11 @@ export default () => {
                     ...prevState,
                     password: e.target.value,
                   }));
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    handleLogin();
+                  }
                 }}
               />
               <DimiButton

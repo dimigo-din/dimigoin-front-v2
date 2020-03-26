@@ -5,45 +5,19 @@ import css from '@emotion/css';
 import variables from '../../scss/_variables.scss';
 
 type DimiInputProps = {
-  value?: string;
   errorMessage?: string;
-  id?: string;
-  placeholder?: string;
-  type?: string;
-  className?: string;
   error?: boolean;
-  minLength?: number;
-  maxLength?: number;
-  onKeyUp?: () => void;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const DimiInput: React.FC<DimiInputProps> = ({
-  value,
-  onChange,
-  errorMessage = '',
-  id = '',
-  placeholder = '',
-  type = 'text',
-  className = '',
-  error,
-  minLength,
-  maxLength,
-  onKeyUp,
-}) => (
+const DimiInput: React.FC<
+  DimiInputProps &
+    React.DetailedHTMLProps<
+      React.InputHTMLAttributes<HTMLInputElement>,
+      HTMLInputElement
+    >
+> = ({ errorMessage = '', error, ...props }) => (
   <Wrapper>
-    <Input
-      className={className}
-      id={id}
-      value={value}
-      type={type}
-      placeholder={placeholder}
-      error={error}
-      onChange={onChange}
-      onKeyUp={onKeyUp}
-      minLength={minLength}
-      maxLength={maxLength}
-    />
+    <Input error={error} {...props} />
     {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
   </Wrapper>
 );
@@ -80,8 +54,9 @@ const Input = styled.input<InputProps>`
     color: ${variables.gray};
   }
 
-  ${({ error = false }) => error
-    && css`
+  ${({ error = false }) =>
+    error &&
+    css`
       background-color: lighten(${variables.red}, 35%);
     `};
 
