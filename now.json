@@ -1,0 +1,6 @@
+{
+  "env": {
+    "REACT_APP_API_SERVER": "@react_app_api_server",
+    "REACT_APP_DIMIGO_API_URL": "@react_app_dimigo_api_url"
+  }
+}
