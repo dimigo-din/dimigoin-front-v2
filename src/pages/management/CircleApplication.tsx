@@ -56,15 +56,12 @@ const Header = css`
 
 const CircleApplication: React.FC = () => {
   const [list, setList] = useState<Application[]>([]);
-  const [first, setFirst] = useState<boolean>(true);
   const isTeacher = auth.getUserInfo().userType === 'T';
   useEffect(() => {
-    if (!first) return;
     circleManager.getCircleApplicant(isTeacher)
       .then((applications) => setList(applications))
       .catch((err) => swal.fire('이런!', err.message, 'error'));
-    setFirst(false);
-  });
+  }, []);
   const getQuestionByObjectId = (id: string) => {
     if (id === '5e79c2b0cf414516739e5fcc') return '지원동기';
     if (id === '5e79c2b0cf414516739e5fcd') return '하고 싶은 일과 앞으로의 목표';
@@ -260,4 +257,4 @@ const Question = styled.p`
 
 const Qna = styled.p`
   margin-bottom: 10px;s
-`
+`;
