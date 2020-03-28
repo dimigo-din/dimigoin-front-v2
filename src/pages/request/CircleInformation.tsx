@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import Modal from 'react-responsive-modal';
 import { filter } from 'lodash';
