@@ -31,6 +31,7 @@
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^10.0.1",
     "apollo-boost": "^0.4.7",
+    "apollo-client": "^2.6.8",
     "autolinker": "^3.13.0",
     "axios": "^0.19.2",
     "babel-loader": "8.0.6",
