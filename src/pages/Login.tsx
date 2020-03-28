@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import css, { SerializedStyles } from '@emotion/css';
-
-import api from '../api';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
 import auth from '../utils/auth';
 
 import DimiCard from '../components/dimiru/DimiCard';
@@ -12,6 +12,7 @@ import DimiButton from '../components/dimiru/DimiButton';
 import DimiDivider from '../components/dimiru/DimiDivider';
 
 import SweetAlert from '../utils/swal';
+import { graphqlErrorMessage } from '../utils/error';
 
 import variables from '../scss/_variables.scss';
 
@@ -19,18 +20,19 @@ type TStyleByDeviceWidth = {
   [key in 'tablet' | 'desktop']: SerializedStyles;
 };
 
-const until = (device: 'tablet' | 'desktop', style: string) => (({
-  tablet: css`
+const until = (device: 'tablet' | 'desktop', style: string) =>
+  (({
+    tablet: css`
       @media only screen and (max-width: 769px) {
         ${style}
       }
     `,
-  desktop: css`
+    desktop: css`
       @media only screen and (max-width: 769px) {
         ${style}
       }
     `,
-} as TStyleByDeviceWidth)[device]);
+  } as TStyleByDeviceWidth)[device]);
 
 const ContentMT = css`
   margin-top: 7em;
@@ -133,35 +135,55 @@ const Content = styled.div`
   margin-top: 3em;
 `;
 
+const LOGIN_MUTATION = gql`
+  mutation($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      accessToken
+      refreshToken
+      user {
+        _id
+        idx
+        username
+        name
+        userType
+        gender
+        phone
+        photo
+        class
+        grade
+        number
+        serial
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
 export default () => {
   const history = useHistory();
 
   const [info, setInfo] = useState({ username: '', password: '' });
   const [active, setActive] = useState<boolean>(true);
 
-  useEffect(() => {
-    localStorage.clear();
-  }, []);
-
-  const handleLogin = async () => {
-    await setActive(false);
-    try {
-      const {
-        data: { accessToken },
-      } = await api.post('/auth', { ...info });
-      await auth.setToken(accessToken);
-      const { data: userInfo } = await api.get('/user/me');
-      await auth.setUserInfo(userInfo.identity);
+  const [login] = useMutation(LOGIN_MUTATION, {
+    variables: {
+      ...info,
+    },
+    onCompleted: async (data) => {
+      await auth.setToken(data.login.accessToken);
+      await auth.setUserInfo(data.login.user);
       await history.push('/');
-    } catch ({
-      response: {
-        data: { message },
-      },
-    }) {
+    },
+    onError: async (error) => {
       await setActive(true);
-      await SweetAlert.error(message);
-    }
-  };
+      await SweetAlert.error(graphqlErrorMessage(error));
+    },
+  });
+
+  useEffect(() => {
+    auth.clearAppStorage();
+  }, []);
 
   return (
     <Container
@@ -178,7 +200,8 @@ export default () => {
             <Form
               onSubmit={(e) => {
                 e.preventDefault();
-                handleLogin();
+                setActive(false);
+                login();
               }}
             >
               <DimiInput
@@ -208,14 +231,18 @@ export default () => {
                 }}
                 onKeyPress={(e) => {
                   if (e.key === 'Enter') {
-                    handleLogin();
+                    setActive(false);
+                    login();
                   }
                 }}
               />
               <DimiButton
                 css={SubmitButton}
                 active={active}
-                click={handleLogin}
+                click={() => {
+                  setActive(false);
+                  login();
+                }}
               >
                 LOGIN
               </DimiButton>
