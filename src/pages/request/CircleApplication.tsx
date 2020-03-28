@@ -126,14 +126,10 @@ const CircleApplication = () => {
   useEffect(() => {
     api
       .get(`/circle/id/${history.location.state.circleId}`)
-      .then(({ data }) => {
-        console.log(data.circle);
-        setInfo(data.circle);
-      });
-    api.get('/circle/application/form').then(({ data }) => {
-      console.log(data.form);
-      setQuestions(data.form);
-    });
+      .then(({ data }) => setInfo(data.circle));
+    api
+      .get('/circle/application/form')
+      .then(({ data }) => setQuestions(data.form));
   }, [history.location.state.circleId]);
 
   const LoadingInterval = setInterval(() => {
