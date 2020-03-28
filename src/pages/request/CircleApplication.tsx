@@ -192,14 +192,7 @@ const CircleApplication = () => {
 
   const applyFrom = async () => {
     await setActive(false);
-    const sure = await Swal.fire({
-      title: '정말 제출하시겠습니까?',
-      text: '제출 후에는 수정이 불가하니 다시 한 번 확인해주세요.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: '제출',
-      cancelButtonText: '취소',
-    });
+    const sure = await SweetAlert.confirm('제출 후에는 수정이 불가하니 다시 한 번 확인해주세요.', '정말 제출하시겠습니까?');
     if (sure.value) {
       await createApplication({
         variables: {
