@@ -3,17 +3,19 @@ import { useHistory } from 'react-router-dom';
 import css from '@emotion/css';
 import styled from '@emotion/styled';
 import Swal from 'sweetalert2';
+import gql from 'graphql-tag';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 
 import DimiCard from '../../components/dimiru/DimiCard';
 import DimiLongInput from '../../components/dimiru/DimiLongInput';
 import DimiButton from '../../components/dimiru/DimiButton';
 import DimiLoading from '../../components/dimiru/DimiLoading';
 
-import api from '../../api';
 import { ICircle } from '../../interface/circle';
 import SweetAlert from '../../utils/swal';
 
 import variables from '../../scss/_variables.scss';
+import { graphqlErrorMessage } from '../../utils/error';
 
 const Header = styled.div`
   margin-bottom: 1.5rem;
@@ -50,7 +52,8 @@ const CircleLogo = styled.div<ICircleLogo>`
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-image: url(${({ imageKey }) => `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
+  background-image: url(${({ imageKey }) =>
+    `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
   background-size: cover;
   background-position: center center;
   margin-right: 40px;
@@ -115,22 +118,71 @@ interface IHistory {
   circleId: string;
 }
 
+const LOAD_QUESTIONS = gql`
+  query {
+    applicationForm
+  }
+`;
+
+const LOAD_CIRCLE_INFO = gql`
+  query($id: ID!) {
+    circle(_id: $id) {
+      _id
+      name
+      category
+      imageKey
+      chair {
+        _id
+        name
+        serial
+      }
+    }
+  }
+`;
+
+const CREATE_APPLICATION = gql`
+  mutation($circleId: ID!, $form: JSON!) {
+    createApplication(input: { circle: $circleId, form: $form }) {
+      _id
+    }
+  }
+`;
+
 const CircleApplication = () => {
   const history = useHistory<IHistory>();
+
   const [info, setInfo] = useState<ICircle>();
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [active, setActive] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const { data: questionData } = useQuery(LOAD_QUESTIONS);
+  const { data: circleData } = useQuery(LOAD_CIRCLE_INFO, {
+    variables: { id: history.location.state.circleId },
+  });
+  const [createApplication] = useMutation(CREATE_APPLICATION, {
+    onCompleted: async () => {
+      await SweetAlert.success('지원서 제출이 완료되었습니다.');
+      await history.goBack();
+    },
+    onError: async (error) => {
+      await setActive(true);
+      await SweetAlert.error(graphqlErrorMessage(error));
+    },
+  });
+
   useEffect(() => {
-    api
-      .get(`/circle/id/${history.location.state.circleId}`)
-      .then(({ data }) => setInfo(data.circle));
-    api
-      .get('/circle/application/form')
-      .then(({ data }) => setQuestions(data.form));
-  }, [history.location.state.circleId]);
+    if (circleData) {
+      setInfo(circleData.circle);
+    }
+  }, [circleData]);
+
+  useEffect(() => {
+    if (questionData) {
+      setQuestions(questionData.applicationForm);
+    }
+  }, [questionData]);
 
   const LoadingInterval = setInterval(() => {
     if (!(info && questions)) {
@@ -140,29 +192,24 @@ const CircleApplication = () => {
   }, 300);
 
   const applyFrom = async () => {
-    try {
-      await setActive(false);
-      const sure = await Swal.fire({
-        title: '정말 제출하시겠습니까?',
-        text: '제출 후에는 수정이 불가하니 다시 한 번 확인해주세요.',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: '제출',
-        cancelButtonText: '취소',
-      });
-      if (sure.value) {
-        await api.post('/circle/application', {
-          circle: history.location.state.circleId,
+    await setActive(false);
+    const sure = await Swal.fire({
+      title: '정말 제출하시겠습니까?',
+      text: '제출 후에는 수정이 불가하니 다시 한 번 확인해주세요.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '제출',
+      cancelButtonText: '취소',
+    });
+    if (sure.value) {
+      await createApplication({
+        variables: {
+          circleId: history.location.state.circleId,
           form: answers,
-        });
-        await SweetAlert.success('지원서 제출이 완료되었습니다.');
-        await history.goBack();
-      } else {
-        await setActive(true);
-      }
-    } catch ({ response }) {
+        },
+      });
+    } else {
       await setActive(true);
-      await SweetAlert.error(response.data.message);
     }
   };
 
@@ -194,8 +241,8 @@ const CircleApplication = () => {
         )}
       </DimiCard>
       <QuestionCardWrap>
-        {loading
-          && questions.map(({ _id, question, maxLength }: any) => (
+        {loading &&
+          questions.map(({ _id, question, maxLength }: any) => (
             <DimiCard key={_id} css={QuestionCard}>
               <FormTitle>{question}</FormTitle>
               <DimiLongInput
