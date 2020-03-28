@@ -74,6 +74,7 @@ const MainPage = () => {
                 <a
                   href="https://cafe.naver.com/dimigofreshman/4694"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   https://cafe.naver.com/dimigofreshman/4694
                 </a>
