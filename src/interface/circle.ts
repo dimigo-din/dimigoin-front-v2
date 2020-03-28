@@ -7,4 +7,5 @@ export interface ICircle {
   chair: { _id: string; name: string; serial: number };
   viceChair: { _id: string; name: string; serial: number };
   videoLink: string;
+  applied?: boolean;
 }

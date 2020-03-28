@@ -227,16 +227,18 @@ const CircleInformation = () => {
               src={`https://www.youtube.com/embed/${selectedCircleInfo.videoLink}`}
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             />
-            <ButtonWrap>
-              <DimiButton
-                large
-                click={() => history.push('/request/circle/application', {
-                  circleId: selectedCircle,
-                })}
-              >
-                지원하기
-              </DimiButton>
-            </ButtonWrap>
+            {!selectedCircleInfo.applied && (
+              <ButtonWrap>
+                <DimiButton
+                  large
+                  click={() => history.push('/request/circle/application', {
+                    circleId: selectedCircle,
+                  })}
+                >
+                  지원하기
+                </DimiButton>
+              </ButtonWrap>
+            )}
           </>
         ) : (
           <LoadingWrap>
@@ -286,7 +288,8 @@ const CircleLogo = styled.div<ICircleLogo>`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-image: url(${({ imageKey }) => `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
+  background-image: url(${({ imageKey }) =>
+    `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
   background-size: cover;
   background-position: center center;
   margin-bottom: 1em;
