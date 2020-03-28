@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import css from '@emotion/css';
 import styled from '@emotion/styled';
-import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
-import variables from '../../scss/_variables.scss';
-
-import api from '../../api';
 
 import DimiCard from '../../components/dimiru/DimiCard';
 import DimiLongInput from '../../components/dimiru/DimiLongInput';
 import DimiButton from '../../components/dimiru/DimiButton';
 import DimiLoading from '../../components/dimiru/DimiLoading';
 
-import SweetAlert from '../../utils/swal';
+import api from '../../api';
 import { ICircle } from '../../interface/circle';
+import SweetAlert from '../../utils/swal';
+
+import variables from '../../scss/_variables.scss';
 
 const Header = styled.div`
   margin-bottom: 1.5rem;
@@ -79,7 +78,8 @@ const CircleFeatureTitle = styled.span`
   font-size: 20px;
   font-weight: ${variables.fontWeightRegular};
   margin-right: 0.3rem;
-  &: last-child {
+
+  &:last-child {
     margin-right: 0;
   }
 `;
@@ -151,7 +151,6 @@ const CircleApplication = () => {
         cancelButtonText: '취소',
       });
       if (sure.value) {
-        console.log(sure);
         await api.post('/circle/application', {
           circle: history.location.state.circleId,
           form: answers,

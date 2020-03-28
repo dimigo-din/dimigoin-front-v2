@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-
 import Modal from 'react-responsive-modal';
 import { filter } from 'lodash';
-
 import styled from '@emotion/styled';
-import variables from '../../scss/_variables.scss';
 
 import CircleCard from '../../components/CircleCard';
-import api from '../../api';
-import { ICircle } from '../../interface/circle';
 import DimiLoading from '../../components/dimiru/DimiLoading';
 import DimiButton from '../../components/dimiru/DimiButton';
 
+import api from '../../api';
+import { ICircle } from '../../interface/circle';
 import AutoLinker from '../../utils/autolinker';
+
+import variables from '../../scss/_variables.scss';
 
 const CircleInformation = () => {
   const history = useHistory();
