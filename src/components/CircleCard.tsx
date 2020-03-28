@@ -17,6 +17,7 @@ interface ICircleCard {
 const CardStyle = css`
   display: flex;
   cursor: pointer;
+  transition: all 0.2s ease-in-out 0s, background-color 0.5s ease 0s;
 
   &:hover {
     z-index: 1;
