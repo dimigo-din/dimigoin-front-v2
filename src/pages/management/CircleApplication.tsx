@@ -197,7 +197,7 @@ const CircleApplication: React.FC = () => {
                     <br />
                     <br />
                     {' '}
-                    {Object.keys(item.form).map((q) => (
+                    {Object.keys(item.form).sort().map((q) => (
                       <Qna>
                         <Question>
                           {getQuestionByObjectId(q)}
