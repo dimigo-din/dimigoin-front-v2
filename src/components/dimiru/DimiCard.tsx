@@ -5,19 +5,25 @@ import css from '@emotion/css';
 import variables from '../../scss/_variables.scss';
 import DimiDivider from './DimiDivider';
 
+type MouseEventHandler = (event: React.MouseEvent<HTMLDivElement>) => void;
+type FocusEventHandler = (event: React.FocusEvent<HTMLDivElement>) => void;
+
 type DimiCardProps = {
   className?: string;
   children?: React.ReactNode;
   button?: React.ReactNode;
   hover?: boolean;
   clickable?: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  cardRef?: any;
-  onClick?: () => void;
-  onMouseOver?: (e: any) => void;
-  onFocus?: (e: any) => void;
-  onMouseOut?: (e: any) => void;
-  onBlur?: (e: any) => void;
+  cardRef?:
+    | string
+    | ((instance: HTMLDivElement | null) => void)
+    | React.RefObject<HTMLDivElement>
+    | null;
+  onClick?: MouseEventHandler;
+  onMouseOver?: MouseEventHandler;
+  onFocus?: FocusEventHandler;
+  onMouseOut?: MouseEventHandler;
+  onBlur?: FocusEventHandler;
 };
 
 const DimiCard: React.FC<DimiCardProps> = ({
