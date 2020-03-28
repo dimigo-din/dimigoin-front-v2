@@ -14,35 +14,39 @@ interface ICircleCard {
   onClick?: () => void;
 }
 
-const CircleCard = (props: ICircleCard) => {
-  const { status } = props;
-  return (
-    <DimiCard css={CardStyle} onClick={props.onClick}>
-      <CircleLogo imageKey={props.imageKey} />
-      <CircleInfoWrap>
-        <CircleTitle>{props.name}</CircleTitle>
-        <CircleFeatureWrap>
-          <CircleFeatureInfo>{props.category}</CircleFeatureInfo>
-        </CircleFeatureWrap>
-      </CircleInfoWrap>
-      {status
-        && (
-        <StatusBadge
-          src={`/static/badges/${status.toUpperCase()}.svg`}
-        />
-        )}
-    </DimiCard>
-  );
-};
-
 const CardStyle = css`
   display: flex;
   cursor: pointer;
-  & :hover {
+
+  &:hover {
     z-index: 1;
     box-shadow: 2px 16px 36px rgba(21, 19, 19, 0.15), -5px -5px 10px #fff;
   }
 `;
+
+const CircleCard = ({
+  status, onClick, imageKey, name, category,
+}: ICircleCard) => (
+  <DimiCard
+    css={CardStyle}
+    onClick={onClick}
+  >
+    <CircleLogo imageKey={imageKey} />
+    <CircleInfoWrap>
+      <CircleTitle>{name}</CircleTitle>
+      <CircleFeatureWrap>
+        <CircleFeatureInfo>
+          {category}
+        </CircleFeatureInfo>
+      </CircleFeatureWrap>
+    </CircleInfoWrap>
+    {status && (
+      <StatusBadge
+        src={`/static/badges/${status.toUpperCase()}.svg`}
+      />
+    )}
+  </DimiCard>
+);
 
 interface ICircleLogo {
   imageKey: string;
@@ -52,7 +56,9 @@ const CircleLogo = styled.div<ICircleLogo>`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-image: url(${({ imageKey }) => `"https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}"`});
+  background-image: url(
+    "${({ imageKey }) => `https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}`}"
+  );
   background-size: cover;
   background-position: center center;
   margin-right: 20px;
