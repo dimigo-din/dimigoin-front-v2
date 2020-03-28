@@ -1,20 +1,30 @@
-/* eslint-disable no-nested-ternary */
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import css from '@emotion/css';
-import swal from 'sweetalert2';
+
+import ContentWrapper from '../../components/ContentWrapper';
+import DimiBadgeGroup from '../../components/dimiru/DimiButtonGroup';
+import DimiCard from '../../components/dimiru/DimiCard';
+
 import * as handleCircle from '../../api/util/handle-circle-status';
 import { circleManager } from '../../api/circle';
-import variables from '../../scss/_variables.scss';
-import ContentWrapper from '../../components/ContentWrapper';
-import DimiCard from '../../components/dimiru/DimiCard';
-import DimiBadgeGroup from '../../components/dimiru/DimiButtonGroup';
-import auth from '../../utils/auth';
 
-type status = |'applied'| 'document-fail'| 'document-pass'| 'interview-fail'| 'interview-pass'| 'final';
+import auth from '../../utils/auth';
+import swal from '../../utils/swal';
+
+import variables from '../../scss/_variables.scss';
+
+type status =
+  | 'applied'
+  | 'document-fail'
+  | 'document-pass'
+  | 'interview-fail'
+  | 'interview-pass'
+  | 'final';
+
 interface Application {
-  status: status;
   _id: string;
+  status: status;
   circle: {
     _id: string;
     name: string;
@@ -28,7 +38,6 @@ interface Application {
     serial: number;
   };
 }
-const { useState, useEffect } = React;
 
 const Name = css`
   width: 99%;
@@ -41,27 +50,33 @@ const Status = css`
 `;
 
 const Empty = css`
-    padding: 24px;
-    margin-right: 16px;
-    color: ${variables.gray};
-    font-size: 16px;
-    font-weight: ${variables.fontWeightBold};
+  padding: 24px;
+  margin-right: 16px;
+  color: ${variables.gray};
+  font-size: 16px;
+  font-weight: ${variables.fontWeightBold};
 `;
 
 const Header = css`
- & > td {
-   padding-bottom: 0px;
- }
+  & > td {
+    padding-bottom: 0px;
+  }
 `;
 
 const CircleApplication: React.FC = () => {
   const [list, setList] = useState<Application[]>([]);
-  const isTeacher = auth.getUserInfo().userType === 'T';
-  useEffect(() => {
-    circleManager.getCircleApplicant(isTeacher)
-      .then((applications) => setList(applications))
-      .catch((err) => swal.fire('이런!', err.message, 'error'));
-  }, []);
+  const { userType } = auth.getUserInfo();
+  const isTeacher = userType === 'T';
+
+  useEffect(
+    () => {
+      circleManager.getCircleApplicant(isTeacher)
+        .then((applications) => setList(applications))
+        .catch((err) => swal.error(err.message));
+    },
+    [isTeacher],
+  );
+
   const getQuestionByObjectId = (id: string) => {
     if (id === '5e79c2b0cf414516739e5fcc') return '지원동기';
     if (id === '5e79c2b0cf414516739e5fcd') return '하고 싶은 일과 앞으로의 목표';
@@ -69,24 +84,23 @@ const CircleApplication: React.FC = () => {
     if (id === '5e79c2b0cf414516739e5fcf') return '성격과 생활태도를 중심으로 자신의 장단점 서술';
     return '알수없는질문';
   };
-  const updateStatus = async ({ setPrevent, ...event }: {value: number;
-    items: string[];
-    setPrevent: () => void;
-    done(): void;},
+  const updateStatus = async (
+    { setPrevent, ...event }: {
+      value: number;
+      items: string[];
+      setPrevent: () => void;
+      done(): void;
+    },
     application: Application,
-    selectedStatus: status|string,
-    selectedMessage: string) => {
-    const ask = (type: string) => swal.fire({
-      title: '경고',
-      text: `정말 ${application.applier.name} 지원자를 ${type}처리 하실건가요? 이 작업은 되돌릴 수 없습니다.`,
-      icon: 'warning',
-      confirmButtonText: '확인',
-      cancelButtonText: '취소',
-      showCancelButton: true,
-      showCloseButton: true,
-    });
+    selectedStatus: status | string,
+    selectedMessage: string,
+  ) => {
+    const ask = (type: string) => swal.confirm(
+      `정말 ${application.applier.name} 지원자를 ${type}처리 하실 건가요? 이 작업은 되돌릴 수 없습니다.`,
+    );
     const answer = await ask(selectedMessage);
     const setStatus = () => circleManager.setApplierStatus(application.applier._id, selectedStatus);
+
     try {
       if (!answer.value) setPrevent();
       else {
@@ -94,11 +108,7 @@ const CircleApplication: React.FC = () => {
         setList(await circleManager.getCircleApplicant());
       }
     } catch (err) {
-      swal.fire({
-        title: '에러!',
-        text: err.message,
-        icon: 'error',
-      });
+      swal.error(err.message, '에러!');
       setPrevent();
     }
     event.done();
@@ -118,40 +128,48 @@ const CircleApplication: React.FC = () => {
           <thead>
             <Row css={Header}>
               {isTeacher && (
-              <Cell>
-              동아리
-              </Cell>
+                <Cell>동아리</Cell>
               )}
-              <Cell>
-              학번
-              </Cell>
-              <Cell>
-              이름
-              </Cell>
-              <Cell>
-              상태
-              </Cell>
+              <Cell>학번</Cell>
+              <Cell>이름</Cell>
+              <Cell>상태</Cell>
             </Row>
           </thead>
           <tbody>
             {!list.length && (
               <Row>
                 <Cell css={Empty}>
-            아직 동아리를 신청한 사람이 없습니다
+                  아직 동아리를 신청한 사람이 없습니다
                 </Cell>
               </Row>
             )}
-            {
-          list.map((item) => {
-            const [items, statuses] = (() => {
-              if (isTeacher) {
+            {list.map((item) => {
+              const [items, statuses] = (() => {
+                if (isTeacher) {
+                  switch (item.status) {
+                    case handleCircle.APPLIED:
+                      return [['제출']];
+                    case handleCircle.DOCUMENT_FAIL:
+                      return [['서류탈락']];
+                    case handleCircle.DOCUMENT_PASS:
+                      return [['서류합격']];
+                    case handleCircle.INTERVIEW_FAIL:
+                      return [['면접탈락']];
+                    case handleCircle.INTERVIEW_PASS:
+                      return [['면접합격']];
+                    case handleCircle.FINAL:
+                      return [['최종선택']];
+                    default:
+                      return [['알수없음']];
+                  }
+                }
                 switch (item.status) {
                   case handleCircle.APPLIED:
-                    return [['제출']];
+                    return [['서류합격', '불합격'], [handleCircle.DOCUMENT_PASS, handleCircle.DOCUMENT_FAIL]];
+                  case handleCircle.DOCUMENT_PASS:
+                    return [['면접합격', '불합격'], [handleCircle.INTERVIEW_PASS, handleCircle.INTERVIEW_FAIL]];
                   case handleCircle.DOCUMENT_FAIL:
                     return [['서류탈락']];
-                  case handleCircle.DOCUMENT_PASS:
-                    return [['서류합격']];
                   case handleCircle.INTERVIEW_FAIL:
                     return [['면접탈락']];
                   case handleCircle.INTERVIEW_PASS:
@@ -161,69 +179,50 @@ const CircleApplication: React.FC = () => {
                   default:
                     return [['알수없음']];
                 }
-              }
-              switch (item.status) {
-                case handleCircle.APPLIED:
-                  return [['서류합격', '불합격'], [handleCircle.DOCUMENT_PASS, handleCircle.DOCUMENT_FAIL]];
-                case handleCircle.DOCUMENT_PASS:
-                  return [['면접합격', '불합격'], [handleCircle.INTERVIEW_PASS, handleCircle.INTERVIEW_FAIL]];
-                case handleCircle.DOCUMENT_FAIL:
-                  return [['서류탈락']];
-                case handleCircle.INTERVIEW_FAIL:
-                  return [['면접탈락']];
-                case handleCircle.INTERVIEW_PASS:
-                  return [['면접합격']];
-                case handleCircle.FINAL:
-                  return [['최종선택']];
-                default:
-                  return [['알수없음']];
-              }
-            })();
+              })();
 
-            return (
-              <Row key={item._id}>
-                {isTeacher && (
-                <Cell>
-                  {item.circle.name}
-                </Cell>
-                )}
-                <Cell>
-                  { item.applier.serial }
-                </Cell>
-                <Cell css={Name}>
-                  { item.applier.name }
-                  {' '}
-                  <br />
-                  <br />
-                  {' '}
-                  {Object.keys(item.form).map((q) => (
-                    <Qna>
-                      <Question>
-                        {getQuestionByObjectId(q)}
-                      </Question>
-                      {item.form[q]}
-                    </Qna>
-                  ))}
-                </Cell>
-                <Cell>
-                  <DimiBadgeGroup
-                    v-model="item.status"
-                    items={items}
-                    colors={['aloes', 'orange']}
-                    click={(e) => {
-                      if (statuses) updateStatus(e, item, statuses[e.value], items[e.value]);
-                    }}
-                    css={Status}
-                  />
-                </Cell>
-              </Row>
-            );
-          })
-        }
+              return (
+                <Row key={item._id}>
+                  {isTeacher && (
+                    <Cell>
+                      {item.circle.name}
+                    </Cell>
+                  )}
+                  <Cell>
+                    { item.applier.serial }
+                  </Cell>
+                  <Cell css={Name}>
+                    { item.applier.name }
+                    {' '}
+                    <br />
+                    <br />
+                    {' '}
+                    {Object.keys(item.form).map((q) => (
+                      <Qna>
+                        <Question>
+                          {getQuestionByObjectId(q)}
+                        </Question>
+                        {item.form[q]}
+                      </Qna>
+                    ))}
+                  </Cell>
+                  <Cell>
+                    <DimiBadgeGroup
+                      v-model="item.status"
+                      items={items}
+                      colors={['aloes', 'orange']}
+                      click={(e) => {
+                        if (statuses) updateStatus(e, item, statuses[e.value], items[e.value]);
+                      }}
+                      css={Status}
+                    />
+                  </Cell>
+                </Row>
+              );
+            })}
           </tbody>
         </Table>
       </Card>
-
     </ContentWrapper>
   );
 };
@@ -256,5 +255,5 @@ const Question = styled.p`
 `;
 
 const Qna = styled.p`
-  margin-bottom: 10px;s
+  margin-bottom: 10px;
 `;

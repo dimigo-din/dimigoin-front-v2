@@ -11,12 +11,13 @@ import DimiInput from '../../components/dimiru/DimiInput';
 import DimiButton from '../../components/dimiru/DimiButton';
 import DimiDropdown from '../../components/dimiru/DimiDropdown';
 
+import api from '../../api';
+import { circleManager } from '../../api/circle';
+
+import SweetAlert from '../../utils/swal';
 import circleCategory from '../../utils/circleCategory';
 
 import variables from '../../scss/_variables.scss';
-import { circleManager } from '../../api/circle';
-import api from '../../api';
-import SweetAlert from '../../utils/swal';
 
 const CircleCreation: React.FC = () => {
   const history = useHistory();

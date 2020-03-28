@@ -54,9 +54,8 @@ const Input = styled.input<InputProps>`
     color: ${variables.gray};
   }
 
-  ${({ error = false }) =>
-    error &&
-    css`
+  ${({ error = false }) => error
+    && css`
       background-color: lighten(${variables.red}, 35%);
     `};
 
