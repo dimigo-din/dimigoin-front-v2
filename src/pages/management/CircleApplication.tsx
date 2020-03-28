@@ -10,11 +10,17 @@ import DimiCard from '../../components/dimiru/DimiCard';
 import DimiBadgeGroup from '../../components/dimiru/DimiButtonGroup';
 import auth from '../../utils/auth';
 
-type status = |'applied'| 'document-fail'| 'document-pass'| 'interview-fail'| 'interview-pass'| 'final';
+type status =
+  | 'applied'
+  | 'document-fail'
+  | 'document-pass'
+  | 'interview-fail'
+  | 'interview-pass'
+  | 'final';
 
 interface Application {
-  status: status;
   _id: string;
+  status: status;
   circle: {
     _id: string;
     name: string;
@@ -55,7 +61,8 @@ const Header = css`
 
 const CircleApplication: React.FC = () => {
   const [list, setList] = useState<Application[]>([]);
-  const isTeacher = auth.getUserInfo().userType === 'T';
+  const { userType } = auth.getUserInfo();
+  const isTeacher = userType === 'T';
 
   useEffect(
     () => {
