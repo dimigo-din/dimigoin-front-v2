@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import css from '@emotion/css';
-import swal from 'sweetalert2';
 
 import ContentWrapper from '../../components/ContentWrapper';
 import DimiBadgeGroup from '../../components/dimiru/DimiButtonGroup';
@@ -11,6 +10,7 @@ import * as handleCircle from '../../api/util/handle-circle-status';
 import { circleManager } from '../../api/circle';
 
 import auth from '../../utils/auth';
+import swal from '../../utils/swal';
 
 import variables from '../../scss/_variables.scss';
 
@@ -72,7 +72,7 @@ const CircleApplication: React.FC = () => {
     () => {
       circleManager.getCircleApplicant(isTeacher)
         .then((applications) => setList(applications))
-        .catch((err) => swal.fire('이런!', err.message, 'error'));
+        .catch((err) => swal.error(err.message));
     },
     [isTeacher],
   );
@@ -95,15 +95,9 @@ const CircleApplication: React.FC = () => {
     selectedStatus: status | string,
     selectedMessage: string,
   ) => {
-    const ask = (type: string) => swal.fire({
-      title: '경고',
-      text: `정말 ${application.applier.name} 지원자를 ${type}처리 하실 건가요? 이 작업은 되돌릴 수 없습니다.`,
-      icon: 'warning',
-      confirmButtonText: '확인',
-      cancelButtonText: '취소',
-      showCancelButton: true,
-      showCloseButton: true,
-    });
+    const ask = (type: string) => swal.confirm(
+      `정말 ${application.applier.name} 지원자를 ${type}처리 하실 건가요? 이 작업은 되돌릴 수 없습니다.`,
+    );
     const answer = await ask(selectedMessage);
     const setStatus = () => circleManager.setApplierStatus(application.applier._id, selectedStatus);
 
@@ -114,11 +108,7 @@ const CircleApplication: React.FC = () => {
         setList(await circleManager.getCircleApplicant());
       }
     } catch (err) {
-      swal.fire({
-        title: '에러!',
-        text: err.message,
-        icon: 'error',
-      });
+      swal.error(err.message, '에러!');
       setPrevent();
     }
     event.done();

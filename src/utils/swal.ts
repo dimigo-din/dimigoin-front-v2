@@ -8,12 +8,21 @@ const SweetAlert = {
     confirmButtonText: '확인',
     heightAuto: false,
   }),
-  error: (message: string) => Swal.fire({
-    title: '이런!',
+  error: (message: string, title = '이런!') => Swal.fire({
+    title,
     text: message,
     icon: 'error',
     confirmButtonText: '확인',
     heightAuto: false,
+  }),
+  confirm: (message: string) => Swal.fire({
+    title: '경고',
+    text: message,
+    icon: 'warning',
+    confirmButtonText: '확인',
+    cancelButtonText: '취소',
+    showCancelButton: true,
+    showCloseButton: true,
   }),
 };
 
