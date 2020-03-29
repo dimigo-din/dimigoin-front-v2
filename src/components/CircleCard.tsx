@@ -12,6 +12,7 @@ interface ICircleCard {
   category: string;
   status?: string;
   applier?: number | null;
+  applierColor?: string | null;
   onClick?: () => void;
 }
 
@@ -27,7 +28,7 @@ const CardStyle = css`
 `;
 
 const CircleCard = ({
-  status, onClick, imageKey, name, category, applier = 120,
+  status, onClick, imageKey, name, category, applier, applierColor,
 }: ICircleCard) => (
   <DimiCard
     css={CardStyle}
