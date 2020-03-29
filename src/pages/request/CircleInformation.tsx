@@ -150,7 +150,6 @@ const CircleInformation = () => {
                 imageKey={application.circle.imageKey}
                 name={application.circle.name}
                 category={application.circle.category}
-                applier={application.circle.applier}
                 status={application.status}
               />
             ))}
@@ -171,6 +170,7 @@ const CircleInformation = () => {
             imageKey={circle.imageKey}
             name={circle.name}
             category={circle.category}
+            applier={circle.applier}
           />
         ))}
       </CardContainer>
