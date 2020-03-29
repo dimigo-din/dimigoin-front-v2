@@ -12,7 +12,6 @@ interface ICircleCard {
   category: string;
   status?: string;
   applier?: number | null;
-  applierColor?: string | null;
   onClick?: () => void;
 }
 
@@ -28,7 +27,7 @@ const CardStyle = css`
 `;
 
 const CircleCard = ({
-  status, onClick, imageKey, name, category, applier, applierColor,
+  status, onClick, imageKey, name, category, applier,
 }: ICircleCard) => (
   <DimiCard
     css={CardStyle}
@@ -49,7 +48,9 @@ const CircleCard = ({
       />
     )}
     {applier && (
-      <ApplierBadge>
+      <ApplierBadge
+        applier={applier}
+      >
         <strong>{applier}</strong>
         명
       </ApplierBadge>
@@ -106,7 +107,11 @@ const StatusBadge = styled.img`
   transform: rotate(-11deg);
 `;
 
-const ApplierBadge = styled.span`
+interface ApplierBadgeProps {
+  applier: number;
+}
+
+const ApplierBadge = styled.span<ApplierBadgeProps>`
   font-size: 0.85rem;
   position: absolute;
   width: 58px;
@@ -118,10 +123,32 @@ const ApplierBadge = styled.span`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background-color: #e83c3d !important;
   box-shadow: 0 5px 15px rgba(234,51,51,0.41);
   color: #fff;
-  text-shadow: 2px 2px 3px rgba(248,105,105,0.9);
+  text-shadow: 3px 3px 8px rgba(248,105,105,0.95);
+
+  ${({ applier }) => {
+    if (applier < 5) {
+      return css`
+        background-color: #ffd1d2;
+      `;
+    }
+    const higherLevel = Math.floor(applier / 10);
+    switch (higherLevel) {
+      case 0: return css`
+        background-color: #f5abac;
+      `;
+      case 1: return css`
+        background-color: #e83c3d;
+      `;
+      case 2: return css`
+        background-color: #c72021;
+      `;
+      default: return css`
+        background-color: #a80c0d;
+      `;
+    }
+  }};
 
   strong {
     font-size: 1.2rem;

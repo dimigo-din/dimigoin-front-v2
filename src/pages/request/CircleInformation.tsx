@@ -319,7 +319,8 @@ const CircleFeatureTitle = styled.span`
   font-size: 20px;
   font-weight: ${variables.fontWeightRegular};
   margin-right: 0.5rem;
-  &: last-child {
+
+  &:last-child {
     margin-right: 0;
   }
 `;
