@@ -23,6 +23,7 @@ const LOAD_CIRCLES = gql`
       category
       description
       imageKey
+      applier
       videoLink
       applied
       chair {
