@@ -19,10 +19,8 @@ export default async function magician(action, errorHandler = {}) {
     const handler = errorHandler[err.response.status] || errorHandler.default;
 
     if (!handler) throw err;
-    if (typeof handler === 'string')
-      throw new APIError(handler, err.response.status);
-    if (typeof handler !== 'function')
-      throw new TypeError('type of errorHandler is invalid');
+    if (typeof handler === 'string') throw new APIError(handler, err.response.status);
+    if (typeof handler !== 'function') throw new TypeError('type of errorHandler is invalid');
 
     const value = handler(err);
 

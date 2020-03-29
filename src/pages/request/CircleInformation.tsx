@@ -3,48 +3,126 @@ import { useHistory } from 'react-router-dom';
 import Modal from 'react-responsive-modal';
 import { filter } from 'lodash';
 import styled from '@emotion/styled';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 import CircleCard from '../../components/CircleCard';
 import DimiLoading from '../../components/dimiru/DimiLoading';
 import DimiButton from '../../components/dimiru/DimiButton';
 
-import api from '../../api';
 import { ICircle } from '../../interface/circle';
 import AutoLinker from '../../utils/autolinker';
 
 import variables from '../../scss/_variables.scss';
 
+const LOAD_CIRCLES = gql`
+  query {
+    circles {
+      _id
+      name
+      category
+      description
+      imageKey
+      applier
+      videoLink
+      applied
+      chair {
+        _id
+        name
+        serial
+      }
+      viceChair {
+        _id
+        name
+        serial
+      }
+    }
+  }
+`;
+
+const LOAD_APPLIED_CIRCLES = gql`
+  query {
+    myApplications {
+      _id
+      status
+      circle {
+        _id
+        name
+        category
+        imageKey
+      }
+    }
+  }
+`;
+
+const LOAD_CIRCLE_INFO = gql`
+  query($id: ID!) {
+    circle(_id: $id) {
+      _id
+      name
+      category
+      description
+      imageKey
+      videoLink
+      applied
+      chair {
+        _id
+        name
+        serial
+      }
+      viceChair {
+        _id
+        name
+        serial
+      }
+    }
+  }
+`;
+
 const CircleInformation = () => {
   const history = useHistory();
+
   const [open, setOpen] = useState<boolean>(false);
   const [circles, setCircles] = useState<Array<ICircle>>([]);
   const [applications, setApplications] = useState<
     Array<{ circle: ICircle; status: string }>
   >([]);
-
   const [selectedCircle, setSelectedCircle] = useState<string | null>('');
   const [
     selectedCircleInfo,
     setSelectedCircleInfo,
   ] = useState<ICircle | null>();
 
+  const { data: circlesData } = useQuery(LOAD_CIRCLES);
+  const { data: appliedCirclesData } = useQuery(LOAD_APPLIED_CIRCLES);
+  const { data: circledata, refetch: circleDataRefetch } = useQuery(
+    LOAD_CIRCLE_INFO,
+  );
+
   useEffect(() => {
-    api.get('/circle').then(({ data: { circles } }) => {
-      const NotAppliedCircles = filter(circles, { applied: false });
+    if (circlesData) {
+      const NotAppliedCircles = filter(circlesData.circles, { applied: false });
       setCircles(NotAppliedCircles);
-    });
-    api
-      .get('/circle/application')
-      .then(({ data: { applications } }) => setApplications(applications));
-  }, []);
+    }
+  }, [circlesData]);
+
+  useEffect(() => {
+    if (appliedCirclesData) {
+      setApplications(appliedCirclesData.myApplications);
+    }
+  }, [appliedCirclesData]);
 
   useEffect(() => {
     if (selectedCircle) {
-      api
-        .get(`/circle/id/${selectedCircle}`)
-        .then(({ data: { circle } }) => setSelectedCircleInfo(circle));
+      circleDataRefetch({ id: selectedCircle });
     }
-  }, [selectedCircle]);
+  }, [selectedCircle, circleDataRefetch]);
+
+  useEffect(() => {
+    if (circledata) {
+      setSelectedCircleInfo(circledata.circle);
+    }
+  }, [circledata]);
 
   useEffect(() => {
     if (!open) {
@@ -72,6 +150,7 @@ const CircleInformation = () => {
                 imageKey={application.circle.imageKey}
                 name={application.circle.name}
                 category={application.circle.category}
+                applier={application.circle.applier}
                 status={application.status}
               />
             ))}
@@ -150,16 +229,18 @@ const CircleInformation = () => {
               src={`https://www.youtube.com/embed/${selectedCircleInfo.videoLink}`}
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             />
-            <ButtonWrap>
-              <DimiButton
-                large
-                click={() => history.push('/request/circle/application', {
-                  circleId: selectedCircle,
-                })}
-              >
-                지원하기
-              </DimiButton>
-            </ButtonWrap>
+            {!selectedCircleInfo.applied && (
+              <ButtonWrap>
+                <DimiButton
+                  large
+                  click={() => history.push('/request/circle/application', {
+                    circleId: selectedCircle,
+                  })}
+                >
+                  지원하기
+                </DimiButton>
+              </ButtonWrap>
+            )}
           </>
         ) : (
           <LoadingWrap>
