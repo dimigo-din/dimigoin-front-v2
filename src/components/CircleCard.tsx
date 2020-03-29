@@ -11,6 +11,8 @@ interface ICircleCard {
   name: string;
   category: string;
   status?: string;
+  applier?: number | null;
+  applierColor?: string | null;
   onClick?: () => void;
 }
 
@@ -26,7 +28,7 @@ const CardStyle = css`
 `;
 
 const CircleCard = ({
-  status, onClick, imageKey, name, category,
+  status, onClick, imageKey, name, category, applier, applierColor,
 }: ICircleCard) => (
   <DimiCard
     css={CardStyle}
@@ -45,6 +47,12 @@ const CircleCard = ({
       <StatusBadge
         src={`/static/badges/${status.toUpperCase()}.svg`}
       />
+    )}
+    {applier && (
+      <ApplierBadge>
+        <strong>{applier}</strong>
+        명
+      </ApplierBadge>
     )}
   </DimiCard>
 );
@@ -96,6 +104,30 @@ const StatusBadge = styled.img`
   bottom: -12px;
   right: -12px;
   transform: rotate(-11deg);
+`;
+
+const ApplierBadge = styled.span`
+  font-size: 0.85rem;
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  border-radius: 45%;
+  bottom: -12px;
+  right: -12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #e83c3d !important;
+  box-shadow: 0 5px 15px rgba(234,51,51,0.41);
+  color: #fff;
+  text-shadow: 2px 2px 3px rgba(248,105,105,0.9);
+
+  strong {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-right: 1.5px;
+  }
 `;
 
 export default CircleCard;

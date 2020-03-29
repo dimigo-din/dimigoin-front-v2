@@ -44,6 +44,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'no-underscore-dangle': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
+    'import/prefer-default-export': 'off',
   },
   settings: {
     'import/resolver': {
