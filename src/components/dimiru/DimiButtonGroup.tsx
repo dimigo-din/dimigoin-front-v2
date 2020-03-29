@@ -6,7 +6,7 @@ import css from '@emotion/css';
 import variables from '../../scss/_variables.scss';
 
 export default ({
-  value = 0, colors = ['gray'], items, input, click,
+  value = 0, colors = ['gray'], items, input, click, clickable = true,
 }: {
   value?: number;
   colors: string[];
@@ -16,6 +16,7 @@ export default ({
     setPrevent: () => void;
     done(): void;}) => void;
   input?: (index: number) => void;
+  clickable?: boolean;
 }) => {
   const onclick = (index: number) => {
     let prevent = false;
@@ -36,6 +37,7 @@ export default ({
       {items.map((item, index) => (
         <Button
           role="button"
+          clickable={clickable}
           key={`button-${item}`}
           data-active={index === value}
           onClick={() => onclick(index)}
@@ -58,7 +60,9 @@ const Group = styled.div`
   user-select: none;
 `;
 
-const Button = styled.div`
+const Button = styled.div<{
+  clickable: boolean;
+}>`
   display: inline-block;
   width: 70px;
   padding-top: 0.35em;
@@ -67,6 +71,9 @@ const Button = styled.div`
   cursor: pointer;
   text-align: center;
   transition: all 0.2s ease-in-out;
+  ${({ clickable }) => clickable || `
+    cursor: not-allowed;
+  `}
   &:first-of-type {
     border-bottom-left-radius: 4em;
     border-top-left-radius: 4em;
