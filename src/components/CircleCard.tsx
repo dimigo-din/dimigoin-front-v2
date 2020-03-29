@@ -107,9 +107,9 @@ const StatusBadge = styled.img`
   transform: rotate(-11deg);
 `;
 
-type ApplierBadgeProps = {
+interface ApplierBadgeProps {
   applier: number;
-};
+}
 
 const ApplierBadge = styled.span<ApplierBadgeProps>`
   font-size: 0.85rem;
