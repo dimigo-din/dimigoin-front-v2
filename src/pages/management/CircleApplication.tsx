@@ -40,9 +40,8 @@ interface Application {
 }
 
 const Name = css`
-  width: 99%;
+  word-break: break-all;
   line-height: 1.5;
-  white-space: normal;
 `;
 
 const Status = css`
@@ -63,6 +62,71 @@ const Header = css`
   }
 `;
 
+const getQuestionByObjectId = (id: string) => {
+  if (id === '5e79c2b0cf414516739e5fcc') return '지원동기';
+  if (id === '5e79c2b0cf414516739e5fcd') return '하고 싶은 일과 앞으로의 목표';
+  if (id === '5e79c2b0cf414516739e5fce') return '자기계발을 위해 내가 한 노력';
+  if (id === '5e79c2b0cf414516739e5fcf') return '성격과 생활태도를 중심으로 자신의 장단점 서술';
+  return '알수없는질문';
+};
+
+const Form = ({ form, opened }: {form: Application['form']; opened: boolean}) => (
+  <>
+    {Object.keys(form).sort().map((q) => (
+      <Qna opened={opened} key={q}>
+        <Question>
+          {getQuestionByObjectId(q)}
+        </Question>
+        <p>
+          {form[q]}
+        </p>
+      </Qna>
+    ))}
+  </>
+);
+
+const FoldableRow = ({
+  item, isTeacher, items, onButtonClick, isButtonClickable = true,
+}: {
+  item: Application;
+  isTeacher: boolean;
+  items: string[];
+  isButtonClickable?: boolean;
+  onButtonClick: (e: {
+    value: number;
+    items: string[];
+    setPrevent: () => void;
+    done(): void;
+  }) => void;
+}) => {
+  const [opened, setOpenedState] = useState(false);
+  return (
+    <Row key={item._id} onClick={() => getSelection()!.toString() || setOpenedState((previousState) => !previousState)}>
+      {isTeacher && (
+      <Cell>
+        {item.circle.name}
+      </Cell>
+      )}
+      <Cell>
+        { item.applier.serial }
+      </Cell>
+      <Cell css={Name}>
+        {item.applier.name}
+        <Form form={item.form} opened={opened} />
+      </Cell>
+      <Cell>
+        <DimiBadgeGroup
+          items={items}
+          colors={['aloes', 'orange']}
+          css={Status}
+          click={onButtonClick}
+          clickable={isButtonClickable}
+        />
+      </Cell>
+    </Row>
+  );
+};
+
 const CircleApplication: React.FC = () => {
   const [list, setList] = useState<Application[]>([]);
   const { userType } = auth.getUserInfo();
@@ -76,14 +140,6 @@ const CircleApplication: React.FC = () => {
     },
     [isTeacher],
   );
-
-  const getQuestionByObjectId = (id: string) => {
-    if (id === '5e79c2b0cf414516739e5fcc') return '지원동기';
-    if (id === '5e79c2b0cf414516739e5fcd') return '하고 싶은 일과 앞으로의 목표';
-    if (id === '5e79c2b0cf414516739e5fce') return '자기계발을 위해 내가 한 노력';
-    if (id === '5e79c2b0cf414516739e5fcf') return '성격과 생활태도를 중심으로 자신의 장단점 서술';
-    return '알수없는질문';
-  };
   const updateStatus = async (
     { setPrevent, ...event }: {
       value: number;
@@ -143,10 +199,10 @@ const CircleApplication: React.FC = () => {
                 </Cell>
               </Row>
             )}
-            {list.map((item) => {
-              const [items, statuses] = (() => {
+            {list.map((application) => {
+              const [buttonItems, settableStates] = (() => {
                 if (isTeacher) {
-                  switch (item.status) {
+                  switch (application.status) {
                     case handleCircle.APPLIED:
                       return [['제출']];
                     case handleCircle.DOCUMENT_FAIL:
@@ -163,7 +219,7 @@ const CircleApplication: React.FC = () => {
                       return [['알수없음']];
                   }
                 }
-                switch (item.status) {
+                switch (application.status) {
                   case handleCircle.APPLIED:
                     return [['서류합격', '불합격'], [handleCircle.DOCUMENT_PASS, handleCircle.DOCUMENT_FAIL]];
                   case handleCircle.DOCUMENT_PASS:
@@ -182,42 +238,16 @@ const CircleApplication: React.FC = () => {
               })();
 
               return (
-                <Row key={item._id}>
-                  {isTeacher && (
-                    <Cell>
-                      {item.circle.name}
-                    </Cell>
-                  )}
-                  <Cell>
-                    { item.applier.serial }
-                  </Cell>
-                  <Cell css={Name}>
-                    { item.applier.name }
-                    {' '}
-                    <br />
-                    <br />
-                    {' '}
-                    {Object.keys(item.form).sort().map((q) => (
-                      <Qna>
-                        <Question>
-                          {getQuestionByObjectId(q)}
-                        </Question>
-                        {item.form[q]}
-                      </Qna>
-                    ))}
-                  </Cell>
-                  <Cell>
-                    <DimiBadgeGroup
-                      v-model="item.status"
-                      items={items}
-                      colors={['aloes', 'orange']}
-                      click={(e) => {
-                        if (statuses) updateStatus(e, item, statuses[e.value], items[e.value]);
-                      }}
-                      css={Status}
-                    />
-                  </Cell>
-                </Row>
+                <FoldableRow
+                  key={application._id}
+                  isTeacher={isTeacher}
+                  onButtonClick={(e) => {
+                    if (settableStates) updateStatus(e, application, settableStates[e.value], buttonItems[e.value]);
+                  }}
+                  item={application}
+                  items={buttonItems}
+                  isButtonClickable={!!settableStates}
+                />
               );
             })}
           </tbody>
@@ -241,7 +271,7 @@ const Table = styled.table`
 
 const Cell = styled.td`
   padding: 20px 10px;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 `;
 
 const Row = styled.tr`
@@ -252,8 +282,14 @@ const Row = styled.tr`
 
 const Question = styled.p`
   font-weight: bold;
+  margin-top: 6px;
 `;
 
-const Qna = styled.p`
-  margin-bottom: 10px;
+const Qna = styled.div<{opened: boolean}>`
+  height: 0px;
+  overflow-y: hidden;
+  ${({ opened }) => opened && `
+    height: unset;
+  `}
+  /* transition: 200ms cubic-bezier(0,.65,.25,.95); */
 `;
