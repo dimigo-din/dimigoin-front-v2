@@ -28,13 +28,13 @@ jobs:
 
       - name: deploy package🚀
         run: sudo nginx -s reload
-        
+
       - name: Purge cloudflare cache
         uses: jakejarvis/cloudflare-purge-action@master
         env:
-          CLOUDFLARE_ZONE: "dimigo.in"
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
           CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
-      
+
       - name: Slack Notification failed 🙅
         if: failure()
         uses: rtCamp/action-slack-notify@v2.0.0
