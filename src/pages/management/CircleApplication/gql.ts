@@ -8,6 +8,10 @@ export const GET_ALL_APPLICATIONS = gql`
                 _id
                 name
                 serial
+                appliedCircles {
+                    name
+                    imageKey
+                }
             }
             status
             circle {
@@ -26,6 +30,10 @@ export const GET_APPLICATIONS_BY_CIRCLE = gql`
                 _id
                 name
                 serial
+                # appliedCircles {
+                #     name
+                #     imageKey
+                # }
             }
             status
             form

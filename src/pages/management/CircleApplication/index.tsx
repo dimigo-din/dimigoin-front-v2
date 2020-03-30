@@ -13,9 +13,17 @@ import { GET_ALL_APPLICATIONS, GET_APPLICATIONS_BY_CIRCLE, SET_APPLIER_STATUS } 
 import { getQuestionByObjectId, getActionByStatus } from './functions';
 import {
   Row, Cell, Qna, Question, Badges, Card, Table,
-  Name, Header, EmptyList, LoadingContainer, badgesWrap,
+  Name, Header, EmptyList, LoadingContainer, badgesWrap, Chip,
+  ChipWithHoverWrap, NameWrapper, HoverTip,
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
+
+const ChipWithHover = ({ name }: {name: string}) => (
+  <ChipWithHoverWrap>
+    <Chip src="https://dimigoin.s3.ap-northeast-2.amazonaws.com/CIRCLE_PROFILE/%EC%84%A0%EC%9D%B8%EC%9E%A5.png" />
+    <HoverTip>{name}</HoverTip>
+  </ChipWithHoverWrap>
+);
 
 const FoldableRow = ({
   application, isTeacher, buttonConfig,
@@ -49,7 +57,11 @@ const FoldableRow = ({
         { application.applier.serial }
       </Cell>
       <Cell css={Name}>
-        {application.applier.name}
+        <NameWrapper>
+          <p>{application.applier.name}</p>
+          <ChipWithHover name="선인장" />
+          <ChipWithHover name="선인장" />
+        </NameWrapper>
         {Object.keys(application.form).sort().map((q) => (
           <Qna opened={opened} key={q}>
             <Question>
