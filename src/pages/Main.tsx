@@ -22,6 +22,8 @@ const MainPage = () => {
     setInfo(auth.getUserInfo());
   }, []);
 
+  const isTeacher = info?.userType === 'T';
+
   return (
     <Container>
       <Brand>
@@ -38,10 +40,22 @@ const MainPage = () => {
                   <ProfileDefaultPhoto className="icon-profile" />
                 )}
                 <ProfileInfo>
-                  <ProfileInfoSerial>
-                    {info && `${info.grade}학년 ${info.class}반`}
-                  </ProfileInfoSerial>
-                  <ProfileInfoName>{info?.name}</ProfileInfoName>
+                  {isTeacher ? (
+                    <>
+                      <ProfileInfoName>{info?.name}</ProfileInfoName>
+                      &nbsp;
+                      <ProfileInfoSerial>
+                        선생님
+                      </ProfileInfoSerial>
+                    </>
+                  ) : (
+                    <>
+                      <ProfileInfoSerial>
+                        {info && `${info.grade}학년 ${info.class}반`}
+                      </ProfileInfoSerial>
+                      <ProfileInfoName>{info?.name}</ProfileInfoName>
+                    </>
+                  )}
                 </ProfileInfo>
               </ProfileInfoLeft>
 
