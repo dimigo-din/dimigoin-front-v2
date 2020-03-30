@@ -21,10 +21,17 @@ export const getActionByStatus = (status: statusType, isTeacher: boolean) => {
       [handleCircle.FINAL]: [['최종선택']],
     })[status] || '알수없음';
   }
+
   return ({
-    [handleCircle.APPLIED]: [['서류합격', '불합격'], [handleCircle.DOCUMENT_PASS, handleCircle.DOCUMENT_FAIL]],
+    [handleCircle.APPLIED]: [
+      ['서류합격', '불합격'],
+      [handleCircle.DOCUMENT_PASS, handleCircle.DOCUMENT_FAIL],
+    ],
     [handleCircle.FAIL]: [['탈락']],
-    [handleCircle.DOCUMENT_PASS]: [['면접합격', '불합격'], [handleCircle.INTERVIEW_PASS, handleCircle.INTERVIEW_FAIL]],
+    [handleCircle.DOCUMENT_PASS]: [
+      ['면접합격', '불합격'],
+      [handleCircle.INTERVIEW_PASS, handleCircle.INTERVIEW_FAIL],
+    ],
     [handleCircle.DOCUMENT_FAIL]: [['서류탈락']],
     [handleCircle.INTERVIEW_FAIL]: [['면접탈락']],
     [handleCircle.INTERVIEW_PASS]: [['면접합격']],
