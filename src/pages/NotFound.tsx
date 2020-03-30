@@ -34,7 +34,7 @@ const NotFoundPage: React.FC = () => {
           onClick={goBack}
         >
           <Dimigoincon icon="long-arrow-right" />
-          이전으로
+          {' 메인으로'}
         </BackButton>
       </Column>
     </Container>
