@@ -43,6 +43,7 @@ const MainPage = () => {
                   {isTeacher ? (
                     <>
                       <ProfileInfoName>{info?.name}</ProfileInfoName>
+                      &nbsp;
                       <ProfileInfoSerial>
                         선생님
                       </ProfileInfoSerial>
