@@ -6,31 +6,18 @@ import css from '@emotion/css';
 import variables from '../../scss/_variables.scss';
 
 export default ({
-  value = 0, colors = ['gray'], items, input, click, clickable = true,
+  value = 0, colors = ['gray'], items, click, clickable = true,
 }: {
   value?: number;
   colors: string[];
   items: string[];
-  click?: (event: {value: number;
-    items: string[];
-    setPrevent: () => void;
-    done(): void;}) => void;
-  input?: (index: number) => void;
+  click?: (index: number) => void;
   clickable?: boolean;
 }) => {
   const onclick = (index: number) => {
-    let prevent = false;
-    const event = {
-      value: index,
-      items,
-      setPrevent() {
-        prevent = true;
-      },
-      done() {
-        if (!prevent && input) input(index);
-      },
-    };
-    if (click) click(event);
+    if (click) {
+      click(index);
+    }
   };
   return (
     <Group>
