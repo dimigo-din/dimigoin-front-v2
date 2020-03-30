@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { throttle } from 'lodash';
 
 import ContentWrapper from '../../../components/ContentWrapper';
-import { circleManager } from '../../../api/circle';
+import DimiLoading from '../../../components/dimiru/DimiLoading';
 import auth from '../../../utils/auth';
 import swal from '../../../utils/swal';
+import { graphqlErrorMessage } from '../../../utils/error';
 
 import { statusType, Application } from './types';
+import { GET_ALL_APPLICATIONS, GET_APPLICATIONS_BY_CIRCLE, SET_APPLIER_STATUS } from './gql';
 import { getQuestionByObjectId, getActionByStatus } from './functions';
 import {
-  Row, Cell, Qna, Question, Badges, Card, Table, Name, Header, EmptyList,
+  Row, Cell, Qna, Question, Badges, Card, Table,
+  Name, Header, EmptyList, LoadingContainer, badgesWrap,
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
 
@@ -56,7 +61,7 @@ const FoldableRow = ({
           </Qna>
         ))}
       </Cell>
-      <Cell>
+      <Cell css={badgesWrap}>
         <Badges
           items={buttonConfig.items}
           colors={['aloes', 'orange']}
@@ -69,14 +74,64 @@ const FoldableRow = ({
 };
 
 const CircleApplication: React.FC = () => {
-  const [list, setList] = useState<Application[]>([]);
+  let loadedPages = 1;
+  let pending = false;
   const isTeacher = auth.getUserInfo().userType === 'T';
+  const hookConfig = {
+    query: isTeacher ? GET_ALL_APPLICATIONS : GET_APPLICATIONS_BY_CIRCLE,
+    config: {
+      variables: {
+        page: 1,
+      },
+    },
+  };
+
+  const query = useQuery<{
+    allApplications?: Application[];
+    applications?: Application[];
+  }>(hookConfig.query, hookConfig.config);
+  const { fetchMore, refetch } = query;
+
+  const [setApplierStatus] = useMutation(SET_APPLIER_STATUS, {
+    onError(err) {
+      swal.error(graphqlErrorMessage(err));
+    },
+    onCompleted() {
+      refetch();
+    },
+  });
+
+  const list = isTeacher ? query.data?.allApplications : query.data?.applications;
 
   useEffect(() => {
-    circleManager.getCircleApplicant(isTeacher)
-      .then((applications) => setList(applications))
-      .catch((err) => swal.error(err.message));
-  }, [isTeacher]);
+    // disable loadmore for 동장
+    if (isTeacher) {
+      const eventListener = throttle((e) => {
+        if (window.innerHeight + window.scrollY > document.documentElement.offsetHeight - 1800
+         && (!pending)) {
+          pending = true;
+          e.preventDefault();
+          loadedPages += 1;
+          fetchMore({
+            variables: {
+              page: loadedPages,
+            },
+            updateQuery({ allApplications: prev }, { fetchMoreResult }) {
+              pending = false;
+              if (!fetchMoreResult?.allApplications || !prev) return { allApplications: prev };
+              return {
+                allApplications: [...prev, ...(fetchMoreResult.allApplications)],
+              };
+            },
+          });
+        }
+      }, 300);
+      window.addEventListener('scroll', eventListener);
+      return () => {
+        window.removeEventListener('scroll', eventListener);
+      };
+    }
+  }, []);
 
   const selectStatus = async (
     application: Application,
@@ -87,13 +142,14 @@ const CircleApplication: React.FC = () => {
       `정말 ${application.applier.name} 지원자를 ${selectedMessage}처리 하실 건가요? 이 작업은 되돌릴 수 없습니다.`,
     );
     if (!answer) return;
-
-    circleManager
-      .setApplierStatus(application.applier._id, selectedStatus)
-      .then(() => circleManager.getCircleApplicant())
-      .then((updatedApplications) => setList(updatedApplications))
-      .catch((err) => swal.error(err.message, '에러!'));
+    setApplierStatus({
+      variables: {
+        status: selectedStatus,
+        applierId: application.applier._id,
+      },
+    });
   };
+  console.log(list);
   return (
     <ContentWrapper
       header={(
@@ -116,14 +172,15 @@ const CircleApplication: React.FC = () => {
             </Row>
           </thead>
           <tbody>
-            {!list.length && (
+            {!list?.length && (
               <Row>
                 <Cell css={EmptyList}>
                   지원서를 불러오는중입니다...
                 </Cell>
               </Row>
             )}
-            {list.map((application) => {
+
+            {list?.map((application) => {
               const [buttonItems,
                 settableStatus] = getActionByStatus(application.status, isTeacher);
 
@@ -147,6 +204,11 @@ const CircleApplication: React.FC = () => {
             })}
           </tbody>
         </Table>
+        {isTeacher && (
+        <LoadingContainer>
+          <DimiLoading />
+        </LoadingContainer>
+        )}
       </Card>
     </ContentWrapper>
   );

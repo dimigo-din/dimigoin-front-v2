@@ -62,3 +62,12 @@ export const Qna = styled.div<{opened: boolean}>`
 export const Badges = styled(DimiBadgeGroup)`
   text-align: right;
 `;
+export const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+`;
+
+export const badgesWrap = css`
+  width: 143px;
+`;
