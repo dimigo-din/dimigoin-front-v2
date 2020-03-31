@@ -28,7 +28,7 @@ const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   </ChipWithHoverWrap>
 );
 
-const TimeInput: React.FC<{}> = () => {
+const TimeInput: React.FC<{isTeacher: boolean}> = ({ isTeacher }) => {
   const [interviewTime, setInterviewTime] = useState<Date>(new Date('2020.04.02 09:00'));
 
   const checkValidTime = (date: Date) => {
@@ -53,10 +53,13 @@ const TimeInput: React.FC<{}> = () => {
       <DateTimePicker
         value={interviewTime}
         onChange={onChangeInterviewTime}
+        disabled={isTeacher}
       />
-      <DateTimeSubmitButton>
-        설정하기
-      </DateTimeSubmitButton>
+      {!isTeacher && (
+        <DateTimeSubmitButton>
+          설정하기
+        </DateTimeSubmitButton>
+      )}
     </DateTimeWrapper>
   );
 };
@@ -82,7 +85,8 @@ const FoldableRow = ({
     }
   };
 
-  const isDocumentPassed = buttonConfig.items[0] === '면접합격';
+  const isDocumentPassed = buttonConfig.items[0]
+    === (isTeacher ? '서류합격' : '면접합격');
 
   return (
     <Row key={application._id}>
@@ -110,7 +114,11 @@ const FoldableRow = ({
             </p>
           </Qna>
         ))}
-        {isDocumentPassed && <TimeInput />}
+        {isDocumentPassed && (
+          <TimeInput
+            isTeacher={isTeacher}
+          />
+        )}
       </Cell>
       <Cell>
         <ChipListWrap>

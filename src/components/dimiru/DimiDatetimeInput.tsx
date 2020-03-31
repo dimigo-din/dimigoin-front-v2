@@ -4,15 +4,22 @@ import styled from 'styled-components';
 
 import variables from '../../scss/_variables.scss';
 
-const DimiDatetimePicker = ({ className = '', value, onChange }: {
+const DimiDatetimePicker = ({
+  value,
+  onChange,
+  className = '',
+  disabled = false,
+}: {
   className?: string;
   value?: Date;
   onChange?: (date: Date) => void;
+  disabled?: boolean;
 }) => (
   <StyledDateTimePicker
     className={className}
     value={value}
     onChange={onChange}
+    disabled={disabled}
   />
 );
 
