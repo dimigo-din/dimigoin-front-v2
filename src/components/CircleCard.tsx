@@ -13,6 +13,7 @@ interface ICircleCard {
   status?: string;
   applier?: number | null;
   onClick?: () => void;
+  interviewTime?: Date | '';
 }
 
 const CardStyle = css`
@@ -27,7 +28,7 @@ const CardStyle = css`
 `;
 
 const CircleCard = ({
-  status, onClick, imageKey, name, category, applier,
+  status, onClick, imageKey, name, category, applier, interviewTime,
 }: ICircleCard) => (
   <DimiCard
     css={CardStyle}
@@ -37,9 +38,35 @@ const CircleCard = ({
     <CircleInfoWrap>
       <CircleTitle>{name}</CircleTitle>
       <CircleFeatureWrap>
-        <CircleFeatureInfo>
+        <CircleFeatureInfo
+          css={interviewTime
+            && css`
+              margin-bottom: 1rem;`}
+        >
           {category}
         </CircleFeatureInfo>
+        {interviewTime && (
+        <InterviewTimeWrapper>
+          면접 예상 시간:
+          {console.log(interviewTime)}
+          <InterviewTime>
+            {interviewTime.getMonth() + 1}
+월
+            {' '}
+            {interviewTime.getDate()}
+일
+            {' '}
+            {interviewTime.getHours()}
+시
+            {' '}
+            {interviewTime.getMinutes()}
+분
+          </InterviewTime>
+(
+            {interviewTime.getHours() < 12 ? '오전' : '오후'}
+)
+        </InterviewTimeWrapper>
+        )}
       </CircleFeatureWrap>
     </CircleInfoWrap>
     {status && (
@@ -81,7 +108,24 @@ const CircleInfoWrap = styled.div`
 
 const CircleFeatureWrap = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+`;
+
+const InterviewTimeWrapper = styled.div`
+  padding: 0.5rem 1rem;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #dadeeb;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  background-color: #f0f0f0;
+  color: #6d6d6d;
+`;
+
+const InterviewTime = styled.p`
+  font-weight: bold;
+  color: black;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  font-size: 1rem;
 `;
 
 const CircleTitle = styled.span`
