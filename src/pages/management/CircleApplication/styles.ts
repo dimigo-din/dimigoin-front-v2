@@ -91,10 +91,7 @@ export const ChipWithHoverWrap = styled.div`
 export const NameWrapper = styled.div`
   display: flex;
   flex-direction: row;
-<<<<<<< HEAD
-=======
   cursor: pointer;
->>>>>>> 435b136c255409c6585166faf5c7de5710c3fb27
 `;
 
 export const HoverTip = styled.p`
