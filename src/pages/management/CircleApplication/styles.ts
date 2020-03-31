@@ -1,8 +1,11 @@
 import css from '@emotion/css';
-
 import styled from '@emotion/styled';
+
 import DimiBadgeGroup from '../../../components/dimiru/DimiButtonGroup';
+import DimiButton from '../../../components/dimiru/DimiButton';
 import DimiCard from '../../../components/dimiru/DimiCard';
+import DimiDatetimePicker from '../../../components/dimiru/DimiDatetimeInput';
+
 import variables from '../../../scss/_variables.scss';
 
 export const Name = css`
@@ -88,6 +91,10 @@ export const ChipWithHoverWrap = styled.div`
 export const NameWrapper = styled.div`
   display: flex;
   flex-direction: row;
+<<<<<<< HEAD
+=======
+  cursor: pointer;
+>>>>>>> 435b136c255409c6585166faf5c7de5710c3fb27
 `;
 
 export const HoverTip = styled.p`
@@ -107,4 +114,24 @@ export const ChipListWrap = styled.div`
   flex-direction: row;
   padding: 0 0.5rem;
   min-width: 97px;
+`;
+
+export const DateTimeWrapper = styled.div`
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  margin-top: 1rem;
+`;
+
+export const DateTimeField = styled(Question)`
+  margin: 0;
+`;
+
+export const DateTimePicker = styled(DimiDatetimePicker)`
+  margin-left: 0.5rem;
+`;
+
+export const DateTimeSubmitButton = styled(DimiButton)`
+  padding: 0.5rem 1.2rem;
+  margin-left: 0.5rem;
 `;

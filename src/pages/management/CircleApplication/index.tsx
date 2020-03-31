@@ -9,14 +9,22 @@ import swal from '../../../utils/swal';
 import { graphqlErrorMessage } from '../../../utils/error';
 
 import { statusType, AppliedCircle, Application } from './types';
-import { GET_ALL_APPLICATIONS, GET_APPLICATIONS_BY_CIRCLE, SET_APPLIER_STATUS } from './gql';
+import {
+  GET_ALL_APPLICATIONS,
+  GET_APPLICATIONS_BY_CIRCLE,
+  SET_APPLIER_STATUS,
+  SET_INTERVIEW_TIME,
+} from './gql';
 import { getQuestionByObjectId, getActionByStatus } from './functions';
 import {
   Row, Cell, Qna, Question, Badges, Card, Table,
   Name, Header, EmptyList, LoadingContainer, badgesWrap, Chip,
   ChipWithHoverWrap, NameWrapper, HoverTip, ChipListWrap,
+  DateTimeWrapper, DateTimeField, DateTimePicker, DateTimeSubmitButton,
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
+
+const validDateStrings = ['Thu Apr 02 2020', 'Fri Apr 03 2020'];
 
 const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   <ChipWithHoverWrap>
@@ -24,6 +32,72 @@ const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
     <HoverTip>{name}</HoverTip>
   </ChipWithHoverWrap>
 );
+
+const TimeInput: React.FC<{
+  applierId: string;
+  isTeacher: boolean;
+  interviewTime: string | null;
+}> = ({ applierId, isTeacher, interviewTime }) => {
+  const defaultDate = new Date('2020.04.02 09:00');
+  const [interviewDateTime, setInterviewDateTime] = useState<Date>(
+    interviewTime ? new Date(Number(interviewTime)) : defaultDate,
+  );
+
+  const checkValidTime = (date: Date) => {
+    const hours = date.getHours();
+    return (
+      validDateStrings.includes(date.toDateString())
+      && (hours >= 9) && (hours < 16)
+    );
+  };
+
+  const onChangeInterviewDateTime = (changedDate: Date | null) => {
+    if (!changedDate) {
+      return setInterviewDateTime(defaultDate);
+    }
+    if (!checkValidTime(changedDate)) {
+      return swal.error('올바른 면접 시간이 아닙니다');
+    }
+    return setInterviewDateTime(changedDate);
+  };
+
+  const [setInterviewTime] = useMutation(SET_INTERVIEW_TIME, {
+    onCompleted: () => swal.success('면접 시간을 설정했습니다.'),
+    onError: async (error) => {
+      await swal.error(graphqlErrorMessage(error));
+    },
+  });
+
+  const onClickSubmitTime = () => {
+    setInterviewTime({
+      variables: {
+        applierId,
+        interviewTime: interviewDateTime
+          .getTime()
+          .toString(),
+      },
+    });
+  };
+
+  return (
+    <DateTimeWrapper>
+      <DateTimeField>면접 시간</DateTimeField>
+      <DateTimePicker
+        value={interviewDateTime}
+        onChange={onChangeInterviewDateTime}
+        disabled={isTeacher}
+      />
+      {!isTeacher && (
+        <DateTimeSubmitButton
+          // die
+          click={onClickSubmitTime}
+        >
+          설정하기
+        </DateTimeSubmitButton>
+      )}
+    </DateTimeWrapper>
+  );
+};
 
 const FoldableRow = ({
   application, isTeacher, buttonConfig,
@@ -38,17 +112,19 @@ const FoldableRow = ({
 }) => {
   const [opened, setOpenedStatus] = useState(false);
   const { applier } = application;
+  const onClickRow = () => {
+    // getSelection().toString()은 현재 windows에서 선택된 문자를 가져옵니다.
+    if (!getSelection()?.toString()) {
+      // 토글
+      setOpenedStatus((previousStatus) => !previousStatus);
+    }
+  };
+
+  const isDocumentPassed = buttonConfig.items[0]
+    === (isTeacher ? '서류합격' : '면접합격');
+
   return (
-    <Row
-      key={application._id}
-      onClick={() => {
-        // getSelection().toString()은 현재 windows에서 선택된 문자를 가져옵니다.
-        if (!getSelection()?.toString()) {
-          // 토글
-          setOpenedStatus((previousStatus) => !previousStatus);
-        }
-      }}
-    >
+    <Row key={application._id}>
       {isTeacher && (
       <Cell>
         {application.circle.name}
@@ -58,7 +134,9 @@ const FoldableRow = ({
         {applier.serial}
       </Cell>
       <Cell css={Name}>
-        <NameWrapper>
+        <NameWrapper
+          onClick={onClickRow}
+        >
           <p>{applier.name}</p>
         </NameWrapper>
         {Object.keys(application.form).sort().map((q) => (
@@ -71,6 +149,13 @@ const FoldableRow = ({
             </p>
           </Qna>
         ))}
+        {isDocumentPassed && (
+          <TimeInput
+            applierId={applier._id}
+            interviewTime={application.interviewTime}
+            isTeacher={isTeacher}
+          />
+        )}
       </Cell>
       <Cell>
         <ChipListWrap>
@@ -171,7 +256,6 @@ const CircleApplication: React.FC = () => {
       },
     });
   };
-  console.log(list);
   return (
     <ContentWrapper
       header={(
