@@ -56,9 +56,55 @@ export const Qna = styled.div<{opened: boolean}>`
   ${({ opened }) => opened && `
     height: unset;
   `}
-  /* transition: 200ms cubic-bezier(0,.65,.25,.95); */
 `;
 
 export const Badges = styled(DimiBadgeGroup)`
   text-align: right;
+`;
+export const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+`;
+
+export const badgesWrap = css`
+  width: 143px;
+`;
+
+export const Chip = styled.img`
+  width: 21px;
+  height: 21px;
+  vertical-align: middle;
+  margin-left: 6px;
+`;
+
+export const ChipWithHoverWrap = styled.div`
+  &:hover > p {
+    opacity: 1;
+    margin-top: 10px;
+  }
+`;
+
+export const NameWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const HoverTip = styled.p`
+  position: absolute;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 6px;
+  border-radius: 30px;
+  color: white;
+  margin-top: 0px;
+  margin-left: -8px;
+  transition: 200ms cubic-bezier(0,.65,.25,.95);
+`;
+
+export const ChipListWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 0 0.5rem;
+  min-width: 97px;
 `;

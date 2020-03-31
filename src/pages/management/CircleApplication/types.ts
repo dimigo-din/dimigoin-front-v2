@@ -6,6 +6,11 @@ export type statusType =
   | 'interview-pass'
   | 'final';
 
+export interface AppliedCircle {
+  name: string;
+  imageKey: string;
+}
+
 export interface Application {
   _id: string;
   status: statusType;
@@ -20,5 +25,6 @@ export interface Application {
     _id: string;
     name: string;
     serial: number;
+    appliedCircles: AppliedCircle[];
   };
 }

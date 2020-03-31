@@ -14,7 +14,8 @@ export default ({
   click?: (index: number) => void;
   clickable?: boolean;
 }) => {
-  const onclick = (index: number) => {
+  const onclick = (index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation();
     if (click) {
       click(index);
     }
@@ -27,7 +28,7 @@ export default ({
           clickable={clickable}
           key={`button-${item}`}
           data-active={index === value}
-          onClick={() => onclick(index)}
+          onClick={(event) => onclick(index, event)}
           css={css`
             border-color: ${colors[index]};
             color: ${colors[index]};
