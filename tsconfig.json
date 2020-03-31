@@ -16,5 +16,8 @@
     "jsx": "react",
     "types": ["@emotion/core", "node"]
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "declares"
+  ]
 }

@@ -15,6 +15,7 @@ import {
   Row, Cell, Qna, Question, Badges, Card, Table,
   Name, Header, EmptyList, LoadingContainer, badgesWrap, Chip,
   ChipWithHoverWrap, NameWrapper, HoverTip, ChipListWrap,
+  DateTimeWrapper, DateTimeField, DateTimePicker, DateTimeSubmitButton,
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
 
@@ -38,17 +39,19 @@ const FoldableRow = ({
 }) => {
   const [opened, setOpenedStatus] = useState(false);
   const { applier } = application;
+  const onClickRow = () => {
+    // getSelection().toString()은 현재 windows에서 선택된 문자를 가져옵니다.
+    if (!getSelection()?.toString()) {
+      // 토글
+      setOpenedStatus((previousStatus) => !previousStatus);
+    }
+  };
+
+  const isDocumentPassed =
+    (buttonConfig.clickable === false) && (buttonConfig.items[0] === '서류합격');
+
   return (
-    <Row
-      key={application._id}
-      onClick={() => {
-        // getSelection().toString()은 현재 windows에서 선택된 문자를 가져옵니다.
-        if (!getSelection()?.toString()) {
-          // 토글
-          setOpenedStatus((previousStatus) => !previousStatus);
-        }
-      }}
-    >
+    <Row key={application._id}>
       {isTeacher && (
       <Cell>
         {application.circle.name}
@@ -58,7 +61,9 @@ const FoldableRow = ({
         {applier.serial}
       </Cell>
       <Cell css={Name}>
-        <NameWrapper>
+        <NameWrapper
+          onClick={onClickRow}
+        >
           <p>{applier.name}</p>
         </NameWrapper>
         {Object.keys(application.form).sort().map((q) => (
@@ -71,6 +76,15 @@ const FoldableRow = ({
             </p>
           </Qna>
         ))}
+        {isDocumentPassed && (
+          <DateTimeWrapper>
+            <DateTimeField>면접 시간</DateTimeField>
+            <DateTimePicker />
+            <DateTimeSubmitButton>
+              설정하기
+            </DateTimeSubmitButton>
+          </DateTimeWrapper>
+        )}
       </Cell>
       <Cell>
         <ChipListWrap>
@@ -171,7 +185,6 @@ const CircleApplication: React.FC = () => {
       },
     });
   };
-  console.log(list);
   return (
     <ContentWrapper
       header={(
