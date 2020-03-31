@@ -8,7 +8,7 @@ import auth from '../../../utils/auth';
 import swal from '../../../utils/swal';
 import { graphqlErrorMessage } from '../../../utils/error';
 
-import { statusType, Application } from './types';
+import { statusType, AppliedCircle, Application } from './types';
 import { GET_ALL_APPLICATIONS, GET_APPLICATIONS_BY_CIRCLE, SET_APPLIER_STATUS } from './gql';
 import { getQuestionByObjectId, getActionByStatus } from './functions';
 import {
@@ -18,9 +18,9 @@ import {
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
 
-const ChipWithHover = ({ name }: {name: string}) => (
+const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   <ChipWithHoverWrap>
-    <Chip src="https://dimigoin.s3.ap-northeast-2.amazonaws.com/CIRCLE_PROFILE/%EC%84%A0%EC%9D%B8%EC%9E%A5.png" />
+    <Chip src={`https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}`} />
     <HoverTip>{name}</HoverTip>
   </ChipWithHoverWrap>
 );
@@ -37,6 +37,7 @@ const FoldableRow = ({
   };
 }) => {
   const [opened, setOpenedStatus] = useState(false);
+  const { applier } = application;
   return (
     <Row
       key={application._id}
@@ -54,13 +55,18 @@ const FoldableRow = ({
       </Cell>
       )}
       <Cell>
-        { application.applier.serial }
+        {applier.serial}
       </Cell>
       <Cell css={Name}>
         <NameWrapper>
-          <p>{application.applier.name}</p>
-          <ChipWithHover name="선인장" />
-          <ChipWithHover name="선인장" />
+          <p>{applier.name}</p>
+          {applier.appliedCircles.map(({ name, imageKey }: AppliedCircle) => (
+            <ChipWithHover
+              key={`circle-${name}`}
+              name={name}
+              imageKey={imageKey}
+            />
+          ))}
         </NameWrapper>
         {Object.keys(application.form).sort().map((q) => (
           <Qna opened={opened} key={q}>
