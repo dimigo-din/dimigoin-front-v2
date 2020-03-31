@@ -27,4 +27,5 @@ export interface Application {
     serial: number;
     appliedCircles: AppliedCircle[];
   };
+  interviewTime: string | null;
 }
