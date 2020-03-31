@@ -29,7 +29,8 @@ const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
 );
 
 const TimeInput: React.FC<{isTeacher: boolean}> = ({ isTeacher }) => {
-  const [interviewTime, setInterviewTime] = useState<Date>(new Date('2020.04.02 09:00'));
+  const defaultDate = new Date('2020.04.02 09:00');
+  const [interviewTime, setInterviewTime] = useState<Date>(defaultDate);
 
   const checkValidTime = (date: Date) => {
     const hours = date.getHours();
@@ -39,12 +40,14 @@ const TimeInput: React.FC<{isTeacher: boolean}> = ({ isTeacher }) => {
     );
   };
 
-  const onChangeInterviewTime = (changedDate: Date) => {
-    if (!checkValidTime(changedDate)) {
-      swal.error('올바른 면접 시간이 아닙니다');
-      return;
+  const onChangeInterviewTime = (changedDate: Date| null) => {
+    if (!changedDate) {
+      return setInterviewTime(defaultDate);
     }
-    setInterviewTime(changedDate);
+    if (!checkValidTime(changedDate)) {
+      return swal.error('올바른 면접 시간이 아닙니다');
+    }
+    return setInterviewTime(changedDate);
   };
 
   return (
