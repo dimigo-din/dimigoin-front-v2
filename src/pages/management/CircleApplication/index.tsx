@@ -19,12 +19,47 @@ import {
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
 
+const validDateStrings = ['Thu Apr 02 2020', 'Fri Apr 03 2020'];
+
 const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   <ChipWithHoverWrap>
     <Chip src={`https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}`} />
     <HoverTip>{name}</HoverTip>
   </ChipWithHoverWrap>
 );
+
+const TimeInput: React.FC<{}> = () => {
+  const [interviewTime, setInterviewTime] = useState<Date>(new Date('2020.04.02 09:00'));
+
+  const checkValidTime = (date: Date) => {
+    const hours = date.getHours();
+    return (
+      validDateStrings.includes(date.toDateString())
+      && (hours >= 9) && (hours < 16)
+    );
+  };
+
+  const onChangeInterviewTime = (changedDate: Date) => {
+    if (!checkValidTime(changedDate)) {
+      swal.error('올바른 면접 시간이 아닙니다');
+      return;
+    }
+    setInterviewTime(changedDate);
+  };
+
+  return (
+    <DateTimeWrapper>
+      <DateTimeField>면접 시간</DateTimeField>
+      <DateTimePicker
+        value={interviewTime}
+        onChange={onChangeInterviewTime}
+      />
+      <DateTimeSubmitButton>
+        설정하기
+      </DateTimeSubmitButton>
+    </DateTimeWrapper>
+  );
+};
 
 const FoldableRow = ({
   application, isTeacher, buttonConfig,
@@ -47,8 +82,7 @@ const FoldableRow = ({
     }
   };
 
-  const isDocumentPassed =
-    (buttonConfig.clickable === false) && (buttonConfig.items[0] === '서류합격');
+  const isDocumentPassed = buttonConfig.items[0] === '면접합격';
 
   return (
     <Row key={application._id}>
@@ -76,15 +110,7 @@ const FoldableRow = ({
             </p>
           </Qna>
         ))}
-        {isDocumentPassed && (
-          <DateTimeWrapper>
-            <DateTimeField>면접 시간</DateTimeField>
-            <DateTimePicker />
-            <DateTimeSubmitButton>
-              설정하기
-            </DateTimeSubmitButton>
-          </DateTimeWrapper>
-        )}
+        {isDocumentPassed && <TimeInput />}
       </Cell>
       <Cell>
         <ChipListWrap>

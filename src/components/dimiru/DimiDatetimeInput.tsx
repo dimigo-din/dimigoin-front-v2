@@ -6,8 +6,8 @@ import variables from '../../scss/_variables.scss';
 
 const DimiDatetimePicker = ({ className = '', value, onChange }: {
   className?: string;
-  value?: string;
-  onChange?: (date: string) => void;
+  value?: Date;
+  onChange?: (date: Date) => void;
 }) => (
   <StyledDateTimePicker
     className={className}
@@ -38,6 +38,10 @@ const StyledDateTimePicker = styled(DateTimePicker)`
     stroke: ${variables.pink};
   }
 
+  .react-calendar__tile--active {
+    background-color: #fb5656;
+  }
+
   span {
 
     * {
@@ -49,5 +53,10 @@ const StyledDateTimePicker = styled(DateTimePicker)`
       cursor: inherit !important;
       text-decoration: none !important;
     }
+  }
+
+  input:focus,
+  button:focus {
+    outline: none;
   }
 `;
