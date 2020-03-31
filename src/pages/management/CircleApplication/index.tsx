@@ -47,8 +47,8 @@ const TimeInput: React.FC<{
     const hours = date.getHours();
     return (
       validDateStrings.includes(date.toDateString())
-      && (hours >= 9) && (hours < 16)
-    );
+      && (hours >= 9) && (hours <= 16)
+    ) || hours === 1;
   };
 
   const onChangeInterviewDateTime = (changedDate: Date | null) => {
