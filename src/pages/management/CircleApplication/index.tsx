@@ -9,7 +9,12 @@ import swal from '../../../utils/swal';
 import { graphqlErrorMessage } from '../../../utils/error';
 
 import { statusType, AppliedCircle, Application } from './types';
-import { GET_ALL_APPLICATIONS, GET_APPLICATIONS_BY_CIRCLE, SET_APPLIER_STATUS } from './gql';
+import {
+  GET_ALL_APPLICATIONS,
+  GET_APPLICATIONS_BY_CIRCLE,
+  SET_APPLIER_STATUS,
+  SET_INTERVIEW_TIME,
+} from './gql';
 import { getQuestionByObjectId, getActionByStatus } from './functions';
 import {
   Row, Cell, Qna, Question, Badges, Card, Table,
@@ -28,9 +33,15 @@ const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   </ChipWithHoverWrap>
 );
 
-const TimeInput: React.FC<{isTeacher: boolean}> = ({ isTeacher }) => {
+const TimeInput: React.FC<{
+  applierId: string;
+  isTeacher: boolean;
+  interviewTime: string | null;
+}> = ({ applierId, isTeacher, interviewTime }) => {
   const defaultDate = new Date('2020.04.02 09:00');
-  const [interviewTime, setInterviewTime] = useState<Date>(defaultDate);
+  const [interviewDateTime, setInterviewDateTime] = useState<Date>(
+    interviewTime ? new Date(Number(interviewTime)) : defaultDate,
+  );
 
   const checkValidTime = (date: Date) => {
     const hours = date.getHours();
@@ -40,26 +51,47 @@ const TimeInput: React.FC<{isTeacher: boolean}> = ({ isTeacher }) => {
     );
   };
 
-  const onChangeInterviewTime = (changedDate: Date| null) => {
+  const onChangeInterviewDateTime = (changedDate: Date | null) => {
     if (!changedDate) {
-      return setInterviewTime(defaultDate);
+      return setInterviewDateTime(defaultDate);
     }
     if (!checkValidTime(changedDate)) {
       return swal.error('올바른 면접 시간이 아닙니다');
     }
-    return setInterviewTime(changedDate);
+    return setInterviewDateTime(changedDate);
+  };
+
+  const [setInterviewTime] = useMutation(SET_INTERVIEW_TIME, {
+    onCompleted: () => swal.success('면접 시간을 설정했습니다.'),
+    onError: async (error) => {
+      await swal.error(graphqlErrorMessage(error));
+    },
+  });
+
+  const onClickSubmitTime = () => {
+    setInterviewTime({
+      variables: {
+        applierId,
+        interviewTime: interviewDateTime
+          .getTime()
+          .toString(),
+      },
+    });
   };
 
   return (
     <DateTimeWrapper>
       <DateTimeField>면접 시간</DateTimeField>
       <DateTimePicker
-        value={interviewTime}
-        onChange={onChangeInterviewTime}
+        value={interviewDateTime}
+        onChange={onChangeInterviewDateTime}
         disabled={isTeacher}
       />
       {!isTeacher && (
-        <DateTimeSubmitButton>
+        <DateTimeSubmitButton
+          // die
+          click={onClickSubmitTime}
+        >
           설정하기
         </DateTimeSubmitButton>
       )}
@@ -119,6 +151,8 @@ const FoldableRow = ({
         ))}
         {isDocumentPassed && (
           <TimeInput
+            applierId={applier._id}
+            interviewTime={application.interviewTime}
             isTeacher={isTeacher}
           />
         )}

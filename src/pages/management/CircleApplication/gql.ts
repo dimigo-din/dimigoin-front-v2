@@ -14,6 +14,7 @@ export const GET_ALL_APPLICATIONS = gql`
                     imageKey
                 }
             }
+            interviewTime
             status
             circle {
                 _id
@@ -38,6 +39,7 @@ export const GET_APPLICATIONS_BY_CIRCLE = gql`
                     imageKey
                 }
             }
+            interviewTime
             status
             form
         }
@@ -51,6 +53,23 @@ export const SET_APPLIER_STATUS = gql`
             applierId: $applierId
         }) {
             _id
+        }
+    }
+`;
+
+export const SET_INTERVIEW_TIME = gql`
+    mutation($applierId: ID!, $interviewTime: String!) {
+        setApplicationInterviewTime(input: {
+            applierId: $applierId,
+            interviewTime: $interviewTime
+        }) {
+            _id
+            status
+            interviewTime
+            applier {
+                _id
+                name
+            }
         }
     }
 `;
