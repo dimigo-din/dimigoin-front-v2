@@ -14,7 +14,7 @@ import { getQuestionByObjectId, getActionByStatus } from './functions';
 import {
   Row, Cell, Qna, Question, Badges, Card, Table,
   Name, Header, EmptyList, LoadingContainer, badgesWrap, Chip,
-  ChipWithHoverWrap, NameWrapper, HoverTip,
+  ChipWithHoverWrap, NameWrapper, HoverTip, ChipListWrap,
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
 
@@ -60,13 +60,6 @@ const FoldableRow = ({
       <Cell css={Name}>
         <NameWrapper>
           <p>{applier.name}</p>
-          {applier.appliedCircles.map(({ name, imageKey }: AppliedCircle) => (
-            <ChipWithHover
-              key={`circle-${name}`}
-              name={name}
-              imageKey={imageKey}
-            />
-          ))}
         </NameWrapper>
         {Object.keys(application.form).sort().map((q) => (
           <Qna opened={opened} key={q}>
@@ -78,6 +71,17 @@ const FoldableRow = ({
             </p>
           </Qna>
         ))}
+      </Cell>
+      <Cell>
+        <ChipListWrap>
+          {applier?.appliedCircles?.map(({ name, imageKey }: AppliedCircle) => (
+            <ChipWithHover
+              key={`circle-${name}`}
+              name={name}
+              imageKey={imageKey}
+            />
+          ))}
+        </ChipListWrap>
       </Cell>
       <Cell css={badgesWrap}>
         <Badges
@@ -186,6 +190,7 @@ const CircleApplication: React.FC = () => {
               )}
               <Cell>학번</Cell>
               <Cell>이름</Cell>
+              <Cell>지원한 동아리</Cell>
               <Cell>상태</Cell>
             </Row>
           </thead>

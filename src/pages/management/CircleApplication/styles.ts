@@ -73,6 +73,7 @@ export const badgesWrap = css`
 
 export const Chip = styled.img`
   width: 21px;
+  height: 21px;
   vertical-align: middle;
   margin-left: 6px;
 `;
@@ -99,4 +100,11 @@ export const HoverTip = styled.p`
   margin-top: 0px;
   margin-left: -8px;
   transition: 200ms cubic-bezier(0,.65,.25,.95);
+`;
+
+export const ChipListWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 0 0.5rem;
+  min-width: 97px;
 `;

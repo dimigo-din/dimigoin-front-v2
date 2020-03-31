@@ -32,10 +32,11 @@ export const GET_APPLICATIONS_BY_CIRCLE = gql`
                 _id
                 name
                 serial
-                # appliedCircles {
-                #     name
-                #     imageKey
-                # }
+                appliedCircles {
+                    _id
+                    name
+                    imageKey
+                }
             }
             status
             form
