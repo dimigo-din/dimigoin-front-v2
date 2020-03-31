@@ -87,7 +87,7 @@ const CircleInformation = () => {
   const [circles, setCircles] = useState<Array<ICircle>>([]);
   const [applications, setApplications] = useState<
     Array<{ circle: ICircle; status: string;
-      interviewTime: string; }>
+      interviewTime?: string; }>
   >([]);
   const [selectedCircle, setSelectedCircle] = useState<string | null>('');
   const [
@@ -153,7 +153,7 @@ const CircleInformation = () => {
                 name={application.circle.name}
                 category={application.circle.category}
                 status={application.status}
-                interviewTime={application.interviewTime && new Date(+application.interviewTime)}
+                interviewTime={application.interviewTime}
               />
             ))}
           </CardContainer>
