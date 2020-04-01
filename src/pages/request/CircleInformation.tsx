@@ -45,6 +45,7 @@ const LOAD_APPLIED_CIRCLES = gql`
     myApplications {
       _id
       status
+      interviewTime
       circle {
         _id
         name
@@ -85,7 +86,8 @@ const CircleInformation = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [circles, setCircles] = useState<Array<ICircle>>([]);
   const [applications, setApplications] = useState<
-    Array<{ circle: ICircle; status: string }>
+    Array<{ circle: ICircle; status: string;
+      interviewTime?: string; }>
   >([]);
   const [selectedCircle, setSelectedCircle] = useState<string | null>('');
   const [
@@ -151,6 +153,7 @@ const CircleInformation = () => {
                 name={application.circle.name}
                 category={application.circle.category}
                 status={application.status}
+                interviewTime={application.interviewTime}
               />
             ))}
           </CardContainer>

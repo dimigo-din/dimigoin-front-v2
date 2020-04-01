@@ -13,6 +13,7 @@ interface ICircleCard {
   status?: string;
   applier?: number | null;
   onClick?: () => void;
+  interviewTime?: string;
 }
 
 const CardStyle = css`
@@ -27,36 +28,73 @@ const CardStyle = css`
 `;
 
 const CircleCard = ({
-  status, onClick, imageKey, name, category, applier,
-}: ICircleCard) => (
-  <DimiCard
-    css={CardStyle}
-    onClick={onClick}
-  >
-    <CircleLogo imageKey={imageKey} />
-    <CircleInfoWrap>
-      <CircleTitle>{name}</CircleTitle>
-      <CircleFeatureWrap>
-        <CircleFeatureInfo>
-          {category}
-        </CircleFeatureInfo>
-      </CircleFeatureWrap>
-    </CircleInfoWrap>
-    {status && (
-      <StatusBadge
-        src={`/static/badges/${status.toUpperCase()}.svg`}
-      />
-    )}
-    {applier && (
-      <ApplierBadge
-        applier={applier}
-      >
-        <strong>{applier}</strong>
-        명
-      </ApplierBadge>
-    )}
-  </DimiCard>
-);
+  status, onClick, imageKey, name, category, applier, interviewTime,
+}: ICircleCard) => {
+  const interviewTimeDate = new Date(Number(interviewTime));
+  const isSuccessed = (interviewTime || interviewTime === null) && status === 'document-pass';
+  return (
+    <DimiCard
+      css={CardStyle}
+      onClick={onClick}
+    >
+      <CircleLogo imageKey={imageKey} />
+      <CircleInfoWrap>
+        <CircleTitle>{name}</CircleTitle>
+        <CircleFeatureWrap>
+          <CircleFeatureInfo
+            css={isSuccessed
+              && css`
+                margin-bottom: 1rem;`}
+          >
+            {category}
+          </CircleFeatureInfo>
+          {isSuccessed && (
+          <InterviewTimeViewerWrapper>
+          면접 예상 시간:
+            { interviewTime ? (
+              <>
+                <InterviewTimeViewer>
+                  {interviewTimeDate.getMonth() + 1}
+  월
+                  {' '}
+                  {interviewTimeDate.getDate()}
+  일
+                  {' '}
+                  {interviewTimeDate.getHours()}
+  시
+                  {' '}
+                  {interviewTimeDate.getMinutes()}
+  분
+                </InterviewTimeViewer>
+  (
+                {interviewTimeDate.getHours() < 12 ? '오전' : '오후'}
+  )
+              </>
+            ) : (
+              <InterviewTimeViewer>
+                등록되지 않음
+              </InterviewTimeViewer>
+            )}
+          </InterviewTimeViewerWrapper>
+          )}
+        </CircleFeatureWrap>
+      </CircleInfoWrap>
+      {status && (
+        <StatusBadge
+          src={`/static/badges/${status.toUpperCase()}.svg`}
+        />
+      )}
+      {applier && (
+        <ApplierBadge
+          applier={applier}
+        >
+          <strong>{applier}</strong>
+          명
+        </ApplierBadge>
+      )}
+    </DimiCard>
+  );
+};
 
 interface ICircleLogo {
   imageKey: string;
@@ -81,7 +119,24 @@ const CircleInfoWrap = styled.div`
 
 const CircleFeatureWrap = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+`;
+
+const InterviewTimeViewerWrapper = styled.div`
+  padding: 0.5rem 1rem;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #dadeeb;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  background-color: #f0f0f0;
+  color: #6d6d6d;
+`;
+
+const InterviewTimeViewer = styled.p`
+  font-weight: bold;
+  color: black;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  font-size: 1rem;
 `;
 
 const CircleTitle = styled.span`
