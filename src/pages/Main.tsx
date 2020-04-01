@@ -83,15 +83,7 @@ const MainPage = () => {
                 학년별 밴드에 교과별 온라인 학습이 공지되었습니다. 반드시
                 확인하세요.
                 <br />
-                신입생 학생들은 아래 게시글을 확인해 주세요.
-                <br />
-                <a
-                  href="https://cafe.naver.com/dimigofreshman/4694"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  https://cafe.naver.com/dimigofreshman/4694
-                </a>
+                각 동아리의 디스코드 면접 방 주소는 동아리별 SNS 또는 <a href="https://docs.google.com/document/d/118luJsGZIv87KB7UDM29OUKfxlckZwoa9RW-E060u7Y/edit?usp=sharing">이 곳</a>에서 확인해 주세요.
               </InfoNotice>
             </InfoCard>
           </Section>
