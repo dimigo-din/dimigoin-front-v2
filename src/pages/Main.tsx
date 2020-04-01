@@ -83,7 +83,7 @@ const MainPage = () => {
                 학년별 밴드에 교과별 온라인 학습이 공지되었습니다. 반드시
                 확인하세요.
                 <br />
-                각 동아리의 디스코드 면접 방 주소는 동아리별 SNS 또는 동아리 설명란을 확인해 주세요.
+                각 동아리의 디스코드 면접 방 주소는 동아리별 SNS 또는 <a href="https://docs.google.com/document/d/118luJsGZIv87KB7UDM29OUKfxlckZwoa9RW-E060u7Y/edit?usp=sharing">이 곳</a>에서 확인해 주세요.
               </InfoNotice>
             </InfoCard>
           </Section>
