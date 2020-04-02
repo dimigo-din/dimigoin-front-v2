@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import css from '@emotion/css';
 
 import { useHistory } from 'react-router-dom';
 import variables from '../scss/_variables.scss';
@@ -7,9 +10,17 @@ import variables from '../scss/_variables.scss';
 import NaiveContainer from '../components/grids/NaiveContainer';
 import DimiCard from '../components/dimiru/DimiCard';
 import DimiIcon from '../components/dimiru/DimiIcon';
+import DimiLoading from '../components/dimiru/DimiLoading';
 import { ReactComponent as BrandImage } from '../assets/brand.svg';
 import ServiceCards from '../components/ServiceCards';
 import auth, { IUser } from '../utils/auth';
+import AutoLinker from '../utils/autolinker';
+
+const GET_NOTICE = gql`
+  query {
+    notice
+  }
+`;
 
 const photoCDN = `${process.env.REACT_APP_DIMIGO_API_URL}/user_photo`;
 
@@ -17,6 +28,8 @@ const MainPage = () => {
   const history = useHistory();
 
   const [info, setInfo] = useState<IUser>();
+
+  const { data: noticeData } = useQuery(GET_NOTICE);
 
   useEffect(() => {
     setInfo(auth.getUserInfo());
@@ -44,9 +57,7 @@ const MainPage = () => {
                     <>
                       <ProfileInfoName>{info?.name}</ProfileInfoName>
                       &nbsp;
-                      <ProfileInfoSerial>
-                        선생님
-                      </ProfileInfoSerial>
+                      <ProfileInfoSerial>선생님</ProfileInfoSerial>
                     </>
                   ) : (
                     <>
@@ -65,7 +76,8 @@ const MainPage = () => {
                   title="설정"
                   pointer
                   onClick={() => {
-                    window.location.href = 'https://student.dimigo.hs.kr/user/profile';
+                    window.location.href =
+                      'https://student.dimigo.hs.kr/user/profile';
                   }}
                 />
                 <Button
@@ -79,12 +91,15 @@ const MainPage = () => {
           </ProfileSection>
           <Section>
             <InfoCard>
-              <InfoNotice>
-                학년별 밴드에 교과별 온라인 학습이 공지되었습니다. 반드시
-                확인하세요.
-                <br />
-                각 동아리의 디스코드 면접 방 주소는 동아리별 SNS 또는 <a href="https://docs.google.com/document/d/118luJsGZIv87KB7UDM29OUKfxlckZwoa9RW-E060u7Y/edit?usp=sharing">이 곳</a>에서 확인해 주세요.
-              </InfoNotice>
+              {noticeData ? (
+                <InfoNotice
+                  dangerouslySetInnerHTML={{
+                    __html: AutoLinker.url(noticeData.notice),
+                  }}
+                />
+              ) : (
+                <DimiLoading css={InfoLoading} />
+              )}
             </InfoCard>
           </Section>
         </Column>
@@ -215,7 +230,8 @@ const Section = styled.section`
 `;
 
 const InfoCard = styled(DimiCard)`
-  display: block;
+  display: flex;
+  width: 100%;
   color: ${variables.grayDark};
   font-size: 18px;
   line-height: 2;
@@ -226,6 +242,10 @@ const InfoNotice = styled.p`
   font-weight: ${variables.fontWeightRegular};
   white-space: pre-wrap;
   word-wrap: break-word;
+`;
+
+const InfoLoading = css`
+  margin: auto;
 `;
 
 const MealCard = styled(DimiCard)`
