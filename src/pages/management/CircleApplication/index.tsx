@@ -90,7 +90,7 @@ const TimeInput: React.FC<{
       {!isTeacher && (
         <DateTimeSubmitButton
           // die
-          click={onClickSubmitTime}
+          onClick={onClickSubmitTime}
         >
           설정하기
         </DateTimeSubmitButton>
@@ -172,7 +172,7 @@ const FoldableRow = ({
         <Badges
           items={buttonConfig.items}
           colors={['aloes', 'orange']}
-          click={buttonConfig.onClick}
+          onClick={buttonConfig.onClick}
           clickable={buttonConfig.clickable}
         />
       </Cell>

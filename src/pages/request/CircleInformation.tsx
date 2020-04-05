@@ -288,7 +288,7 @@ const CircleInformation = () => {
               <ButtonWrap>
                 <DimiButton
                   large
-                  click={() => history.push('/request/circle/application', {
+                  onClick={() => history.push('/request/circle/application', {
                     circleId: selectedCircle,
                   })}
                 >

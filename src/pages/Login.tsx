@@ -238,7 +238,7 @@ export default () => {
               <DimiButton
                 css={SubmitButton}
                 active={active}
-                click={() => {
+                onClick={() => {
                   setActive(false);
                   login();
                 }}

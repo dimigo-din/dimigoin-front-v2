@@ -6,18 +6,18 @@ import css from '@emotion/css';
 import variables from '../../scss/_variables.scss';
 
 export default ({
-  value = 0, colors = ['gray'], items, click, clickable = true,
+  value = 0, colors = ['gray'], items, onClick, clickable = true,
 }: {
   value?: number;
   colors: string[];
   items: string[];
-  click?: (index: number) => void;
+  onClick?: (index: number) => void;
   clickable?: boolean;
 }) => {
-  const onclick = (index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const onClickButton = (index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
-    if (click) {
-      click(index);
+    if (onClick) {
+      onClick(index);
     }
   };
   return (
@@ -28,13 +28,13 @@ export default ({
           clickable={clickable}
           key={`button-${item}`}
           data-active={index === value}
-          onClick={(event) => onclick(index, event)}
+          onClick={(event) => onClickButton(index, event)}
           css={css`
             border-color: ${colors[index]};
             color: ${colors[index]};
           `}
         >
-          { item }
+          {item}
         </Button>
       ))}
     </Group>
@@ -48,9 +48,7 @@ const Group = styled.div`
   user-select: none;
 `;
 
-const Button = styled.div<{
-  clickable: boolean;
-}>`
+const Button = styled.div<{ clickable: boolean; }>`
   display: inline-block;
   width: 70px;
   padding-top: 0.35em;
@@ -59,17 +57,21 @@ const Button = styled.div<{
   cursor: pointer;
   text-align: center;
   transition: all 0.2s ease-in-out;
+
   ${({ clickable }) => clickable || `
     cursor: not-allowed;
   `}
+
   &:first-of-type {
     border-bottom-left-radius: 4em;
     border-top-left-radius: 4em;
   }
+
   &:last-child {
     border-bottom-right-radius: 4em;
     border-top-right-radius: 4em;
   }
+
   &:not(:last-child) {
     border-right: 0;
   }

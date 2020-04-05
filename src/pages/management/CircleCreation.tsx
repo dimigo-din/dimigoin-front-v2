@@ -148,7 +148,7 @@ const CircleCreation: React.FC = () => {
         </FormRow>
         <ButtonWrap>
           <DimiButton
-            click={onClickSubmit}
+            onClick={onClickSubmit}
           >
             제출하기
           </DimiButton>

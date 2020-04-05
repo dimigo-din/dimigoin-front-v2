@@ -254,7 +254,7 @@ const CircleApplication = () => {
       </QuestionCardWrap>
       <ButtonWrap>
         {loading && (
-          <DimiButton active={active} click={applyFrom} css={Button}>
+          <DimiButton active={active} onClick={applyFrom} css={Button}>
             제출하기
           </DimiButton>
         )}

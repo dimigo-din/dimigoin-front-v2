@@ -63,7 +63,7 @@ const CircleCard = ({
             }
             if (status === 'interview-pass') {
               return (
-                <DimiButton click={(event) => {
+                <DimiButton onClick={(event) => {
                   if (onFinalSelect) onFinalSelect();
                   event.stopPropagation();
                 }}
