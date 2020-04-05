@@ -14,10 +14,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "types": ["@emotion/core", "node"]
+    "types": ["@emotion/core", "node"],
+    "typeRoots": ["./src/customTypes"]
   },
-  "include": [
-    "src",
-    "declares"
-  ]
+  "include": ["src", "declares"]
 }
