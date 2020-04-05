@@ -5,9 +5,9 @@ import { filter } from 'lodash';
 import styled from '@emotion/styled';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import Swal from 'sweetalert2';
 import { Cherryblossom } from 'react-cherryblossom';
 
-import Swal from 'sweetalert2';
 import SweetAlert from '../../utils/swal';
 import CircleCard from '../../components/CircleCard';
 import DimiLoading from '../../components/dimiru/DimiLoading';
