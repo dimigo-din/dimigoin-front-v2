@@ -16,6 +16,7 @@ interface ICircleCard {
   onClick?: () => void;
   interviewTime?: string;
   onFinalSelect?: () => void;
+  finalEnded?: boolean;
 }
 
 const CardStyle = css`
@@ -30,9 +31,9 @@ const CardStyle = css`
 `;
 
 const CircleCard = ({
-  status, onClick, imageKey, name, category, applier, interviewTime, onFinalSelect,
+  status, onClick, imageKey, name, category, applier, interviewTime, onFinalSelect, finalEnded,
 }: ICircleCard) => {
-  const interviewTimeDate = new Date(Number(interviewTime));
+  // const interviewTimeDate = new Date(Number(interviewTime));
   const isSuccessed = (interviewTime || interviewTime === null);
   return (
     <DimiCard
@@ -44,42 +45,19 @@ const CircleCard = ({
         <CircleTitle>{name}</CircleTitle>
         <CircleFeatureWrap>
           <CircleFeatureInfo
-            css={(status?.includes('pass'))
+            css={(status?.includes('pass') && !finalEnded)
               && css`
                 margin-bottom: 1rem;`}
           >
             {category}
           </CircleFeatureInfo>
           {(() => {
+            if (finalEnded) return null;
             if (!isSuccessed) return null;
             if (status === 'document-pass') {
               return (
                 <InterviewTimeViewerWrapper>
-            면접 예상 시간:
-                  { interviewTime ? (
-                    <>
-                      <InterviewTimeViewer>
-                        {interviewTimeDate.getMonth() + 1}
-    월
-                        {' '}
-                        {interviewTimeDate.getDate()}
-    일
-                        {' '}
-                        {interviewTimeDate.getHours()}
-    시
-                        {' '}
-                        {interviewTimeDate.getMinutes()}
-    분
-                      </InterviewTimeViewer>
-    (
-                      {interviewTimeDate.getHours() < 12 ? '오전' : '오후'}
-    )
-                    </>
-                  ) : (
-                    <InterviewTimeViewer>
-                  등록되지 않음
-                    </InterviewTimeViewer>
-                  )}
+                  미발표
                 </InterviewTimeViewerWrapper>
               );
             }
