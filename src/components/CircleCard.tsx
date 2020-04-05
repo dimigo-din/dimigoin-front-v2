@@ -63,7 +63,7 @@ const CircleCard = ({
             }
             if (status === 'interview-pass') {
               return (
-                <DimiButton click={(event) => {
+                <DimiButton onClick={(event) => {
                   if (onFinalSelect) onFinalSelect();
                   event.stopPropagation();
                 }}
@@ -128,13 +128,13 @@ const InterviewTimeViewerWrapper = styled.div`
   color: #6d6d6d;
 `;
 
-const InterviewTimeViewer = styled.p`
-  font-weight: bold;
-  color: black;
-  margin-top: 8px;
-  margin-bottom: 6px;
-  font-size: 1rem;
-`;
+// const InterviewTimeViewer = styled.p`
+//   font-weight: bold;
+//   color: black;
+//   margin-top: 8px;
+//   margin-bottom: 6px;
+//   font-size: 1rem;
+// `;
 
 const CircleTitle = styled.span`
   color: ${variables.black};

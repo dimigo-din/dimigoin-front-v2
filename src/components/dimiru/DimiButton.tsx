@@ -10,7 +10,7 @@ type DimiButtonProps = {
   small?: boolean;
   large?: boolean;
   text?: boolean;
-  click?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   children: React.ReactNode;
 };
 
@@ -70,7 +70,7 @@ const DimiButton: React.FC<DimiButtonProps> = ({
   small = false,
   large = false,
   text = false,
-  click,
+  onClick,
   children,
   ...props
 }) => {
@@ -86,7 +86,7 @@ const DimiButton: React.FC<DimiButtonProps> = ({
     <a
       href={href}
       css={buttonStyle}
-      onClick={(e) => active && click && click(e)}
+      onClick={(e) => active && onClick && onClick(e)}
       {...props}
     >
       {children}

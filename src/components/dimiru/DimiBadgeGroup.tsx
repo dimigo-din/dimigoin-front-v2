@@ -10,12 +10,12 @@ export default ({
   colors = ['gray'],
   items,
   input,
-  click,
+  onClick,
 }: {
   value?: number;
   colors: string[];
   items: string[];
-  click?: (event: {
+  onClick?: (event: {
     value: number;
     items: string[];
     setPrevent(willSetValue: boolean): void;
@@ -23,7 +23,7 @@ export default ({
   }) => void;
   input?: (index: number) => void;
 }) => {
-  const onclick = (index: number) => {
+  const onClickBadge = (index: number) => {
     let prevent = false;
     const event = {
       value: index,
@@ -35,7 +35,9 @@ export default ({
         if (!prevent && input) input(index);
       },
     };
-    if (click) click(event);
+    if (onClick) {
+      onClick(event);
+    }
   };
   return (
     <Group>
@@ -44,7 +46,7 @@ export default ({
           role="button"
           // key={`button-${index}`}
           data-active={index === value}
-          onClick={() => onclick(index)}
+          onClick={() => onClickBadge(index)}
           css={css`
             border-color: ${colors[value]};
             color: ${colors[value]};
@@ -73,14 +75,17 @@ const Button = styled.div`
   cursor: pointer;
   text-align: center;
   transition: all 0.2s ease-in-out;
+
   &:first-child {
     border-bottom-left-radius: 4em;
     border-top-left-radius: 4em;
   }
+
   &:last-child {
     border-bottom-right-radius: 4em;
     border-top-right-radius: 4em;
   }
+
   &:not(:last-child) {
     border-right: 0;
   }

@@ -90,7 +90,7 @@ const TimeInput: React.FC<{
       {!isTeacher && (
         <DateTimeSubmitButton
           // die
-          click={onClickSubmitTime}
+          onClick={onClickSubmitTime}
         >
           설정하기
         </DateTimeSubmitButton>
@@ -172,7 +172,7 @@ const FoldableRow = ({
         <Badges
           items={buttonConfig.items}
           colors={['aloes', 'orange']}
-          click={buttonConfig.onClick}
+          onClick={buttonConfig.onClick}
           clickable={buttonConfig.clickable}
         />
       </Cell>
@@ -181,8 +181,6 @@ const FoldableRow = ({
 };
 
 const CircleApplication: React.FC = () => {
-  let loadedPages = 1;
-  let pending = false;
   const isTeacher = auth.getUserInfo().userType === 'T';
   const hookConfig = {
     query: isTeacher ? GET_ALL_APPLICATIONS : GET_APPLICATIONS_BY_CIRCLE,
@@ -212,6 +210,8 @@ const CircleApplication: React.FC = () => {
 
   useEffect(() => {
     // disable loadmore for 동장
+    let pending = false;
+    let loadedPages = 1;
     if (isTeacher) {
       const eventListener = throttle((e) => {
         if (window.innerHeight + window.scrollY > document.documentElement.offsetHeight - 1800
@@ -238,7 +238,7 @@ const CircleApplication: React.FC = () => {
         window.removeEventListener('scroll', eventListener);
       };
     }
-  }, []);
+  }, [isTeacher, fetchMore]);
 
   const selectStatus = async (
     application: Application,
