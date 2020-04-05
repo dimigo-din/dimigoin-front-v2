@@ -3,6 +3,7 @@ import css from '@emotion/css';
 import styled from '@emotion/styled';
 
 import DimiCard from './dimiru/DimiCard';
+import DimiButton from './dimiru/DimiButton';
 
 import variables from '../scss/_variables.scss';
 
@@ -14,6 +15,8 @@ interface ICircleCard {
   applier?: number | null;
   onClick?: () => void;
   interviewTime?: string;
+  onFinalSelect?: () => void;
+  finalEnded?: boolean;
 }
 
 const CardStyle = css`
@@ -28,10 +31,10 @@ const CardStyle = css`
 `;
 
 const CircleCard = ({
-  status, onClick, imageKey, name, category, applier, interviewTime,
+  status, onClick, imageKey, name, category, applier, interviewTime, onFinalSelect, finalEnded,
 }: ICircleCard) => {
-  const interviewTimeDate = new Date(Number(interviewTime));
-  const isSuccessed = (interviewTime || interviewTime === null) && status === 'document-pass';
+  // const interviewTimeDate = new Date(Number(interviewTime));
+  const isSuccessed = (interviewTime || interviewTime === null);
   return (
     <DimiCard
       css={CardStyle}
@@ -42,41 +45,35 @@ const CircleCard = ({
         <CircleTitle>{name}</CircleTitle>
         <CircleFeatureWrap>
           <CircleFeatureInfo
-            css={isSuccessed
+            css={(status?.includes('pass') && !finalEnded)
               && css`
                 margin-bottom: 1rem;`}
           >
             {category}
           </CircleFeatureInfo>
-          {isSuccessed && (
-          <InterviewTimeViewerWrapper>
-          면접 예상 시간:
-            { interviewTime ? (
-              <>
-                <InterviewTimeViewer>
-                  {interviewTimeDate.getMonth() + 1}
-  월
-                  {' '}
-                  {interviewTimeDate.getDate()}
-  일
-                  {' '}
-                  {interviewTimeDate.getHours()}
-  시
-                  {' '}
-                  {interviewTimeDate.getMinutes()}
-  분
-                </InterviewTimeViewer>
-  (
-                {interviewTimeDate.getHours() < 12 ? '오전' : '오후'}
-  )
-              </>
-            ) : (
-              <InterviewTimeViewer>
-                등록되지 않음
-              </InterviewTimeViewer>
-            )}
-          </InterviewTimeViewerWrapper>
-          )}
+          {(() => {
+            if (finalEnded) return null;
+            if (!isSuccessed) return null;
+            if (status === 'document-pass') {
+              return (
+                <InterviewTimeViewerWrapper>
+                  미발표
+                </InterviewTimeViewerWrapper>
+              );
+            }
+            if (status === 'interview-pass') {
+              return (
+                <DimiButton click={(event) => {
+                  if (onFinalSelect) onFinalSelect();
+                  event.stopPropagation();
+                }}
+                >
+  확정하기
+                </DimiButton>
+              );
+            }
+            return null;
+          })()}
         </CircleFeatureWrap>
       </CircleInfoWrap>
       {status && (
