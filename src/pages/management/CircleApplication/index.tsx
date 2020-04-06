@@ -227,6 +227,8 @@ const CircleApplication: React.FC = () => {
   }>(GET_FINAL_APPLICATIONS);
 
   const list = isTeacher ? query.data?.allApplications : query.data?.applications;
+  const thisCircleName = list && list[0].circle.name;
+
   const applicationsWithFinalSelection = list?.map((application) => ({
     ...application,
     final: finalApplications
@@ -315,8 +317,8 @@ const CircleApplication: React.FC = () => {
               </Row>
             )}
 
-            {[...(applicationsWithFinalSelection?.filter((e) => e.final === '이누') || []),
-              ...sortBy(applicationsWithFinalSelection?.filter((e) => e.final !== '이누'), 'final')]
+            {[...(applicationsWithFinalSelection?.filter((e) => e.final === thisCircleName) || []),
+              ...sortBy(applicationsWithFinalSelection?.filter((e) => e.final !== thisCircleName), 'final')]
               .map((application) => {
                 const [buttonItems,
                   settableStatus] = getActionByStatus(application.status, isTeacher);
