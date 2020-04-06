@@ -73,3 +73,18 @@ export const SET_INTERVIEW_TIME = gql`
         }
     }
 `;
+
+export const GET_FINAL_APPLICATIONS = gql`
+    query {
+        finalApplications {
+            _id
+            applier {
+                _id
+            }
+            circle {
+                imageKey
+                name
+            }
+        }
+    }
+`;
