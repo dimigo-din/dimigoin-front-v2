@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { throttle } from 'lodash';
+import { throttle, sortBy } from 'lodash';
 
 import ContentWrapper from '../../../components/ContentWrapper';
 import DimiLoading from '../../../components/dimiru/DimiLoading';
@@ -12,19 +12,20 @@ import { statusType, AppliedCircle, Application } from './types';
 import {
   GET_ALL_APPLICATIONS,
   GET_APPLICATIONS_BY_CIRCLE,
+  GET_FINAL_APPLICATIONS,
   SET_APPLIER_STATUS,
-  SET_INTERVIEW_TIME,
+  // SET_INTERVIEW_TIME,
 } from './gql';
 import { getQuestionByObjectId, getActionByStatus } from './functions';
 import {
   Row, Cell, Qna, Question, Badges, Card, Table,
   Name, Header, EmptyList, LoadingContainer, badgesWrap, Chip,
   ChipWithHoverWrap, NameWrapper, HoverTip, ChipListWrap,
-  DateTimeWrapper, DateTimeField, DateTimePicker, DateTimeSubmitButton,
+  // DateTimeWrapper, DateTimeField, DateTimePicker, DateTimeSubmitButton,
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
 
-const validDateStrings = ['Thu Apr 02 2020', 'Fri Apr 03 2020'];
+// const validDateStrings = ['Thu Apr 02 2020', 'Fri Apr 03 2020'];
 
 const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   <ChipWithHoverWrap>
@@ -33,74 +34,74 @@ const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   </ChipWithHoverWrap>
 );
 
-const TimeInput: React.FC<{
-  applierId: string;
-  isTeacher: boolean;
-  interviewTime: string | null;
-}> = ({ applierId, isTeacher, interviewTime }) => {
-  const defaultDate = new Date('2020.04.02 09:00');
-  const [interviewDateTime, setInterviewDateTime] = useState<Date>(
-    interviewTime ? new Date(Number(interviewTime)) : defaultDate,
-  );
+// const TimeInput: React.FC<{
+//   applierId: string;
+//   isTeacher: boolean;
+//   interviewTime: string | null;
+// }> = ({ applierId, isTeacher, interviewTime }) => {
+//   const defaultDate = new Date('2020.04.02 09:00');
+//   const [interviewDateTime, setInterviewDateTime] = useState<Date>(
+//     interviewTime ? new Date(Number(interviewTime)) : defaultDate,
+//   );
 
-  const checkValidTime = (date: Date) => {
-    const hours = date.getHours();
-    return (
-      validDateStrings.includes(date.toDateString())
-      && (hours >= 9) && (hours <= 16)
-    ) || hours === 1;
-  };
+//   const checkValidTime = (date: Date) => {
+//     const hours = date.getHours();
+//     return (
+//       validDateStrings.includes(date.toDateString())
+//       && (hours >= 9) && (hours <= 16)
+//     ) || hours === 1;
+//   };
 
-  const onChangeInterviewDateTime = (changedDate: Date | null) => {
-    if (!changedDate) {
-      return setInterviewDateTime(defaultDate);
-    }
-    if (!checkValidTime(changedDate)) {
-      return swal.error('올바른 면접 시간이 아닙니다');
-    }
-    return setInterviewDateTime(changedDate);
-  };
+//   const onChangeInterviewDateTime = (changedDate: Date | null) => {
+//     if (!changedDate) {
+//       return setInterviewDateTime(defaultDate);
+//     }
+//     if (!checkValidTime(changedDate)) {
+//       return swal.error('올바른 면접 시간이 아닙니다');
+//     }
+//     return setInterviewDateTime(changedDate);
+//   };
 
-  const [setInterviewTime] = useMutation(SET_INTERVIEW_TIME, {
-    onCompleted: () => swal.success('면접 시간을 설정했습니다.'),
-    onError: async (error) => {
-      await swal.error(graphqlErrorMessage(error));
-    },
-  });
+//   const [setInterviewTime] = useMutation(SET_INTERVIEW_TIME, {
+//     onCompleted: () => swal.success('면접 시간을 설정했습니다.'),
+//     onError: async (error) => {
+//       await swal.error(graphqlErrorMessage(error));
+//     },
+//   });
 
-  const onClickSubmitTime = () => {
-    setInterviewTime({
-      variables: {
-        applierId,
-        interviewTime: interviewDateTime
-          .getTime()
-          .toString(),
-      },
-    });
-  };
+//   const onClickSubmitTime = () => {
+//     setInterviewTime({
+//       variables: {
+//         applierId,
+//         interviewTime: interviewDateTime
+//           .getTime()
+//           .toString(),
+//       },
+//     });
+//   };
 
-  return (
-    <DateTimeWrapper>
-      <DateTimeField>면접 시간</DateTimeField>
-      <DateTimePicker
-        value={interviewDateTime}
-        onChange={onChangeInterviewDateTime}
-        disabled={isTeacher}
-      />
-      {!isTeacher && (
-        <DateTimeSubmitButton
-          // die
-          onClick={onClickSubmitTime}
-        >
-          설정하기
-        </DateTimeSubmitButton>
-      )}
-    </DateTimeWrapper>
-  );
-};
+//   return (
+//     <DateTimeWrapper>
+//       <DateTimeField>면접 시간</DateTimeField>
+//       <DateTimePicker
+//         value={interviewDateTime}
+//         onChange={onChangeInterviewDateTime}
+//         disabled={isTeacher}
+//       />
+//       {!isTeacher && (
+//         <DateTimeSubmitButton
+//           // die
+//           onClick={onClickSubmitTime}
+//         >
+//           설정하기
+//         </DateTimeSubmitButton>
+//       )}
+//     </DateTimeWrapper>
+//   );
+// };
 
 const FoldableRow = ({
-  application, isTeacher, buttonConfig,
+  application, isTeacher, buttonConfig, selectedOtherCircle,
 }: {
   application: Application;
   isTeacher: boolean;
@@ -109,6 +110,7 @@ const FoldableRow = ({
     clickable?: boolean;
     onClick: (index: number) => void;
   };
+  selectedOtherCircle?: string;
 }) => {
   const [opened, setOpenedStatus] = useState(false);
   const { applier } = application;
@@ -120,8 +122,8 @@ const FoldableRow = ({
     }
   };
 
-  const isDocumentPassed = buttonConfig.items[0]
-    === (isTeacher ? '서류합격' : '면접합격');
+  // const isDocumentPassed = buttonConfig.items[0]
+  //   === (isTeacher ? '서류합격' : '면접합격');
 
   return (
     <Row key={application._id}>
@@ -149,13 +151,13 @@ const FoldableRow = ({
             </p>
           </Qna>
         ))}
-        {isDocumentPassed && (
+        {/* {isDocumentPassed && (
           <TimeInput
             applierId={applier._id}
             interviewTime={application.interviewTime}
             isTeacher={isTeacher}
           />
-        )}
+        )} */}
       </Cell>
       <Cell>
         <ChipListWrap>
@@ -175,6 +177,9 @@ const FoldableRow = ({
           onClick={buttonConfig.onClick}
           clickable={buttonConfig.clickable}
         />
+      </Cell>
+      <Cell>
+        {selectedOtherCircle}
       </Cell>
     </Row>
   );
@@ -206,7 +211,28 @@ const CircleApplication: React.FC = () => {
     },
   });
 
+  const {
+    data: finalApplications,
+  } = useQuery<{
+    finalApplications: {
+      _id: string;
+      applier: {
+        _id: string;
+      };
+      circle: {
+        imageKey: string;
+        name: string;
+      };
+    }[];
+  }>(GET_FINAL_APPLICATIONS);
+
   const list = isTeacher ? query.data?.allApplications : query.data?.applications;
+  const applicationsWithFinalSelection = list?.map((application) => ({
+    ...application,
+    final: finalApplications
+    ?.finalApplications
+    .filter((final) => final.applier._id === application.applier._id)[0]?.circle.name,
+  }));
 
   useEffect(() => {
     // disable loadmore for 동장
@@ -238,6 +264,7 @@ const CircleApplication: React.FC = () => {
         window.removeEventListener('scroll', eventListener);
       };
     }
+    return undefined;
   }, [isTeacher, fetchMore]);
 
   const selectStatus = async (
@@ -276,6 +303,7 @@ const CircleApplication: React.FC = () => {
               <Cell>이름</Cell>
               <Cell>지원한 동아리</Cell>
               <Cell>상태</Cell>
+              {isTeacher || <Cell>최종선택</Cell>}
             </Row>
           </thead>
           <tbody>
@@ -287,28 +315,32 @@ const CircleApplication: React.FC = () => {
               </Row>
             )}
 
-            {list?.map((application) => {
-              const [buttonItems,
-                settableStatus] = getActionByStatus(application.status, isTeacher);
-
-              return (
+            {[...(applicationsWithFinalSelection?.filter((e) => e.final === '이누') || []),
+              ...sortBy(applicationsWithFinalSelection?.filter((e) => e.final !== '이누'), 'final')]
+              .map((application) => {
+                const [buttonItems,
+                  settableStatus] = getActionByStatus(application.status, isTeacher);
+                return (
                 // 지원서를 접어보기 위함입니다.
-                <FoldableRow
-                  key={application._id}
-                  isTeacher={isTeacher}
-                  application={application}
-                  buttonConfig={{
-                    items: buttonItems,
-                    clickable: !!settableStatus,
-                    onClick(index) {
-                      if (settableStatus) {
-                        selectStatus(application, settableStatus[index], buttonItems[index]);
-                      }
-                    },
-                  }}
-                />
-              );
-            })}
+                  <FoldableRow
+                    key={application._id}
+                    isTeacher={isTeacher}
+                    application={application}
+                    buttonConfig={{
+                      items: buttonItems,
+                      clickable: !!settableStatus,
+                      onClick(index) {
+                        if (settableStatus) {
+                          selectStatus(application, settableStatus[index], buttonItems[index]);
+                        }
+                      },
+                    }}
+                    selectedOtherCircle={
+                    application.final
+                  }
+                  />
+                );
+              })}
           </tbody>
         </Table>
         {isTeacher && (
