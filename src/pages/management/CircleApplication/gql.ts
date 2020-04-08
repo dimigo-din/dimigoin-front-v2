@@ -42,6 +42,9 @@ export const GET_APPLICATIONS_BY_CIRCLE = gql`
             interviewTime
             status
             form
+            circle {
+                name
+            }
         }
     }
 `;
