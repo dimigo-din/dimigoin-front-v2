@@ -19,6 +19,11 @@ import circleCategory from '../../utils/circleCategory';
 
 import variables from '../../scss/_variables.scss';
 
+interface IStudentQuery {
+  _id: string;
+  serial: number;
+}
+
 const CircleCreation: React.FC = () => {
   const history = useHistory();
   const [category, setCategory] = useState<number>(0);
@@ -27,7 +32,7 @@ const CircleCreation: React.FC = () => {
   const [chairSerial, setChairSerial] = useState<string>('');
   const [viceChairSerial, setViceChairSerial] = useState<string>('');
   const [videoLink, setVideoLink] = useState<string>('');
-  const [students, setStudents] = useState<any>([]);
+  const [students, setStudents] = useState<IStudentQuery[]>([]);
 
   const loadStudents = async () => {
     const { data: { students: users } } = await api.get('/user/student');
@@ -40,7 +45,9 @@ const CircleCreation: React.FC = () => {
 
   const getStudentIdFromSerial = (serial: string) => {
     try {
-      return students.find((v: any) => v.serial === Number(serial))._id;
+      return students
+        .find((v: IStudentQuery) => v.serial === Number(serial))
+        ?._id;
     } catch {
       return false;
     }

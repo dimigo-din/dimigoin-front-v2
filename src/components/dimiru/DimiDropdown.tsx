@@ -17,6 +17,8 @@ type DimiDropdownProps = {
   onChange: (index: number) => void;
 };
 
+type MouseOrFocusEvent<T> = React.MouseEvent<T> | React.FocusEvent<T>;
+
 const DimiDropdown: React.FC<DimiDropdownProps> = ({
   className, value, items, onChange,
 }) => {
@@ -30,13 +32,13 @@ const DimiDropdown: React.FC<DimiDropdownProps> = ({
 
   const open = () => setActive(true);
 
-  const onMouseOver = (event: any) => {
+  const onMouseOver = (event: MouseOrFocusEvent<HTMLDivElement>) => {
     event.stopPropagation();
     setHovered(true);
     open();
   };
 
-  const onMouseOut = (event: any) => {
+  const onMouseOut = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     setHovered(false);
     if (timer) {

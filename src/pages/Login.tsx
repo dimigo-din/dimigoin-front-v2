@@ -256,7 +256,8 @@ export default () => {
         <DimiDivider vertical />
         <Section className="section">
           <SectionTitle>
-            {false ? '내일의 급식' : '오늘의 급식'}
+            오늘의 급식
+            {/* {false ? '내일의 급식' : '오늘의 급식'} */}
             {/* 여기는 추후에 mealgroup api로 대체해주세요 */}
           </SectionTitle>
           <Content>{/* <MealGroup /> */}</Content>

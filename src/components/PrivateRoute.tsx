@@ -3,6 +3,7 @@ import { Redirect, Route, RouteProps } from 'react-router-dom';
 import auth from '../utils/auth';
 
 interface IProps extends RouteProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: React.ComponentType<any>;
 }
 

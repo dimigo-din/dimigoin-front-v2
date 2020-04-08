@@ -48,7 +48,11 @@ const Group = styled.div`
   user-select: none;
 `;
 
-const Button = styled.div<{ clickable: boolean; }>`
+interface ButtonProps {
+  clickable: boolean;
+}
+
+const Button = styled.div<ButtonProps>`
   display: inline-block;
   width: 70px;
   padding-top: 0.35em;
