@@ -6,13 +6,13 @@ import Container from '../grids/Container';
 
 import variables from '../../scss/_variables.scss';
 
-type DimiNavbarProps = {
+interface IDimiNavbar extends RouteComponentProps {
   brand?: React.ReactNode;
   start?: React.ReactNode;
   end?: React.ReactNode;
-};
+}
 
-const DimiNavbar: React.FC<DimiNavbarProps & RouteComponentProps> = ({
+const DimiNavbar: React.FC<IDimiNavbar> = ({
   brand,
   start,
   end,

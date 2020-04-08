@@ -3,12 +3,12 @@ import css from '@emotion/css';
 
 import variables from '../../scss/_variables.scss';
 
-type DimiDividerProps = {
+interface IDimiDivider {
   vertical?: boolean;
   horizontal?: boolean;
-};
+}
 
-const DimiDivider = styled.hr<DimiDividerProps>`
+const DimiDivider = styled.hr<IDimiDivider>`
   position: absolute;
   border: 0;
 

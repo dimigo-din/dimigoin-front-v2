@@ -4,13 +4,13 @@ import styled from '@emotion/styled';
 import variables from '../../scss/_variables.scss';
 import NaiveContainer from '../grids/NaiveContainer';
 
-type DimiFooterProps = {
+interface IDimiFooter {
   copyright?: React.ReactNode;
   mail?: React.ReactNode;
   facebook?: React.ReactNode;
-};
+}
 
-const DimiFooter: React.FC<DimiFooterProps> = ({
+const DimiFooter: React.FC<IDimiFooter> = ({
   copyright,
   mail,
   facebook,

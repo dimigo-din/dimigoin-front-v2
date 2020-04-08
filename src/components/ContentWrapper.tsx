@@ -2,11 +2,11 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import variables from '../scss/_variables.scss';
 
-type ContentWrapperProps = {
+interface IContentWrapper {
   header: React.ReactNode;
-};
+}
 
-const ContentWrapper: React.FC<ContentWrapperProps> = ({
+const ContentWrapper: React.FC<IContentWrapper> = ({
   header,
   children,
 }) => (

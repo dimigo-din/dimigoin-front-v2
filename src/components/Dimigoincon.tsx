@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import 'dimigoincon';
 
-type DimigoinconProps = {
+interface IDimigoincon {
   className?: string;
   icon:
     | 'alert'
@@ -57,12 +57,12 @@ type DimigoinconProps = {
     | 'research'
     | 'social'
     | 'submission';
-};
+}
 
-const Dimigoincon = styled.span.attrs<DimigoinconProps>(
+const Dimigoincon = styled.span.attrs<IDimigoincon>(
   ({ icon, className }) => ({
     className: `icon-${icon} ${className}`,
   }),
-)<DimigoinconProps>``;
+)<IDimigoincon>``;
 
 export default Dimigoincon;
