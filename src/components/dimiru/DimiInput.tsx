@@ -4,13 +4,13 @@ import css from '@emotion/css';
 
 import variables from '../../scss/_variables.scss';
 
-type DimiInputProps = {
+interface IDimiInput {
   errorMessage?: string;
   error?: boolean;
-};
+}
 
 const DimiInput: React.FC<
-  DimiInputProps &
+  IDimiInput &
     React.DetailedHTMLProps<
       React.InputHTMLAttributes<HTMLInputElement>,
       HTMLInputElement
@@ -27,11 +27,11 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-type InputProps = {
+interface IInputProps {
   error?: boolean;
-};
+}
 
-const Input = styled.input<InputProps>`
+const Input = styled.input<IInputProps>`
   width: 100%;
   box-sizing: border-box;
   padding: 0.75em 1.5em;

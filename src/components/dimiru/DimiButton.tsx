@@ -2,7 +2,7 @@ import React from 'react';
 import css from '@emotion/css';
 import variables from '../../scss/_variables.scss';
 
-type DimiButtonProps = {
+interface IDimiButton {
   gray?: boolean;
   active?: boolean;
   loading?: boolean;
@@ -12,7 +12,7 @@ type DimiButtonProps = {
   text?: boolean;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   children: React.ReactNode;
-};
+}
 
 const style = {
   btn: css`
@@ -62,7 +62,7 @@ const style = {
   `,
 };
 
-const DimiButton: React.FC<DimiButtonProps> = ({
+const DimiButton: React.FC<IDimiButton> = ({
   gray = false,
   active = true,
   loading = false,
