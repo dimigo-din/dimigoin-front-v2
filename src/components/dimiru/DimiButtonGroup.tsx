@@ -1,12 +1,14 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/interactive-supports-focus */
 import * as React from 'react';
 import styled from '@emotion/styled';
 import css from '@emotion/css';
 import variables from '../../scss/_variables.scss';
 
 export default ({
-  value = 0, colors = ['gray'], items, onClick, clickable = true,
+  items,
+  colors = ['gray'],
+  clickable = true,
+  value = 0,
+  onClick,
 }: {
   value?: number;
   colors: string[];

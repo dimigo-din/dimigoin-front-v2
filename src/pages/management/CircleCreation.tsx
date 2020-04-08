@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { useHistory } from 'react-router-dom';
