@@ -81,7 +81,7 @@ const CircleCard = ({
           src={`/static/badges/${status.toUpperCase()}.svg`}
         />
       )}
-      {applier && (
+      {applier != null && (
         <ApplierBadge
           applier={applier}
         >
