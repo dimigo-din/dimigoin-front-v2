@@ -25,7 +25,7 @@ import {
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
 
-const validDateStrings = ['Tue Apr 14 2020', 'Wed Apr 15 2020'];
+const validDateStrings = ['Thu Apr 02 2020', 'Fri Apr 03 2020'];
 
 const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   <ChipWithHoverWrap>
@@ -123,7 +123,7 @@ const FoldableRow = ({
   };
 
   const isDocumentPassed = buttonConfig.items[0]
-    === (isTeacher ? '서류 합격' : '면접 합격');
+    === (isTeacher ? '서류합격' : '면접합격');
 
   return (
     <Row key={application._id}>
@@ -305,14 +305,14 @@ const CircleApplication: React.FC = () => {
               <Cell>이름</Cell>
               <Cell>지원한 동아리</Cell>
               <Cell>상태</Cell>
-              {isTeacher || <Cell>최종 선택</Cell>}
+              {isTeacher || <Cell>최종선택</Cell>}
             </Row>
           </thead>
           <tbody>
             {!list?.length && (
               <Row>
                 <Cell css={EmptyList}>
-                  지원서를 불러오는 중입니다...
+                  지원서를 불러오는중입니다...
                 </Cell>
               </Row>
             )}
