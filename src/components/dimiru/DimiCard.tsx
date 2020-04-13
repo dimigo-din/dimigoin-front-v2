@@ -8,7 +8,7 @@ import DimiDivider from './DimiDivider';
 type MouseEventHandler = (event: React.MouseEvent<HTMLDivElement>) => void;
 type FocusEventHandler = (event: React.FocusEvent<HTMLDivElement>) => void;
 
-type DimiCardProps = {
+interface IDimiCard {
   className?: string;
   children?: React.ReactNode;
   button?: React.ReactNode;
@@ -24,9 +24,9 @@ type DimiCardProps = {
   onFocus?: FocusEventHandler;
   onMouseOut?: MouseEventHandler;
   onBlur?: FocusEventHandler;
-};
+}
 
-const DimiCard: React.FC<DimiCardProps> = ({
+const DimiCard: React.FC<IDimiCard> = ({
   children,
   button,
   hover,
@@ -63,13 +63,13 @@ const DimiCard: React.FC<DimiCardProps> = ({
 
 export default DimiCard;
 
-type CardContainerProps = {
+interface ICardContainer {
   button?: boolean;
   hover?: boolean;
   clickable?: boolean;
-};
+}
 
-const Container = styled.div<CardContainerProps>`
+const Container = styled.div<ICardContainer>`
   position: relative;
   padding: 25px;
   background-color: ${variables.white};

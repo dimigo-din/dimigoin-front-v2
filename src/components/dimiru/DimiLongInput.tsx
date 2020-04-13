@@ -3,11 +3,11 @@ import styled from '@emotion/styled';
 
 import variables from '../../scss/_variables.scss';
 
-type TextAreaProps = {
+interface ITextArea {
   height?: number;
-};
+}
 
-const TextArea = styled.textarea<TextAreaProps>`
+const TextArea = styled.textarea<ITextArea>`
   width: 100%;
   box-sizing: border-box;
   padding: 0.75em 1.5em;

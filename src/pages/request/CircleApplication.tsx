@@ -146,11 +146,17 @@ const CREATE_APPLICATION = gql`
   }
 `;
 
+interface IQuestion {
+  _id: string;
+  question: string;
+  maxLength: number;
+}
+
 const CircleApplication = () => {
   const history = useHistory<IHistory>();
 
   const [info, setInfo] = useState<ICircle>();
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [active, setActive] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
@@ -233,7 +239,7 @@ const CircleApplication = () => {
       </DimiCard>
       <QuestionCardWrap>
         {loading
-          && questions.map(({ _id, question, maxLength }: any) => (
+          && questions.map(({ _id, question, maxLength }: IQuestion) => (
             <DimiCard key={_id} css={QuestionCard}>
               <FormTitle>{question}</FormTitle>
               <DimiLongInput

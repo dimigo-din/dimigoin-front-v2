@@ -10,14 +10,16 @@ import DimiDivider from './DimiDivider';
 
 import variables from '../../scss/_variables.scss';
 
-type DimiDropdownProps = {
+interface IDimiDropdown {
   className?: string;
   value: number;
   items: readonly string[];
   onChange: (index: number) => void;
-};
+}
 
-const DimiDropdown: React.FC<DimiDropdownProps> = ({
+type MouseOrFocusEvent<T> = React.MouseEvent<T> | React.FocusEvent<T>;
+
+const DimiDropdown: React.FC<IDimiDropdown> = ({
   className, value, items, onChange,
 }) => {
   const { length } = items;
@@ -30,13 +32,13 @@ const DimiDropdown: React.FC<DimiDropdownProps> = ({
 
   const open = () => setActive(true);
 
-  const onMouseOver = (event: any) => {
+  const onMouseOver = (event: MouseOrFocusEvent<HTMLDivElement>) => {
     event.stopPropagation();
     setHovered(true);
     open();
   };
 
-  const onMouseOut = (event: any) => {
+  const onMouseOut = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     setHovered(false);
     if (timer) {
@@ -131,12 +133,12 @@ const DimiDropdown: React.FC<DimiDropdownProps> = ({
 
 export default DimiDropdown;
 
-type DropdownRootProps = {
+interface IDropdownRoot {
   active: boolean;
   hovered: boolean;
-};
+}
 
-const DropdownRoot = styled.div<DropdownRootProps>`
+const DropdownRoot = styled.div<IDropdownRoot>`
   position: relative;
   padding-top: 5px;
   padding-bottom: 5px;

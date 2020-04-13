@@ -6,17 +6,19 @@ import css from '@emotion/css';
 
 import variables from '../../scss/_variables.scss';
 
-interface DimiMenuItemProps {
-  route: string;
+interface IMenu {
   active?: boolean;
   disabled?: boolean;
 }
 
-export interface MenuItem extends DimiMenuItemProps {
+export interface IMenuItem extends IMenu {
   name: string;
+  route: string;
 }
 
-const DimiMenuItem: React.FC<DimiMenuItemProps & RouteComponentProps> = ({
+interface IDimiMenuItem extends Omit<IMenuItem, 'name'>, RouteComponentProps {}
+
+const DimiMenuItem: React.FC<IDimiMenuItem> = ({
   route,
   children,
   history,
@@ -27,7 +29,6 @@ const DimiMenuItem: React.FC<DimiMenuItemProps & RouteComponentProps> = ({
 
   return (
     <Menu
-      route={route}
       active={currentPath === route}
       onClick={onClickMenu}
       disabled={disabled}
@@ -39,7 +40,7 @@ const DimiMenuItem: React.FC<DimiMenuItemProps & RouteComponentProps> = ({
 
 export default withRouter(DimiMenuItem);
 
-const Menu = styled.a<DimiMenuItemProps>`
+const Menu = styled.a<IMenu>`
   display: block;
   width: fit-content;
   padding: 0.6em;

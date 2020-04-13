@@ -3,9 +3,9 @@ import * as React from 'react';
 import ServiceWrapper from '../../components/ServiceWrapper';
 import DefaultNavbar from '../../components/DefaultNavbar';
 import DimiMenu from '../../components/dimiru/DimiMenu';
-import DimiMenuItem, { MenuItem } from '../../components/dimiru/DimiMenuItem';
+import DimiMenuItem, { IMenuItem } from '../../components/dimiru/DimiMenuItem';
 
-const menuItemList: MenuItem[] = [
+const menuItemList: IMenuItem[] = [
   {
     route: '/management/circle',
     name: '동아리 개설 신청',

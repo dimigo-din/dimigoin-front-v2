@@ -1,16 +1,6 @@
 const { parse } = JSON;
 const { stringify } = JSON;
 
-interface IAuth {
-  clear(key: string): void;
-  clearAppStorage(): void;
-  get(key: string): JSON;
-  setToken(token: string): void;
-  setUserInfo(userInfo: JSON): void;
-  getToken(): any;
-  getUserInfo(): any;
-}
-
 export interface IUser {
   photo: Array<string>;
   _id: string;
@@ -28,6 +18,15 @@ export interface IUser {
   serial: number;
 }
 
+interface IAuth {
+  clear(key: string): void;
+  clearAppStorage(): void;
+  get(key: string): JSON;
+  setToken(token: string): void;
+  setUserInfo(userInfo: JSON): void;
+  getToken(): string | null;
+  getUserInfo(): IUser;
+}
 
 const auth: IAuth = {
   clear(key) {

@@ -4,20 +4,20 @@ import css from '@emotion/css';
 
 import variables from '../../scss/_variables.scss';
 
-type IconProps = {
+interface IIcon {
   pointer?: boolean;
-};
+}
 
-type DimiIconProps = IconProps & {
+interface IDimiIcon extends IIcon {
   icon: string;
   className?: string;
   children?: React.ReactNode;
   title?: string;
   pointer?: boolean;
   onClick?: () => void;
-};
+}
 
-const DimiIcon: React.FC<DimiIconProps> = ({
+const DimiIcon: React.FC<IDimiIcon> = ({
   children,
   icon,
   title = '',
@@ -63,7 +63,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Icon = styled.a<IconProps>`
+const Icon = styled.a<IIcon>`
   ${({ pointer }) => pointer
     && css`
       cursor: ${pointer ? 'pointer' : 'default'};

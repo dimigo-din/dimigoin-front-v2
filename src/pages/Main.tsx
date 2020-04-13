@@ -24,6 +24,10 @@ const GET_NOTICE = gql`
 
 const photoCDN = `${process.env.REACT_APP_DIMIGO_API_URL}/user_photo`;
 
+const InfoLoading = css`
+  margin: auto;
+`;
+
 const MainPage = () => {
   const history = useHistory();
 
@@ -76,8 +80,7 @@ const MainPage = () => {
                   title="설정"
                   pointer
                   onClick={() => {
-                    window.location.href =
-                      'https://student.dimigo.hs.kr/user/profile';
+                    window.location.href = 'https://student.dimigo.hs.kr/user/profile';
                   }}
                 />
                 <Button
@@ -242,10 +245,6 @@ const InfoNotice = styled.p`
   font-weight: ${variables.fontWeightRegular};
   white-space: pre-wrap;
   word-wrap: break-word;
-`;
-
-const InfoLoading = css`
-  margin: auto;
 `;
 
 const MealCard = styled(DimiCard)`

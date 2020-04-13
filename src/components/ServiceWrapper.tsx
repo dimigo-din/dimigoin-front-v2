@@ -5,13 +5,13 @@ import Container from './grids/Container';
 
 import variables from '../scss/_variables.scss';
 
-type ServiceWrapperProps = {
+interface IServiceWrapper {
   navbar?: React.ReactNode;
   menu?: React.ReactNode;
   children?: React.ReactNode;
-};
+}
 
-const ServiceWrapper: React.FC<ServiceWrapperProps> = ({
+const ServiceWrapper: React.FC<IServiceWrapper> = ({
   navbar,
   menu,
   children,
