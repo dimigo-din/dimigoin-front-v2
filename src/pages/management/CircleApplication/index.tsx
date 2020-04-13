@@ -14,18 +14,18 @@ import {
   GET_APPLICATIONS_BY_CIRCLE,
   GET_FINAL_APPLICATIONS,
   SET_APPLIER_STATUS,
-  // SET_INTERVIEW_TIME,
+  SET_INTERVIEW_TIME,
 } from './gql';
 import { getQuestionByObjectId, getActionByStatus } from './functions';
 import {
   Row, Cell, Qna, Question, Badges, Card, Table,
   Name, Header, EmptyList, LoadingContainer, badgesWrap, Chip,
   ChipWithHoverWrap, NameWrapper, HoverTip, ChipListWrap,
-  // DateTimeWrapper, DateTimeField, DateTimePicker, DateTimeSubmitButton,
+  DateTimeWrapper, DateTimeField, DateTimePicker, DateTimeSubmitButton,
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
 
-// const validDateStrings = ['Thu Apr 02 2020', 'Fri Apr 03 2020'];
+const validDateStrings = ['Thu Apr 02 2020', 'Fri Apr 03 2020'];
 
 const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   <ChipWithHoverWrap>
@@ -34,71 +34,71 @@ const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   </ChipWithHoverWrap>
 );
 
-// const TimeInput: React.FC<{
-//   applierId: string;
-//   isTeacher: boolean;
-//   interviewTime: string | null;
-// }> = ({ applierId, isTeacher, interviewTime }) => {
-//   const defaultDate = new Date('2020.04.02 09:00');
-//   const [interviewDateTime, setInterviewDateTime] = useState<Date>(
-//     interviewTime ? new Date(Number(interviewTime)) : defaultDate,
-//   );
+const TimeInput: React.FC<{
+  applierId: string;
+  isTeacher: boolean;
+  interviewTime: string | null;
+}> = ({ applierId, isTeacher, interviewTime }) => {
+  const defaultDate = new Date('2020.04.02 09:00');
+  const [interviewDateTime, setInterviewDateTime] = useState<Date>(
+    interviewTime ? new Date(Number(interviewTime)) : defaultDate,
+  );
 
-//   const checkValidTime = (date: Date) => {
-//     const hours = date.getHours();
-//     return (
-//       validDateStrings.includes(date.toDateString())
-//       && (hours >= 9) && (hours <= 16)
-//     ) || hours === 1;
-//   };
+  const checkValidTime = (date: Date) => {
+    const hours = date.getHours();
+    return (
+      validDateStrings.includes(date.toDateString())
+      && (hours >= 9) && (hours <= 16)
+    ) || hours === 1;
+  };
 
-//   const onChangeInterviewDateTime = (changedDate: Date | null) => {
-//     if (!changedDate) {
-//       return setInterviewDateTime(defaultDate);
-//     }
-//     if (!checkValidTime(changedDate)) {
-//       return swal.error('올바른 면접 시간이 아닙니다');
-//     }
-//     return setInterviewDateTime(changedDate);
-//   };
+  const onChangeInterviewDateTime = (changedDate: Date | null) => {
+    if (!changedDate) {
+      return setInterviewDateTime(defaultDate);
+    }
+    if (!checkValidTime(changedDate)) {
+      return swal.error('올바른 면접 시간이 아닙니다');
+    }
+    return setInterviewDateTime(changedDate);
+  };
 
-//   const [setInterviewTime] = useMutation(SET_INTERVIEW_TIME, {
-//     onCompleted: () => swal.success('면접 시간을 설정했습니다.'),
-//     onError: async (error) => {
-//       await swal.error(graphqlErrorMessage(error));
-//     },
-//   });
+  const [setInterviewTime] = useMutation(SET_INTERVIEW_TIME, {
+    onCompleted: () => swal.success('면접 시간을 설정했습니다.'),
+    onError: async (error) => {
+      await swal.error(graphqlErrorMessage(error));
+    },
+  });
 
-//   const onClickSubmitTime = () => {
-//     setInterviewTime({
-//       variables: {
-//         applierId,
-//         interviewTime: interviewDateTime
-//           .getTime()
-//           .toString(),
-//       },
-//     });
-//   };
+  const onClickSubmitTime = () => {
+    setInterviewTime({
+      variables: {
+        applierId,
+        interviewTime: interviewDateTime
+          .getTime()
+          .toString(),
+      },
+    });
+  };
 
-//   return (
-//     <DateTimeWrapper>
-//       <DateTimeField>면접 시간</DateTimeField>
-//       <DateTimePicker
-//         value={interviewDateTime}
-//         onChange={onChangeInterviewDateTime}
-//         disabled={isTeacher}
-//       />
-//       {!isTeacher && (
-//         <DateTimeSubmitButton
-//           // die
-//           onClick={onClickSubmitTime}
-//         >
-//           설정하기
-//         </DateTimeSubmitButton>
-//       )}
-//     </DateTimeWrapper>
-//   );
-// };
+  return (
+    <DateTimeWrapper>
+      <DateTimeField>면접 시간</DateTimeField>
+      <DateTimePicker
+        value={interviewDateTime}
+        onChange={onChangeInterviewDateTime}
+        disabled={isTeacher}
+      />
+      {!isTeacher && (
+        <DateTimeSubmitButton
+          // die
+          onClick={onClickSubmitTime}
+        >
+          설정하기
+        </DateTimeSubmitButton>
+      )}
+    </DateTimeWrapper>
+  );
+};
 
 const FoldableRow = ({
   application, isTeacher, buttonConfig, selectedOtherCircle,
@@ -122,8 +122,8 @@ const FoldableRow = ({
     }
   };
 
-  // const isDocumentPassed = buttonConfig.items[0]
-  //   === (isTeacher ? '서류합격' : '면접합격');
+  const isDocumentPassed = buttonConfig.items[0]
+    === (isTeacher ? '서류합격' : '면접합격');
 
   return (
     <Row key={application._id}>
@@ -151,13 +151,13 @@ const FoldableRow = ({
             </p>
           </Qna>
         ))}
-        {/* {isDocumentPassed && (
+        {isDocumentPassed && (
           <TimeInput
             applierId={applier._id}
             interviewTime={application.interviewTime}
             isTeacher={isTeacher}
           />
-        )} */}
+        )}
       </Cell>
       <Cell>
         <ChipListWrap>

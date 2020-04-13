@@ -8,5 +8,6 @@ export interface ICircle {
   viceChair: { _id: string; name: string; serial: number };
   videoLink: string;
   applied?: boolean;
+  interviewLink?: string;
   applier?: number | null;
 }

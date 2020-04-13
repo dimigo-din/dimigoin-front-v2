@@ -98,12 +98,15 @@ export const HoverTip = styled.p`
   position: absolute;
   opacity: 0;
   background: rgba(0, 0, 0, 0.7);
-  padding: 6px;
+  padding: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
   border-radius: 30px;
   color: white;
   margin-top: 0px;
   margin-left: -8px;
   transition: 200ms cubic-bezier(0,.65,.25,.95);
+  font-size: 14px;
 `;
 
 export const ChipListWrap = styled.div`
