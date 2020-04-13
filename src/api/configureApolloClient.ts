@@ -8,7 +8,7 @@ import auth from '../utils/auth';
 
 export default function configureClient() {
   const httpLink = new HttpLink({
-    uri: 'https://circle-gql.dimigo.in/graphql',
+    uri: 'http://localhost:4000/graphql',
   });
 
   const authLink = new ApolloLink((operation, forward) => {

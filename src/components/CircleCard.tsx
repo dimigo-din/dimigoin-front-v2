@@ -5,7 +5,9 @@ import styled from '@emotion/styled';
 import DimiCard from './dimiru/DimiCard';
 import DimiButton from './dimiru/DimiButton';
 
+import swal from '../utils/swal';
 import variables from '../scss/_variables.scss';
+import { HoverTip } from '../pages/management/CircleApplication/styles';
 
 interface ICircleCard {
   imageKey: string;
@@ -17,6 +19,7 @@ interface ICircleCard {
   interviewTime?: string;
   onFinalSelect?: () => void;
   finalEnded?: boolean;
+  interviewLink?: string;
 }
 
 const CardStyle = css`
@@ -31,10 +34,10 @@ const CardStyle = css`
 `;
 
 const CircleCard = ({
-  status, onClick, imageKey, name, category, applier, interviewTime, onFinalSelect, finalEnded,
+  status, onClick, imageKey, name, category, applier,
+  interviewTime, onFinalSelect, finalEnded, interviewLink,
 }: ICircleCard) => {
-  // const interviewTimeDate = new Date(Number(interviewTime));
-  const isSuccessed = (interviewTime || interviewTime === null);
+  const interviewTimeDate = new Date(Number(interviewTime));
   return (
     <DimiCard
       css={CardStyle}
@@ -53,12 +56,27 @@ const CircleCard = ({
           </CircleFeatureInfo>
           {(() => {
             if (finalEnded) return null;
-            if (!isSuccessed) return null;
             if (status === 'document-pass') {
               return (
-                <InterviewTimeViewerWrapper>
-                  미발표
-                </InterviewTimeViewerWrapper>
+                <>
+                  <InterviewTimeViewerWrapper onClick={(event) => {
+                    event.stopPropagation();
+                    if (!interviewLink) return;
+                    const openableLink = interviewLink?.includes('http') ? interviewLink : `https://${interviewLink}`;
+                    swal.confirm('면접실로 이동할까요?').then((e) => e.value && window.open(openableLink, '_blank'));
+                  }}
+                  >
+                    {interviewTime ? (
+                      <>
+                      면접예상시간:
+                        <InterviewTimeViewer>
+                          {`${interviewTimeDate.getDate()}일 ${interviewTimeDate.getHours()}시 ${interviewTimeDate.getMinutes()}분`}
+                        </InterviewTimeViewer>
+                      </>
+                    ) : '면접시간미발표'}
+                    <HoverTip>{interviewLink ? '면접실 바로가기' : '링크 미등록'}</HoverTip>
+                  </InterviewTimeViewerWrapper>
+                </>
               );
             }
             if (status === 'interview-pass') {
@@ -126,15 +144,20 @@ const InterviewTimeViewerWrapper = styled.div`
   font-size: 0.95rem;
   background-color: #f0f0f0;
   color: #6d6d6d;
+
+  &:hover > p {
+    opacity: 1;
+    margin-top: 18px;
+  }
 `;
 
-// const InterviewTimeViewer = styled.p`
-//   font-weight: bold;
-//   color: black;
-//   margin-top: 8px;
-//   margin-bottom: 6px;
-//   font-size: 1rem;
-// `;
+const InterviewTimeViewer = styled.p`
+  font-weight: bold;
+  color: black;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  font-size: 1rem;
+`;
 
 const CircleTitle = styled.span`
   color: ${variables.black};

@@ -54,6 +54,7 @@ const LOAD_APPLIED_CIRCLES = gql`
         name
         category
         imageKey
+        interviewLink
       }
     }
   }
@@ -176,8 +177,8 @@ const CircleInformation = () => {
                 finalEnded={
                   // 조건 1: 이미 어떤 하나를 확정했을 때,
                   applications.some((e) => e.status === 'final')
-                  // 조건 2: 3떨이거나 아직 아무것도 면접통과 안됐을 때
-                  || applications.every((e) => e.status !== 'interview-pass')
+                  // 조건 2: 3떨일때
+                  || applications.every((e) => e.status === 'interview-fail')
                 }
                 onFinalSelect={() => {
                   SweetAlert.confirm(`정말로 ${application.circle.name}을 확정하시겠습니까? 되돌릴 수 없습니다.`).then((e) => {
@@ -206,6 +207,7 @@ const CircleInformation = () => {
                 category={application.circle.category}
                 status={application.status}
                 interviewTime={application.interviewTime}
+                interviewLink={application.circle.interviewLink}
               />
             ))}
           </CardContainer>
