@@ -47,8 +47,8 @@ const TimeInput: React.FC<{
   const checkValidTime = (date: Date) => {
     const hours = date.getHours();
     return (
-      validDateStrings.includes(date.toDateString())
-      && (hours >= 9) && (hours <= 16)
+//       validDateStrings.includes(date.toDateString()) &&
+      (hours >= 9) && (hours <= 16)
     ) || hours === 1;
   };
 
