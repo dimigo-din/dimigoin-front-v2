@@ -25,8 +25,6 @@ import {
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
 
-// const validDateStrings = ['Thu Apr 02 2020', 'Fri Apr 03 2020'];
-
 const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   <ChipWithHoverWrap>
     <Chip src={`https://dimigoin.s3.ap-northeast-2.amazonaws.com/${imageKey}`} />
@@ -44,20 +42,9 @@ const TimeInput: React.FC<{
     interviewTime ? new Date(Number(interviewTime)) : defaultDate,
   );
 
-  const checkValidTime = (date: Date) => {
-    const hours = date.getHours();
-    return (
-//       validDateStrings.includes(date.toDateString()) &&
-      (hours >= 9) && (hours <= 16)
-    ) || hours === 1;
-  };
-
   const onChangeInterviewDateTime = (changedDate: Date | null) => {
     if (!changedDate) {
       return setInterviewDateTime(defaultDate);
-    }
-    if (!checkValidTime(changedDate)) {
-      return swal.error('올바른 면접 시간이 아닙니다');
     }
     return setInterviewDateTime(changedDate);
   };
