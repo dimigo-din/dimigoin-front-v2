@@ -1,6 +1,11 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
-import auth from '../utils/auth';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
+console.log(cookies.get('accessToken'))
+
 
 interface IProps extends RouteProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -10,7 +15,7 @@ interface IProps extends RouteProps {
 const PrivateRoute = ({ component: Component, ...rest }: IProps) => (
   <Route
     {...rest}
-    render={(props) => (auth.getToken() ? (
+    render={(props) => (cookies.get('accessToken') ? (
       <Component {...props} />
     ) : (
       <Redirect
