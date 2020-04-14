@@ -1,5 +1,8 @@
-const { parse } = JSON;
+import Cookies from 'universal-cookie';
+
 const { stringify } = JSON;
+
+const cookies = new Cookies();
 
 export interface IUser {
   photo: Array<string>;
@@ -21,7 +24,6 @@ export interface IUser {
 interface IAuth {
   clear(key: string): void;
   clearAppStorage(): void;
-  get(key: string): JSON;
   setToken(token: string): void;
   setUserInfo(userInfo: JSON): void;
   getToken(): string | null;
@@ -40,28 +42,41 @@ const auth: IAuth = {
     return null;
   },
 
-  clearAppStorage() {
-    return localStorage.clear();
-  },
-
-  get(key) {
-    return parse(localStorage.getItem(key) as string);
+  async clearAppStorage() {
+    await cookies.remove('accessToken');
+    return cookies.remove('userInfo');
   },
 
   setToken(token) {
-    return localStorage.setItem('accessToken2', token);
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 7);
+    return cookies.set('accessToken', token, {
+      path: '/',
+      expires,
+      domain: 'https://circle.dimigo.in',
+      secure: true,
+      httpOnly: true,
+    });
   },
 
   setUserInfo(userInfo) {
-    return localStorage.setItem('userInfo', stringify(userInfo));
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 7);
+    return cookies.set('userInfo', stringify(userInfo), {
+      path: '/',
+      expires,
+      domain: 'https://circle.dimigo.in',
+      secure: true,
+      httpOnly: true,
+    });
   },
 
   getToken() {
-    return localStorage.getItem('accessToken2');
+    return cookies.get('accessToken');
   },
 
   getUserInfo() {
-    return parse(localStorage.getItem('userInfo') as string);
+    return cookies.get('userInfo');
   },
 };
 

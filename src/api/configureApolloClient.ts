@@ -11,12 +11,16 @@ export default function configureClient() {
     uri: 'https://circle-gql.dimigo.in/graphql',
   });
 
+  const accessToken = auth.getToken();
+
   const authLink = new ApolloLink((operation, forward) => {
-    operation.setContext({
-      headers: {
-        Authorization: `Bearer ${auth.getToken()}`,
-      },
-    });
+    if (accessToken) {
+      operation.setContext({
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+    }
     return forward(operation);
   });
 

@@ -28,20 +28,25 @@ export function createClient(
 ) {
   return new Proxy(
     {
-      get: (url, options = {}) => client.get(endpoint + url, { ...config.defaultOptions, ...options }),
-      post: (url, data, options = {}) => client.post(endpoint + url, data, {
-        ...config.defaultOptions,
-        ...options,
-      }),
-      put: (url, data, options = {}) => client.put(endpoint + url, data, {
-        ...config.defaultOptions,
-        ...options,
-      }),
-      patch: (url, data, options = {}) => client.patch(endpoint + url, data, {
-        ...config.defaultOptions,
-        ...options,
-      }),
-      delete: (url, options = {}) => client.delete(endpoint + url, { ...config.defaultOptions, ...options }),
+      get: (url, options = {}) =>
+        client.get(endpoint + url, { ...config.defaultOptions, ...options }),
+      post: (url, data, options = {}) =>
+        client.post(endpoint + url, data, {
+          ...config.defaultOptions,
+          ...options,
+        }),
+      put: (url, data, options = {}) =>
+        client.put(endpoint + url, data, {
+          ...config.defaultOptions,
+          ...options,
+        }),
+      patch: (url, data, options = {}) =>
+        client.patch(endpoint + url, data, {
+          ...config.defaultOptions,
+          ...options,
+        }),
+      delete: (url, options = {}) =>
+        client.delete(endpoint + url, { ...config.defaultOptions, ...options }),
     },
     {
       get(target, name) {
