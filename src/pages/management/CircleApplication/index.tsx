@@ -25,7 +25,7 @@ import {
 } from './styles';
 import DimigoIcon from '../../../components/Dimigoincon';
 
-const validDateStrings = ['Thu Apr 02 2020', 'Fri Apr 03 2020'];
+// const validDateStrings = ['Thu Apr 02 2020', 'Fri Apr 03 2020'];
 
 const ChipWithHover: React.FC<AppliedCircle> = ({ name, imageKey }) => (
   <ChipWithHoverWrap>
