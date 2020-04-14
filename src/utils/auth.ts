@@ -53,9 +53,6 @@ const auth: IAuth = {
     return cookies.set('accessToken', token, {
       path: '/',
       expires,
-      domain: 'https://circle.dimigo.in',
-      secure: true,
-      httpOnly: true,
     });
   },
 
@@ -65,9 +62,6 @@ const auth: IAuth = {
     return cookies.set('userInfo', stringify(userInfo), {
       path: '/',
       expires,
-      domain: 'https://circle.dimigo.in',
-      secure: true,
-      httpOnly: true,
     });
   },
 
