@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import css, { SerializedStyles } from '@emotion/css';
 import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import auth from '../utils/auth';
 
 import DimiCard from '../components/dimiru/DimiCard';
@@ -162,6 +162,7 @@ const LOGIN_MUTATION = gql`
 
 export default () => {
   const history = useHistory();
+  const client = useApolloClient();
 
   const [info, setInfo] = useState({ username: '', password: '' });
   const [active, setActive] = useState<boolean>(true);
@@ -174,6 +175,7 @@ export default () => {
       await auth.setToken(data.login.accessToken);
       await auth.setUserInfo(data.login.user);
       await history.push('/');
+      await client.resetStore();
     },
     onError: async (error) => {
       await setActive(true);
