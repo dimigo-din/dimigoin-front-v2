@@ -174,6 +174,7 @@ export default () => {
       await auth.setToken(data.login.accessToken);
       await auth.setUserInfo(data.login.user);
       await history.push('/');
+      await window.location.reload();
     },
     onError: async (error) => {
       await setActive(true);
