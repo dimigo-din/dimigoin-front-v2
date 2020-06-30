@@ -52,7 +52,7 @@ const auth: IAuth = {
     expires.setDate(expires.getDate() + 7);
     return cookies.set('accessToken', token, {
       path: '/',
-      expires, 
+      expires,
     });
   },
 

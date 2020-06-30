@@ -34,7 +34,7 @@ const ExplorerFoundPage = () => (
               <Dimigoincon icon="long-arrow-right" />
               {name}
               {' '}
-브라우저 다운로드
+              브라우저 다운로드
             </BrowserLink>
           );
         })}
