@@ -181,7 +181,7 @@ const CircleInformation = () => {
                   || applications.every((e) => e.status === 'interview-fail')
                 }
                 onFinalSelect={() => {
-                  SweetAlert.confirm(`정말로 ${application.circle.name}을 확정하시겠습니까? 되돌릴 수 없습니다.`).then((e) => {
+                  SweetAlert.confirm(`정말로 ${application.circle.name}을 확정하시겠습니까? 되돌릴 수 없습니다.`).then((e: any) => {
                     if (e.value) return SweetAlert.confirm(`신중하게 생각해주세요. 정말로 ${application.circle.name}을 확정하시겠습니까?`);
                     return e.value;
                   }).then((e) => {

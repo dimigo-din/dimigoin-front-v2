@@ -34,15 +34,12 @@ interface IInputProps {
 const Input = styled.input<IInputProps>`
   width: 100%;
   box-sizing: border-box;
-  padding: 0.75em 1.5em;
-  border: 0;
+  padding: 19px 23px;
+  border: solid 1px #d8d8d8;
   appearance: none;
-  background-color: ${variables.grayLighten};
-  border-radius: 30px;
-  box-shadow: inset 2px 2px 12px ${variables.shadow},
-    inset -5px -5px 8px ${variables.white};
+  background-color: #ffffff;
   font-family: 'NanumSquareRound', sans-serif;
-  font-size: inherit;
+  font-size: 17px;
   transition: all 0.2s ease-in-out;
 
   &:focus {
@@ -51,7 +48,7 @@ const Input = styled.input<IInputProps>`
   }
 
   &::placeholder {
-    color: ${variables.gray};
+    color: #d8d8d8;
   }
 
   ${({ error = false }) => error
