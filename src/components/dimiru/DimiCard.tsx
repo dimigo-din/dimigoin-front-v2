@@ -73,8 +73,8 @@ const Container = styled.div<ICardContainer>`
   position: relative;
   padding: 25px;
   background-color: ${variables.white};
-  border-radius: 5px;
-  box-shadow: 0 0 20px 0 rgba(146, 146, 146, 0.09);
+  border-radius: 3.3rem;
+  box-shadow: 5px 5px 20px #d9d9d9, -10px -10px 14px #fff;
 
   ${({ button = false }) => button
     && css`

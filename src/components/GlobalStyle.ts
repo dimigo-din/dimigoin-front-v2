@@ -12,12 +12,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    background-color: #fbfbfb;
+    background-color: #efefef;
   }
 
   ::selection {
-    background: #5586fa;
-    color: rgba(255, 255, 255, 0.95);
+    background: #fb5656;
+    color: #fff;
   }
 
   #root {

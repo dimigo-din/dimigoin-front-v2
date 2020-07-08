@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import css, { SerializedStyles } from '@emotion/css';
 import gql from 'graphql-tag';
@@ -9,8 +9,7 @@ import auth from '../utils/auth';
 import DimiCard from '../components/dimiru/DimiCard';
 import DimiInput from '../components/dimiru/DimiInput';
 import DimiButton from '../components/dimiru/DimiButton';
-
-import { ReactComponent as BrandWithTextImage } from '../assets/brand-with-text.svg';
+import DimiDivider from '../components/dimiru/DimiDivider';
 
 import SweetAlert from '../utils/swal';
 import { graphqlErrorMessage } from '../utils/error';
@@ -21,24 +20,26 @@ type TStyleByDeviceWidth = {
   [key in 'tablet' | 'desktop']: SerializedStyles;
 };
 
-const until = (device: 'tablet' | 'desktop', style: string) => (({
-  tablet: css`
+const until = (device: 'tablet' | 'desktop', style: string) =>
+  (({
+    tablet: css`
       @media only screen and (max-width: 769px) {
         ${style}
       }
     `,
-  desktop: css`
+    desktop: css`
       @media only screen and (max-width: 769px) {
         ${style}
       }
     `,
-} as TStyleByDeviceWidth)[device]);
+  } as TStyleByDeviceWidth)[device]);
 
 const ContentMT = css`
+  margin-top: 7em;
   ${until('tablet', 'margin-top: 1.5em')}
 `;
 
-const FirstLoginInput = css`
+const LoginInput = css`
   margin-bottom: 1rem;
 `;
 
@@ -55,21 +56,34 @@ const Container = styled.div`
     padding: 12px;
   `,
   )}
-  width: calc(100vw - 360px);
+  @media only screen and (min-width: 769px) {
+    width: 737px;
+  }
+  @media only screen and (min-width: 1024px) {
+    width: 992px;
+  }
+  @media only screen and (min-width: 1216px) {
+    width: 1186px;
+  }
+  @media screen and (min-width: 1216px) {
+    width: 960px;
+  }
 `;
 
-const CLogin = styled.div`
+const CLogin = styled(DimiCard)`
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
   ${until(
     'tablet',
     `display: block;
       width: unset;`,
   )}
-
   .section:first-of-type {
-    width: 381px;
+    order: 2;
+  }
+  .section:last-child {
+    order: 1;
   }
 `;
 
@@ -77,12 +91,8 @@ const Section = styled.div`
   display: flex;
   width: 50%;
   flex-direction: column;
+  padding: 2rem;
   ${until('tablet', 'width: unset')}
-`;
-
-const BrandLogo = css`
-  height: 69px;
-  width: 253px;
 `;
 
 const Form = styled.form`
@@ -92,10 +102,29 @@ const Form = styled.form`
 `;
 
 const SubmitButton = css`
+  font-size: 24px;
+  padding: 0.625em 2.75em;
   align-self: center;
-  margin-top: 42px;
+  margin-top: 3rem;
   font-weight: ${variables.fontWeightExtraBold};
   ${until('tablet', 'margin-top: 0.8rem')}
+`;
+
+const RegisterDescription = styled.p`
+  align-self: center;
+  margin-top: 1rem;
+  color: ${variables.gray};
+`;
+
+const SectionTitle = styled.h1`
+  position: relative;
+  font-size: 2.25em;
+  font-weight: ${variables.fontWeightExtraBold};
+`;
+
+const RegisterLink = styled(Link)`
+  color: ${variables.orange};
+  text-decoration: none;
 `;
 
 const Content = styled.div`
@@ -103,84 +132,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 42px;
-`;
-
-const MealCard = styled(DimiCard)`
-  height: 100%;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-`;
-
-interface IMealItemSelected {
-  selected?: boolean;
-}
-
-interface IMealItem extends IMealItemSelected {
-  name?: string;
-  menu?: string;
-}
-
-const MealItem: React.FC<IMealItem> = ({
-  selected = false,
-  name = '',
-  menu = '',
-}) => (
-  <MealItemContainer
-    selected={selected}
-  >
-    <MealNameText
-      selected={selected}
-    >
-      {name}
-    </MealNameText>
-    <MealMenuText
-      selected={selected}
-    >
-      {menu}
-    </MealMenuText>
-  </MealItemContainer>
-);
-
-const MealItemContainer = styled.div<IMealItemSelected>`
-  width: calc(100% - 78px);
-  flex-grow: 1;
-  border-left: 5px solid transparent;
-  padding-left: 34px;
-  padding-right: 39px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  ${({ selected = false }) => selected && css`
-    background-color: rgba(60, 112, 232, 0.04);
-    border-left-color: #3c70e8;
-  `}
-`;
-
-const MealNameText = styled.span<IMealItemSelected>`
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 1.17;
-  color: #d1d1d1;
-
-  ${({ selected = false }) => selected && css`
-    color: #3c70e8;
-  `}
-`;
-
-const MealMenuText = styled.p<IMealItemSelected>`
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 1.38;
-  word-break: keep-all;
-  margin-top: 12px;
-  color: #d1d1d1;
-
-  ${({ selected = false }) => selected && css`
-    color: #111111;
-  `}
+  margin-top: 3em;
 `;
 
 const LOGIN_MUTATION = gql`
@@ -245,10 +197,7 @@ export default () => {
     >
       <CLogin>
         <Section className="section">
-          {/* <SectionTitle className="section__title">로그인</SectionTitle> */}
-          <BrandWithTextImage
-            css={BrandLogo}
-          />
+          <SectionTitle className="section__title">로그인</SectionTitle>
           <Content css={ContentMT}>
             <Form
               onSubmit={(e) => {
@@ -258,7 +207,7 @@ export default () => {
               }}
             >
               <DimiInput
-                css={FirstLoginInput}
+                css={LoginInput}
                 placeholder="아이디"
                 type="text"
                 value={info.username}
@@ -271,6 +220,7 @@ export default () => {
                 }}
               />
               <DimiInput
+                css={LoginInput}
                 placeholder="비밀번호"
                 type="password"
                 value={info.password}
@@ -296,27 +246,24 @@ export default () => {
                   login();
                 }}
               >
-                로그인
+                LOGIN
               </DimiButton>
             </Form>
+            <RegisterDescription>
+              또는
+              {'  '}
+              <RegisterLink to="/">회원가입</RegisterLink>
+            </RegisterDescription>
           </Content>
         </Section>
+        <DimiDivider vertical />
         <Section className="section">
-          <MealCard>
-            <MealItem
-              selected
-              name="아침"
-              menu="베이컨&소시지구이 | 치킨너겟 | 스트링치즈 | 잡곡밥 | 새우아욱국 | 모듬과일 | 포기김치 | 오이소박이 | 야채죽 | 시리얼 | 우유 또는 포도주스"
-            />
-            <MealItem
-              name="점심"
-              menu="고추참치덮밥&계란후라이 | 우동장국 | 오지치즈후라이 | 숙주나물 | 총각김치 | 피크닉 | 석박지 | 콩나물무침 | 모듬과일 | 바이오거트"
-            />
-            <MealItem
-              name="저녁"
-              menu="알떡고기완자조림 | 쌀밥 | 닭개장 | 연두부&양념장 | 석박지 | 콩나물무침 | 모듬과일 | 바이오거트 | 미니크라상&딸기잼"
-            />
-          </MealCard>
+          <SectionTitle>
+            오늘의 급식
+            {/* {false ? '내일의 급식' : '오늘의 급식'} */}
+            {/* 여기는 추후에 mealgroup api로 대체해주세요 */}
+          </SectionTitle>
+          <Content>{/* <MealGroup /> */}</Content>
         </Section>
       </CLogin>
     </Container>
